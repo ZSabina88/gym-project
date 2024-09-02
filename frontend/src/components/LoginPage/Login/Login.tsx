@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-// import { TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-// import IconButton from "@mui/material/IconButton";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import Visibility from "@mui/icons-material/Visibility";
-// import VisibilityOff from "@mui/icons-material/VisibilityOff";
-// import Button from "../../../shared/Buttons/button";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Button from "../../../shared/Buttons/button";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../../features/AuthActions";
 import { FormikHelpers } from "formik";
 
 import * as Yup from "yup";
-import { AuthFormProps } from "../types"; 
+import { AuthFormProps } from "../types";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const handleLogin = () => {};
+  const handleLogin = () => { };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -41,7 +41,7 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     resetForm();
   };
 
- // added in auth branch end
+  // added in auth branch end
 
   return (
     <Formik
@@ -58,7 +58,7 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             Log In to Your Account
           </h2>
           <Field
-            // as={TextField}
+            as={TextField}
             name="email"
             label="Email"
             variant="outlined"
@@ -70,13 +70,13 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             InputLabelProps={{ style: { color: "black" } }}
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+              {
+                borderColor: "#9EF300",
+              },
             }}
           />
           <Field
-            // as={TextField}
+            as={TextField}
             type={showPassword ? "text" : "password"}
             name="password"
             label="Password"
@@ -87,38 +87,38 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             error={Boolean(errors.password)}
             style={{ marginBottom: "24px" }}
             InputProps={{
-            //   endAdornment: (
-                // <InputAdornment position="end">
-                //   <IconButton
-                //     onClick={() => setShowPassword(!showPassword)}
-                //     edge="end"
-                //     aria-label="toggle password visibility"
-                //   >
-                //     {showPassword ? (
-                //       <VisibilityOff sx={{ color: "black" }} />
-                //     ) : (
-                //       <Visibility sx={{ color: "black" }} />
-                //     )}
-                //   </IconButton>
-                // </InputAdornment>
-            //   ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    aria-label="toggle password visibility"
+                  >
+                    {showPassword ? (
+                      <VisibilityOff sx={{ color: "black" }} />
+                    ) : (
+                      <Visibility sx={{ color: "black" }} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
             InputLabelProps={{ style: { color: "black" } }}
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+              {
+                borderColor: "#9EF300",
+              },
             }}
           />
 
           <div className="mt-6">
-            {/* <Button
+            <Button
               type="submit"
               disabled={isSubmitting}
               children={isSubmitting ? "Logging in..." : "Log in"}
               className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black"
-            ></Button> */}
+            ></Button>
           </div>
 
           <h2 className="mb-6 ">
