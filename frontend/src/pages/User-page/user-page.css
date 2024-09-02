@@ -1,0 +1,104 @@
+
+
+.user-page {
+  display: flex;
+  padding: 16px;
+  width: 100%;
+}
+
+
+
+.user-page__left {
+  width: 25%;
+  padding: 16px;
+ 
+  
+}
+
+.user-page__title {
+  font-size: 1.25rem; 
+  
+  font-weight: 600; 
+  
+  margin-bottom: 16px;
+  border-left: 3px solid #9ef300;
+  padding: 15px 20px;
+}
+
+.user-page__user-info {
+  display: flex;
+}
+
+.user_info {
+  margin-left: 20px;
+  padding-top: 5px;
+}
+
+.user_pic img {
+  width: 60px;
+  height: 60px;
+}
+.user-page__logout-button {
+  background-color: white;
+  
+  color: black;
+  padding: 10px 16px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-page__logout-button:hover {
+  background-color: #dc2626; 
+  
+}
+
+
+
+.user-page__right {
+  width: 55%;
+  padding: 16px;
+}
+
+.user-page__form-group {
+  margin-bottom: 16px;
+}
+
+.user-page__label {
+  display: block;
+  color: #4b5563;
+  
+  margin-bottom: 8px;
+}
+
+.user-page__input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb; 
+  
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.user-page__update-button {
+  background-color: #9ef300;
+  
+  color: black;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-page__update-button:hover {
+  background-color: #2563eb; 
+  
+}
+
+.user_page_update-button-div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

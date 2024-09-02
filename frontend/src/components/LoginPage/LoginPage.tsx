@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Login from "./Login/Login";
-import loginPageBack from "../../assets/login.png";
 import SignUp from "./Signup/Signup";
+import loginPageBack from "../../assets/login.png"
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(() => {

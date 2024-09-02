@@ -6,42 +6,33 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
-import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
-import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../../features/AuthActions";
-import { FormikHelpers } from "formik";
+
+
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 
+
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const handleLogin = () => { };
+
+
+
+
+
+
+  const handleLogin = (
+    values: { email: string; password: string },
+    { resetForm }: { resetForm: () => void }
+  ) => {
+   
+  };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
 
-  // added in auth branch start
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { loading, error, userInfo } = useAppSelector((state) => state.login);
-
-  useEffect(() => {
-    if (userInfo) {
-      console.log("loginsuccess");
-      navigate('/userprofile')
-    };
-  }, [navigate, userInfo]);
-
-  const handleSignUp = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
-    dispatch(userLogin(values));
-    console.log("new", values);
-    resetForm();
-  };
-
-  // added in auth branch end
 
   return (
     <Formik
@@ -49,14 +40,19 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
       validationSchema={validationSchema}
       onSubmit={handleLogin}
     >
+      {/* {({ isSubmitting, errors, resetForm }) => ( */}
       {({ isSubmitting, errors }) => (
         <Form>
-          <div className="mb-6 flex flex-start">
+          <div className="mb-6  w-[550px]  flex flex-start">
             <p className="font-light text-customGray ">Welcome Back</p>
           </div>
-          <h2 className="mb-6 font-medium  flex flex-start  text-2xl">
+          <h2 className="mb-6 font-medium flex flex-start text-2xl">
             Log In to Your Account
           </h2>
+
+          {/* Display error message if available */}
+          {/* {error && <div className="mb-4 text-red-600">{error}</div>} */}
+
           <Field
             as={TextField}
             name="email"
@@ -70,9 +66,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             InputLabelProps={{ style: { color: "black" } }}
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-              {
-                borderColor: "#9EF300",
-              },
+                {
+                  borderColor: "#9EF300",
+                },
             }}
           />
           <Field
@@ -106,9 +102,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             InputLabelProps={{ style: { color: "black" } }}
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-              {
-                borderColor: "#9EF300",
-              },
+                {
+                  borderColor: "#9EF300",
+                },
             }}
           />
 
@@ -117,11 +113,11 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               type="submit"
               disabled={isSubmitting}
               children={isSubmitting ? "Logging in..." : "Log in"}
-              className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black"
+              className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black hover:bg-green-300"
             ></Button>
           </div>
 
-          <h2 className="mb-6 ">
+          <h2 className="mb-6">
             Don’t have an Account?{" "}
             <a
               href="#"
