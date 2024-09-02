@@ -1,3 +1,3 @@
 export interface AuthFormProps {
-    toggleForm: () => void;
+    toggleForm?: () => void;
   }

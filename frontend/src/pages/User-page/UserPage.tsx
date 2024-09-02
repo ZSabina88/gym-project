@@ -13,7 +13,7 @@ import {
 // import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../features/AuthSlice";
+// import { logout } from "../../features/AuthSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -36,7 +36,7 @@ const UserPage: React.FC = () => {
     console.log("User data updated", values);
   };
   const handleLogout = ()=> {
-    dispatch(logout());
+    // dispatch(logout());
     navigate("/");
   }
 

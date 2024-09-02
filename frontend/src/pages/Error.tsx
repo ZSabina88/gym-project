@@ -1,5 +1,3 @@
-import MainNavigation from "../components/MainNavigation/MainNavigation";
-
 const ErrorPage: React.FC = () => {
 
     let title = "An error occured!";
@@ -8,7 +6,6 @@ const ErrorPage: React.FC = () => {
 
     return (
         <>
-            <MainNavigation />
             <menu className="pageError">
                 <h1>{title}</h1>
                 <p>{message}</p>

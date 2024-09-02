@@ -15,7 +15,7 @@ import Button from "../../../shared/Buttons/button";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-import { useAppDispatch } from "../../../hooks/authHooks";
+// import { useAppDispatch } from "../../../hooks/authHooks";
 
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
