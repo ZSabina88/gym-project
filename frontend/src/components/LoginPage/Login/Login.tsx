@@ -7,32 +7,33 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
 
-
-
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-
+import { userLogin } from "../../../features/AuthActions";
+import { useAppDispatch } from "../../../hooks/authHooks";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
 
-
-
-
-
-
-  const handleLogin = (
+  const handleLogin = async (
     values: { email: string; password: string },
     { resetForm }: { resetForm: () => void }
   ) => {
-   
+    try {
+      await dispatch(userLogin(values)).unwrap();
+      // Handle successful login (e.g., redirect or show a success message)
+      resetForm();
+    } catch (err) {
+      // Handle login error (e.g., show an error message)
+      console.error("Login Error:", err);
+    }
   };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
-
 
   return (
     <Formik

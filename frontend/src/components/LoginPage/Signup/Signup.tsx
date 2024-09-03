@@ -15,14 +15,15 @@ import Button from "../../../shared/Buttons/button";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
+import { useAppDispatch } from "../../../hooks/authHooks";
+import { userSignup } from "../../../features/AuthActions";
 // import { useAppDispatch } from "../../../hooks/authHooks";
-
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useAppDispatch();
   const handleSignUp = (values: any) => {
-
+    dispatch(userSignup(values));
   };
 
   const validationSchema = Yup.object().shape({
