@@ -1,32 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin, userSignup } from "./AuthActions";
 
-// const userToken = localStorage.getItem('userToken')
-//     ? localStorage.getItem('userToken')
-//     : null;
+const userToken = localStorage.getItem('userToken')
+    ? localStorage.getItem('userToken')
+    : null;
 
-const getInitialCredentials = () => {
-    const localcredentials = window.localStorage.getItem("credentials");
-    if (localcredentials) {
-        return JSON.parse(localcredentials);
-    }
-    window.localStorage.setItem("credentials", JSON.stringify([]));
-    return [];
-}
+// const getInitialCredentials = () => {
+//     const localcredentials = window.localStorage.getItem("credentials");
+//     if (localcredentials) {
+//         return JSON.parse(localcredentials);
+//     }
+//     window.localStorage.setItem("credentials", JSON.stringify([]));
+//     return [];
+// }
 type Auth = {
     userInfo: null | {} | undefined | any,
-    // userToken: string,
+    userToken: string | null,
     error: null | string | unknown,
     loading: boolean,
-    // success: boolean
 }
 
 const initialState: Auth = {
-    userInfo: getInitialCredentials(),
-    // userToken: "",
+    userInfo: [],
+    userToken,
     error: null,
     loading: false,
-    // success: false
 };
 
 
@@ -34,25 +32,7 @@ const initialState: Auth = {
 const authSignupSlice = createSlice({
     name: "authsignup",
     initialState,
-    reducers: {
-        signup(state, action) {
-            console.log("action", action)
-
-            state.userInfo = action.payload;
-
-            const credentialList = window.localStorage.getItem("credentials");
-            if (credentialList) {
-                const credArr = JSON.parse(credentialList);
-                credArr.push( action.payload );
-                window.localStorage.setItem("credentials", JSON.stringify(credArr))
-            }
-        },
-        logout(state) {
-            // state.userInfo: null;
-            localStorage.clear();
-          },
-
-    },
+    reducers: {},
     extraReducers:
         (builder) => {
             builder.addCase(userSignup.pending, (state) => {
@@ -63,7 +43,6 @@ const authSignupSlice = createSlice({
             builder.addCase(userSignup.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-                // state.success = true;
                 state.userInfo = action.payload;
             })
 
@@ -77,9 +56,10 @@ const authLoginSlice = createSlice({
     name: "authLogin",
     initialState,
     reducers: {
-        // logout: (state) => {
-        //     state.userInfo: null;
-        //   },
+        logout: (state) => {
+            state.userInfo = null;
+            localStorage.clear();
+          },
     },
     extraReducers:
         (builder) => {
@@ -91,10 +71,9 @@ const authLoginSlice = createSlice({
             builder.addCase(userLogin.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-                // state.success = true;
                 state.userInfo = action.payload;
-                // state.userToken = action.payload.token;
-                // console.log(action.payload.token);
+                state.userToken = action.payload.token;
+                console.log(action.payload.token);
             })
 
             builder.addCase(userLogin.rejected, (state, action) => {
@@ -105,7 +84,6 @@ const authLoginSlice = createSlice({
         }
 });
 
-export const { signup, logout } = authSignupSlice.actions;
-
+export const {logout} = authLoginSlice.actions;
 
 export { authLoginSlice, authSignupSlice };

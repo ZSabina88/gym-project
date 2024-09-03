@@ -1,8 +1,8 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import axios from 'axios';
+import axios from 'axios';
 
-// axios.defaults.baseURL = "https://y4qagixjkd.execute-api.eu-north-1.amazonaws.com/api/v1/user";
+axios.defaults.baseURL = "http://localhost:3000";
 // axios.defaults.withCredentials = true;
 
 import RootLayout from "./pages/Root";
@@ -11,6 +11,8 @@ import HomePage from "./pages/Home";
 import UserPage from "./pages/User-page/UserPage";
 import Workouts from "./pages/Workouts/Workout";
 import Coaches from "./pages/Coaches/Coaches";
+import SignUp from "./components/LoginPage/Signup/Signup";
+import Login from "./components/LoginPage/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <HomePage /> },
+      { path: "/register", element: <SignUp /> },
+      { path: "/login", element: <Login /> },
       { path: "/user", element: <UserPage /> },
       { path: "/workouts", element: <Workouts /> },
       { path: "/coaches", element: <Coaches /> },
