@@ -19,18 +19,13 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error, userInfo } = useAppSelector((state) => state.login);
+  const { loading, error } = useAppSelector((state) => state.login);
 
-  useEffect(() => {
-    if (userInfo) {
-      console.log("loginsuccess");
-      navigate('/user')
-    };
-  }, [navigate, userInfo]);
 
   const handleLogin = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
     dispatch(userLogin(values));
     console.log("new", values);
+    navigate('/user')
     resetForm();
   };
 

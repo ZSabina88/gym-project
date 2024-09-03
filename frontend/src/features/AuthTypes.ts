@@ -20,3 +20,7 @@ export interface AuthResponse {
     };
     error?: string;
 }
+
+export interface LogoutPayload {
+    token: string;
+}

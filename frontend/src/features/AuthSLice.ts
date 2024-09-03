@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userSignup } from "./AuthActions";
+import { userLogin, userSignup, userLogout } from "./AuthActions";
 
 const userToken = localStorage.getItem('userToken')
     ? localStorage.getItem('userToken')
@@ -36,7 +36,7 @@ const authSignupSlice = createSlice({
                 state.loading = false;
                 state.error = null;
                 state.userInfo = action.payload;
-                
+
             })
 
             builder.addCase(userSignup.rejected, (state, action) => {
@@ -48,12 +48,7 @@ const authSignupSlice = createSlice({
 const authLoginSlice = createSlice({
     name: "authLogin",
     initialState,
-    reducers: {
-        logout: (state) => {
-            state.userInfo = null;
-            localStorage.clear();
-          },
-    },
+    reducers: {},
     extraReducers:
         (builder) => {
             builder.addCase(userLogin.pending, (state) => {
@@ -66,17 +61,39 @@ const authLoginSlice = createSlice({
                 state.error = null;
                 state.userInfo = action.payload;
                 state.userToken = action.payload.token;
-                console.log(action.payload.token);
             })
 
             builder.addCase(userLogin.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                // state.error = action.error.message;
             })
         }
 });
 
-export const {logout} = authLoginSlice.actions;
+const authLogoutSlice = createSlice({
+    name: "authLogout",
+    initialState,
+    reducers: {},
+    extraReducers:
+        (builder) => {
+            builder.addCase(userLogout.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
 
-export { authLoginSlice, authSignupSlice };
+            builder.addCase(userLogout.fulfilled, (state) => {
+                state.loading = false;
+                state.error = null;
+                state.userInfo = null;
+                state.userToken = null;
+            })
+
+            builder.addCase(userLogout.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+        }
+});
+
+
+export { authLoginSlice, authSignupSlice, authLogoutSlice };

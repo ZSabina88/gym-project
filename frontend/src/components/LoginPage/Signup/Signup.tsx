@@ -18,23 +18,21 @@ import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/AuthActions";
 import { useNavigate } from "react-router-dom";
-import { FormikHelpers } from "formik";
-
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.signup);
+  const { loading } = useAppSelector((state) => state.signup);
 
-  const handleSignUp = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
+  const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     console.log("new", values);
     navigate("/login");
-    resetForm();
   };
+
+
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -56,7 +54,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   return (
     <>
       {/* {error && <p>{JSON.stringify(error)}</p>} */}
-    {loading && <p>Loading...</p>}
+      {loading && <p>Loading</p>}
       <Formik
         initialValues={{
           name: "",
@@ -68,6 +66,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
+        {/* {({ isSubmitting, errors, setFieldValue }) => ( */}
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
             <div className="mb-6 w-[550px] flex flex-start">
@@ -92,9 +91,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                    {
-                      borderColor: "#9EF300",
-                    },
+                  {
+                    borderColor: "#9EF300",
+                  },
                 }}
               />
             </div>
@@ -113,9 +112,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <Field
@@ -151,9 +150,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <div>
@@ -165,15 +164,15 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   onChange={handleChange}
                   label="Target"
                   value={values.target}
-                  // onChange={(event: any) =>
-                  //   setFieldValue("target", event.target.value)
-                  // }
-                  // error={Boolean(errors.target)}
-                  // sx={{
-                  //   "& .MuiSelect-select": {
-                  //     textAlign: "left",
-                  //   },
-                  // }}
+                // onChange={(event: any) =>
+                //   setFieldValue("target", event.target.value)
+                // }
+                // error={Boolean(errors.target)}
+                // sx={{
+                //   "& .MuiSelect-select": {
+                //     textAlign: "left",
+                //   },
+                // }}
                 >
                   <MenuItem value="lose_weight">Lose Weight</MenuItem>
                   <MenuItem value="gain_weight">Gain Weight</MenuItem>
@@ -193,15 +192,15 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   value={values.activity}
                   onChange={handleChange}
                   label="Preferred Activity"
-                  // onChange={(event: any) =>
-                  //   setFieldValue("activity", event.target.value)
-                  // }
-                  // error={Boolean(errors.activity)}
-                  // sx={{
-                  //   "& .MuiSelect-select": {
-                  //     textAlign: "left",
-                  //   },
-                  // }}
+                // onChange={(event: any) =>
+                //   setFieldValue("activity", event.target.value)
+                // }
+                // error={Boolean(errors.activity)}
+                // sx={{
+                //   "& .MuiSelect-select": {
+                //     textAlign: "left",
+                //   },
+                // }}
                 >
                   <MenuItem value="gym">Gym</MenuItem>
                   <MenuItem value="yoga">Yoga</MenuItem>

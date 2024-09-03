@@ -10,9 +10,9 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../features/AuthSLice";
+import { userLogout } from "../../features/AuthActions";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userInfo } = useAppSelector((state) => state.signup);
+  // const { userInfo } = useAppSelector((state) => state.signup);
 
 
 
@@ -36,9 +36,15 @@ const UserPage: React.FC = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-  }
+    const token = localStorage.getItem('userToken');
+    
+    if (token) {
+        dispatch(userLogout({ token }));
+        navigate("/");
+    } else {
+        console.error("No token found for logout.");
+    }
+};
 
 
   return (
@@ -65,8 +71,8 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-            {userInfo?.name ? <p>{userInfo.name}</p> : <p>Username</p>}
-            {userInfo?.email ? <p>{userInfo.name}</p> : <p>Useremail</p>}
+            {/* {userInfo?.name ? <p>{userInfo.name}</p> : <p>Username</p>}
+            {userInfo?.email ? <p>{userInfo.name}</p> : <p>Useremail</p>} */}
 
           </div>
         </div>
