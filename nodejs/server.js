@@ -1,60 +1,73 @@
-import express from "express";
-import cors from "cors";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const axios = require("axios");
 
 const app = express();
+const port = 3000;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const USERS_FILE = path.join(__dirname, "users.json");
 
-app.use(cors());
-app.use(express.json());
+app.use(cors()); 
+app.use(bodyParser.json()); 
 
-const readUsersFromFile = () => {
-  if (!fs.existsSync(USERS_FILE)) {
-    return [];
+
+app.post("/api/v1/user/register", async (req, res) => {
+  try {
+    const { name, email, password, target, activity } = req.body;
+
+
+    const response = await axios.post(
+      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
+      { name, email, password, target, activity },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = response.data;
+
+
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error("Error making API call:", error);
+    res.status(500).json({
+      success: false,
+      error: "An error occurred while communicating with the external API",
+    });
   }
-  const data = fs.readFileSync(USERS_FILE, "utf-8");
-  return JSON.parse(data);
-};
-
-const writeUsersToFile = (users) => {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-};
-
-app.post("/signup", (req, res) => {
-  const { email, password, name, target, preferredActivity } = req.body;
-  const users = readUsersFromFile();
-
-  const existingUser = users.find((user) => user.email === email);
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
-  const newUser = { email, password, name, target, preferredActivity };
-  users.push(newUser);
-  writeUsersToFile(users);
-
-  res.status(201).json(newUser);
 });
 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  const users = readUsersFromFile();
+app.post("/api/v1/user/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const existingUser = users.find(
-    (user) => user.email === email && user.password === password
-  );
-  if (!existingUser) {
-    return res.status(401).json({ message: "Invalid email or password" });
+   
+    const response = await axios.post(
+      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/login", 
+      { email, password },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+
+    const data = response.data;
+
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error("Error making API call:", error);
+    res.status(500).json({
+      success: false,
+      error: "An error occurred while communicating with the external API",
+    });
   }
-
-  res.status(200).json(existingUser);
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

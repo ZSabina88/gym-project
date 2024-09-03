@@ -2,9 +2,9 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import axios from 'axios';
 
+axios.defaults.baseURL = "http://localhost:3000";
+// axios.defaults.withCredentials = true;
 
-axios.defaults.baseURL = "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user";
-axios.defaults.withCredentials = true;
 
 import RootLayout from "./pages/Root";
 import ErrorPage from "./pages/Error";
@@ -12,9 +12,8 @@ import HomePage from "./pages/Home";
 import UserPage from "./pages/User-page/UserPage";
 import Workouts from "./pages/Workouts/Workout";
 import Coaches from "./pages/Coaches/Coaches";
-import Login from "./components/LoginPage/Login/Login";
 import SignUp from "./components/LoginPage/Signup/Signup";
-
+import Login from "./components/LoginPage/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -22,12 +21,12 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      { path: "/", element: <HomePage /> },
       { path: "/register", element: <SignUp /> },
       { path: "/login", element: <Login /> },
-      // { path: "/user", element: <UserPage /> },
-      // { path: "/workouts", element: <Workouts /> },
-      // { path: "/coaches", element: <Coaches /> },
+      { path: "/user", element: <UserPage /> },
+      { path: "/workouts", element: <Workouts /> },
+      { path: "/coaches", element: <Coaches /> },
     ],
   },
 ]);

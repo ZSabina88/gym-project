@@ -24,23 +24,15 @@ import { FormikHelpers } from "formik";
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { loading, error, userInfo } = useAppSelector((state) => state.signup);
 
-  useEffect(() => {
-    if (userInfo) {
-      console.log("loginsuccess");
-      navigate('/user')
-    };
-  }, [navigate, userInfo]);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.signup);
 
   const handleSignUp = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
     dispatch(userSignup(values));
-    if(error){
-      console.log(error);
-    }
     console.log("new", values);
+    navigate("/login");
     resetForm();
   };
 
@@ -76,7 +68,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
-        {/* {({ isSubmitting, errors, setFieldValue }) => ( */}
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
             <div className="mb-6 w-[550px] flex flex-start">
