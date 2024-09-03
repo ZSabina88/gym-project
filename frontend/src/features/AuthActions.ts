@@ -49,7 +49,6 @@ export const userLogin = createAsyncThunk<
                 'Content-Type': 'application/json',
             },
         }
-
         const { data } = await axios.post(
             "/api/v1/user/login",
             { email, password },
@@ -60,10 +59,10 @@ export const userLogin = createAsyncThunk<
         }
 
 
+
         localStorage.setItem('userToken', data.token);
         return data;
     } catch (error: any) {
-
         console.error("Login Error:", error);
         if (error.response) {
             if (error.response.status === 400) {

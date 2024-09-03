@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
@@ -15,20 +15,25 @@ import Button from "../../../shared/Buttons/button";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-import { useAppDispatch } from "../../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/AuthActions";
 import { useNavigate } from "react-router-dom";
-// import { useAppDispatch } from "../../../hooks/authHooks";
+import { FormikHelpers } from "formik";
+
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.signup);
 
-  const handleSignUp = (values: any) => {
+  const handleSignUp = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
     dispatch(userSignup(values));
+    console.log("new", values);
     navigate("/login");
+    resetForm();
   };
 
   const validationSchema = Yup.object().shape({
@@ -50,8 +55,8 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   return (
     <>
-      {/* {error && <p>{JSON.stringify(error)}</p>}
-    {loading && <p>Loading</p>} */}
+      {/* {error && <p>{JSON.stringify(error)}</p>} */}
+    {loading && <p>Loading...</p>}
       <Formik
         initialValues={{
           name: "",
@@ -63,7 +68,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
-        {/* {({ isSubmitting, errors, setFieldValue }) => ( */}
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
             <div className="mb-6 w-[550px] flex flex-start">

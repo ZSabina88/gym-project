@@ -26,6 +26,7 @@ const UserPage: React.FC = () => {
   const { userInfo } = useAppSelector((state) => state.signup);
 
 
+
   const handleSubmit = (values: {
     name: string;
     target: string;
@@ -66,6 +67,7 @@ const UserPage: React.FC = () => {
           <div className="ml-5 pt-1">
             {userInfo?.name ? <p>{userInfo.name}</p> : <p>Username</p>}
             {userInfo?.email ? <p>{userInfo.name}</p> : <p>Useremail</p>}
+
           </div>
         </div>
         <div className="mt-16">

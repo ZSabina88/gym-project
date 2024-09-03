@@ -5,14 +5,6 @@ const userToken = localStorage.getItem('userToken')
     ? localStorage.getItem('userToken')
     : null;
 
-// const getInitialCredentials = () => {
-//     const localcredentials = window.localStorage.getItem("credentials");
-//     if (localcredentials) {
-//         return JSON.parse(localcredentials);
-//     }
-//     window.localStorage.setItem("credentials", JSON.stringify([]));
-//     return [];
-// }
 type Auth = {
     userInfo: null | {} | undefined | any,
     userToken: string | null,
@@ -44,6 +36,7 @@ const authSignupSlice = createSlice({
                 state.loading = false;
                 state.error = null;
                 state.userInfo = action.payload;
+                
             })
 
             builder.addCase(userSignup.rejected, (state, action) => {
