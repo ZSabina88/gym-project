@@ -11,7 +11,7 @@ import {
   InputLabel,
 } from "@mui/material";
 // import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+
 import { useNavigate } from "react-router-dom";
 // import { logout } from "../../features/AuthSlice";
 
@@ -22,10 +22,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const UserPage: React.FC = () => {
-  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
-  const user = useAppSelector((state) => state.auth.user);
+
 
 
   const handleSubmit = (values: {
@@ -65,8 +65,8 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-            {user.name ? <p>{user.name}</p> : <p>Username</p>}
-            {user.email ? <p>{user.name}</p> : <p>Username</p>}
+            {/* {user.name ? <p>{user.name}</p> : <p>Username</p>} */}
+            {/* {user.email ? <p>{user.name}</p> : <p>Username</p>} */}
           </div>
         </div>
         <div className="mt-16">
