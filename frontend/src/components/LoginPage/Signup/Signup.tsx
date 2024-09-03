@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
@@ -15,14 +15,33 @@ import Button from "../../../shared/Buttons/button";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-// import { useAppDispatch } from "../../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
+import { userSignup } from "../../../features/AuthActions";
+import { useNavigate } from "react-router-dom";
+import { FormikHelpers } from "formik";
 
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignUp = (values: any) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { loading, error, userInfo } = useAppSelector((state) => state.signup);
 
+  useEffect(() => {
+    if (userInfo) {
+      console.log("loginsuccess");
+      navigate('/user')
+    };
+  }, [navigate, userInfo]);
+
+  const handleSignUp = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
+    dispatch(userSignup(values));
+    if(error){
+      console.log(error);
+    }
+    console.log("new", values);
+    resetForm();
   };
 
   const validationSchema = Yup.object().shape({
@@ -44,8 +63,8 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   return (
     <>
-      {/* {error && <p>{JSON.stringify(error)}</p>}
-    {loading && <p>Loading</p>} */}
+      {/* {error && <p>{JSON.stringify(error)}</p>} */}
+    {loading && <p>Loading...</p>}
       <Formik
         initialValues={{
           name: "",

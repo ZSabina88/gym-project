@@ -1,10 +1,10 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import axios from 'axios';
+import axios from 'axios';
 
 
-// axios.defaults.baseURL = "https://y4qagixjkd.execute-api.eu-north-1.amazonaws.com/api/v1/user";
-// axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user";
+axios.defaults.withCredentials = true;
 
 import RootLayout from "./pages/Root";
 import ErrorPage from "./pages/Error";

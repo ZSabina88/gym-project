@@ -25,7 +25,7 @@ const UserPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const user = useAppSelector((state) => state.auth.user);
+  // const user = useAppSelector((state) => state.signup);
 
 
   const handleSubmit = (values: {
@@ -65,8 +65,8 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-            {user.name ? <p>{user.name}</p> : <p>Username</p>}
-            {user.email ? <p>{user.name}</p> : <p>Username</p>}
+            {/* {user.name ? <p>{user.name}</p> : <p>Username</p>}
+            {user.email ? <p>{user.name}</p> : <p>Username</p>} */}
           </div>
         </div>
         <div className="mt-16">

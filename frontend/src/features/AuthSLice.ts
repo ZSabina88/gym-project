@@ -5,28 +5,27 @@ import { userLogin, userSignup } from "./AuthActions";
 //     ? localStorage.getItem('userToken')
 //     : null;
 
-const getInitialCredentials = () => {
-    const localcredentials = window.localStorage.getItem("credentials");
-    if (localcredentials) {
-        return JSON.parse(localcredentials);
-    }
-    window.localStorage.setItem("credentials", JSON.stringify([]));
-    return [];
-}
+// const getInitialCredentials = () => {
+//     const localcredentials = window.localStorage.getItem("credentials");
+//     if (localcredentials) {
+//         return JSON.parse(localcredentials);
+//     }
+//     window.localStorage.setItem("credentials", JSON.stringify([]));
+//     return [];
+// }
 type Auth = {
     userInfo: null | {} | undefined | any,
     // userToken: string,
     error: null | string | unknown,
     loading: boolean,
-    // success: boolean
 }
 
 const initialState: Auth = {
-    userInfo: getInitialCredentials(),
+    // userInfo: getInitialCredentials(),
+    userInfo: [],
     // userToken: "",
     error: null,
     loading: false,
-    // success: false
 };
 
 
@@ -34,25 +33,7 @@ const initialState: Auth = {
 const authSignupSlice = createSlice({
     name: "authsignup",
     initialState,
-    reducers: {
-        signup(state, action) {
-            console.log("action", action)
-
-            state.userInfo = action.payload;
-
-            const credentialList = window.localStorage.getItem("credentials");
-            if (credentialList) {
-                const credArr = JSON.parse(credentialList);
-                credArr.push( action.payload );
-                window.localStorage.setItem("credentials", JSON.stringify(credArr))
-            }
-        },
-        logout(state) {
-            // state.userInfo: null;
-            localStorage.clear();
-          },
-
-    },
+    reducers: { },
     extraReducers:
         (builder) => {
             builder.addCase(userSignup.pending, (state) => {
@@ -63,8 +44,8 @@ const authSignupSlice = createSlice({
             builder.addCase(userSignup.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-                // state.success = true;
                 state.userInfo = action.payload;
+                
             })
 
             builder.addCase(userSignup.rejected, (state, action) => {
@@ -104,8 +85,5 @@ const authLoginSlice = createSlice({
             })
         }
 });
-
-export const { signup, logout } = authSignupSlice.actions;
-
 
 export { authLoginSlice, authSignupSlice };
