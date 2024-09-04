@@ -6,15 +6,12 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
-
 app.use(cors());
 app.use(bodyParser.json());
-
 
 app.post("/api/v1/user/register", async (req, res) => {
   try {
     const { name, email, password, target, activity } = req.body;
-
 
     const response = await axios.post(
       "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
@@ -27,7 +24,6 @@ app.post("/api/v1/user/register", async (req, res) => {
     );
 
     const data = response.data;
-
 
     res.status(response.status).json(data);
   } catch (error) {
@@ -43,7 +39,6 @@ app.post("/api/v1/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-
     const response = await axios.post(
       "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/login",
       { email, password },
@@ -53,7 +48,6 @@ app.post("/api/v1/user/login", async (req, res) => {
         },
       }
     );
-
 
     const data = response.data;
 
@@ -67,7 +61,6 @@ app.post("/api/v1/user/login", async (req, res) => {
   }
 });
 
-
 app.post("/api/v1/user/logout", async (req, res) => {
   try {
     const { token } = req.body;
@@ -77,18 +70,22 @@ app.post("/api/v1/user/logout", async (req, res) => {
       {},
       {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
 
-    const data = response.data;
-
-    res.status(response.status).json(data);
+    res.status(response.status).json(response.data);
   } catch (error) {
-    console.error("Logout error:", error);
-    res.status(500).json({ success: false, error: "Server error during logout" });
+    console.error(
+      "Logout error:",
+      error.response?.data || error.message || error
+    );
+    res.status(500).json({
+      success: false,
+      error: "Server error during logout",
+    });
   }
 });
 

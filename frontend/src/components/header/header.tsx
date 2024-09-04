@@ -55,6 +55,12 @@ const Header: React.FC = () => {
             >
               Coaches
             </Link>
+            <Link
+              to="/admin"
+              className="text-black text-lg no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
+            >
+              Admin
+            </Link>
           </nav>
         </div>
         <div className="flex gap-4">
