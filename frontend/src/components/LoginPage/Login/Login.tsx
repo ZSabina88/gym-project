@@ -12,20 +12,25 @@ import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-import { userLogin } from "../../../features/AuthActions";
+import { userLogin } from "../../../features/Auth/AuthActions";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.login);
+  const { loading, error, userToken } = useAppSelector((state) => state.login);
 
+  useEffect(() => {
+    if (userToken) {
+      console.log("login success");
+      navigate('/user')
+    };
+  }, [navigate, userToken]);
 
   const handleLogin = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
     dispatch(userLogin(values));
     console.log("new", values);
-    navigate('/user')
     resetForm();
   };
 
@@ -35,12 +40,10 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     password: Yup.string().required("Required"),
   });
 
-  
+
 
   return (
     <>
-      {/* {error && <div className="mb-4 text-red-600">{error}</div>} */}
-      {loading && <div className="mb-4 text-red-600">Loading...</div>}
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
@@ -108,7 +111,8 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 },
               }}
             />
-
+            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
+            {loading && <p className="mb-4 text-red-600">Loading...</p>}
             <div className="mt-6">
               <Button
                 type="submit"

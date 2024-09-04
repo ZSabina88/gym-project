@@ -16,7 +16,7 @@ import Button from "../../../shared/Buttons/button";
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
-import { userSignup } from "../../../features/AuthActions";
+import { userSignup } from "../../../features/Auth/AuthActions";
 import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
@@ -24,12 +24,18 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.signup);
+  const { loading, error, userInfo } = useAppSelector((state) => state.signup);
+
+  useEffect(() => {
+    if (userInfo) {
+      console.log("signup success");
+      navigate("/login");
+    };
+  }, [navigate, userInfo]);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     console.log("new", values);
-    navigate("/login");
   };
 
 
@@ -53,8 +59,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   return (
     <>
-      {/* {error && <p>{JSON.stringify(error)}</p>} */}
-      {loading && <p>Loading</p>}
+      
       <Formik
         initialValues={{
           name: "",
@@ -66,7 +71,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
-        {/* {({ isSubmitting, errors, setFieldValue }) => ( */}
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
             <div className="mb-6 w-[550px] flex flex-start">
@@ -164,15 +168,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   onChange={handleChange}
                   label="Target"
                   value={values.target}
-                // onChange={(event: any) =>
-                //   setFieldValue("target", event.target.value)
-                // }
-                // error={Boolean(errors.target)}
-                // sx={{
-                //   "& .MuiSelect-select": {
-                //     textAlign: "left",
-                //   },
-                // }}
                 >
                   <MenuItem value="lose_weight">Lose Weight</MenuItem>
                   <MenuItem value="gain_weight">Gain Weight</MenuItem>
@@ -192,15 +187,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   value={values.activity}
                   onChange={handleChange}
                   label="Preferred Activity"
-                // onChange={(event: any) =>
-                //   setFieldValue("activity", event.target.value)
-                // }
-                // error={Boolean(errors.activity)}
-                // sx={{
-                //   "& .MuiSelect-select": {
-                //     textAlign: "left",
-                //   },
-                // }}
                 >
                   <MenuItem value="gym">Gym</MenuItem>
                   <MenuItem value="yoga">Yoga</MenuItem>
@@ -213,7 +199,8 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 />
               </FormControl>
             </div>
-
+            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
+            {loading && <p className="mb-4 text-blue-600">Loading</p>}
             <div className="mt-6">
               <Button
                 type="submit"

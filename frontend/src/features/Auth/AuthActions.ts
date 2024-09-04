@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AuthResponse, SignupPayload, LoginPayload, LogoutPayload } from "./AuthTypes";
+import { AuthResponse, SignupPayload, LoginPayload } from "./AuthTypes";
 
 export const userSignup = createAsyncThunk<
     { userId: string },
@@ -31,9 +31,16 @@ export const userSignup = createAsyncThunk<
 
             return data;
         } catch (error: any) {
-
             console.error("Signup Error:", error);
-            return rejectWithValue(error.message || "An error occurred");
+            if (error.response) {
+                if (error.response.status === 500) {
+                    return rejectWithValue("There already exist user with that email.");
+                } else {
+                    return rejectWithValue("Server error.");
+                }
+            } else {
+                return rejectWithValue(error.message || "An error occurred");
+            }
         }
     }
 );
@@ -63,51 +70,12 @@ export const userLogin = createAsyncThunk<
         localStorage.setItem('userToken', data.token);
         return data;
     } catch (error: any) {
-        console.error("Login Error:", error);
+        console.log("Login Error:", error);
         if (error.response) {
             if (error.response.status === 400) {
                 return rejectWithValue("Missing email or password.");
             } else if (error.response.status === 401) {
                 return rejectWithValue("Unauthorized. Please check your credentials.");
-            } else {
-                return rejectWithValue("Server error.");
-            }
-        } else {
-            return rejectWithValue(error.message || "An error occurred");
-        }
-    }
-});
-
-
-export const userLogout = createAsyncThunk<
-    AuthResponse | any,
-    LogoutPayload,
-    { rejectValue: string }
->("auth/logout", async ({ token }, { rejectWithValue }) => {
-    try {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        };
-        const { data } = await axios.post(
-            "/api/v1/user/logout",
-            {},
-            config
-        );
-
-        if (data.error) {
-            return rejectWithValue(data.error);
-        }
-
-        localStorage.removeItem('userToken');
-        return data;
-    } catch (error: any) {
-        console.error("Logout Error:", error);
-        if (error.response) {
-            if (error.response.status === 400) {
-                return rejectWithValue("Bad request.");
             } else {
                 return rejectWithValue("Server error.");
             }
