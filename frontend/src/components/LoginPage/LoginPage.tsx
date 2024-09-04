@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Login from "./Login/Login";
 import SignUp from "./Signup/Signup";
-import loginPageBack from "../../assets/login.png"
+import loginPageBack from "../../assets/login.png";
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(() => {
@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-full px-6 md:px-12 lg:pr-24 py-16 flex flex-col md:flex-row items-center justify-center">
+    <div className="h-screen w-full px-6 md:px-12 lg:pr-24 py-16 flex md:flex-row items-center justify-center">
       <div className="flex items-center justify-center">
         {isLogin ? (
           <Login toggleForm={toggleForm} />
@@ -25,11 +25,11 @@ const LoginPage: React.FC = () => {
         )}
       </div>
 
-      <div className="relative hidden md:block ml-36 max-w-lg  mt-8 md:mt-0">
+      <div className="relative hidden lg:block border rounded-xl ml-8 md:ml-36 max-w-lg  mt-8 md:mt-0">
         <img
           src={loginPageBack}
           alt="Background"
-          className="w-full h-auto object-cover max-h-[80vh] mx-auto"
+          className="w-[450px] h-[850px] md:w-[850px] md:h-[850px] object-cover  rounded-xl "
         />
         <div className="absolute inset-0 flex items-end justify-center mb-12 px-4">
           <span className="text-white text-lg md:text-xl lg:text-2xl font-medium shadow-md text-center md:text-left">

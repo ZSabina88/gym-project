@@ -17,22 +17,20 @@ import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/AuthActions";
-import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.signup);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     console.log("new", values);
-    navigate("/login");
+    if (toggleForm) {
+      toggleForm();
+    }
   };
-
-
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -69,7 +67,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
         {/* {({ isSubmitting, errors, setFieldValue }) => ( */}
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
-            <div className="mb-6 w-[550px] flex flex-start">
+            <div className="mb-6 w-[350px] md:w-[440px] flex flex-start">
               <p className="font-light text-customGray">Welcome!</p>
             </div>
             <h2 className="mb-6 font-medium flex flex-start text-2xl">
@@ -91,9 +89,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                    {
+                      borderColor: "#9EF300",
+                    },
                 }}
               />
             </div>
@@ -112,9 +110,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -150,9 +148,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <div>
@@ -164,15 +162,15 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   onChange={handleChange}
                   label="Target"
                   value={values.target}
-                // onChange={(event: any) =>
-                //   setFieldValue("target", event.target.value)
-                // }
-                // error={Boolean(errors.target)}
-                // sx={{
-                //   "& .MuiSelect-select": {
-                //     textAlign: "left",
-                //   },
-                // }}
+                  // onChange={(event: any) =>
+                  //   setFieldValue("target", event.target.value)
+                  // }
+                  // error={Boolean(errors.target)}
+                  // sx={{
+                  //   "& .MuiSelect-select": {
+                  //     textAlign: "left",
+                  //   },
+                  // }}
                 >
                   <MenuItem value="lose_weight">Lose Weight</MenuItem>
                   <MenuItem value="gain_weight">Gain Weight</MenuItem>
@@ -192,15 +190,15 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   value={values.activity}
                   onChange={handleChange}
                   label="Preferred Activity"
-                // onChange={(event: any) =>
-                //   setFieldValue("activity", event.target.value)
-                // }
-                // error={Boolean(errors.activity)}
-                // sx={{
-                //   "& .MuiSelect-select": {
-                //     textAlign: "left",
-                //   },
-                // }}
+                  // onChange={(event: any) =>
+                  //   setFieldValue("activity", event.target.value)
+                  // }
+                  // error={Boolean(errors.activity)}
+                  // sx={{
+                  //   "& .MuiSelect-select": {
+                  //     textAlign: "left",
+                  //   },
+                  // }}
                 >
                   <MenuItem value="gym">Gym</MenuItem>
                   <MenuItem value="yoga">Yoga</MenuItem>

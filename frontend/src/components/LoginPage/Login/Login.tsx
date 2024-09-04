@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TextField } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import IconButton from "@mui/material/IconButton";
@@ -6,41 +6,40 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
-import { FormikHelpers } from "formik";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { userLogin } from "../../../features/AuthActions";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.login);
+  const { loading } = useAppSelector((state) => state.login);
 
-
-  const handleLogin = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
-    dispatch(userLogin(values));
-    console.log("new", values);
-    navigate('/user')
-    resetForm();
+  const handleLogin = async (
+    values: any,
+    { resetForm }: { resetForm: any }
+  ) => {
+    try {
+      await dispatch(userLogin(values)).unwrap(); 
+      navigate("/user");
+      resetForm();
+    } catch (err) {
+      setLoginError("Invalid email or password. Please try again.");
+    }
   };
-
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
 
-  
-
   return (
     <>
-      {/* {error && <div className="mb-4 text-red-600">{error}</div>} */}
-      {loading && <div className="mb-4 text-red-600">Loading...</div>}
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
@@ -48,12 +47,20 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
       >
         {({ isSubmitting, errors }) => (
           <Form>
-            <div className="mb-6  w-[550px]  flex flex-start">
+            <div className="mb-6 w-[350px] md:w-[440px] flex flex-start">
               <p className="font-light text-customGray ">Welcome Back</p>
             </div>
             <h2 className="mb-6 font-medium flex flex-start text-2xl">
               Log In to Your Account
             </h2>
+            <div>
+              {loginError && (
+                <div className="mb-4 text-red-600 text-start">{loginError}</div>
+              )}
+              {loading && (
+                <div className="mb-4 text-red-600 text-start">Loading...</div>
+              )}
+            </div>
             <Field
               as={TextField}
               name="email"
@@ -67,9 +74,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -103,9 +110,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
 
