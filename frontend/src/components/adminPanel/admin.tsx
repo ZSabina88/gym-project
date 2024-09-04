@@ -1,5 +1,5 @@
 import coaches from "../../pages/Coaches/coaches-mock";
-import  { useState } from "react";
+import { useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
