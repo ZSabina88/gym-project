@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-full px-6 md:px-12 lg:pr-24 py-16 flex flex-col md:flex-row items-center justify-center">
+    <section className="h-screen w-full px-6 md:px-12 lg:pr-24 py-16 flex flex-col md:flex-row items-center justify-center">
       <div className="flex items-center justify-center">
         {isLogin ? (
           <Login toggleForm={toggleForm} />
@@ -25,7 +25,7 @@ const LoginPage: React.FC = () => {
         )}
       </div>
 
-      <div className="relative hidden md:block ml-36 max-w-lg  mt-8 md:mt-0">
+      <figure className="relative hidden md:block ml-36 max-w-lg  mt-8 md:mt-0">
         <img
           src={loginPageBack}
           alt="Background"
@@ -46,8 +46,8 @@ const LoginPage: React.FC = () => {
             .”
           </span>
         </div>
-      </div>
-    </div>
+      </figure>
+    </section>
   );
 };
 
