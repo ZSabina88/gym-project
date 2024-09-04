@@ -67,31 +67,6 @@ app.post("/api/v1/user/login", async (req, res) => {
   }
 });
 
-
-app.post("/api/v1/user/logout", async (req, res) => {
-  try {
-    const { token } = req.body;
-
-    const response = await axios.post(
-      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/logout",
-      {},
-      {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const data = response.data;
-
-    res.status(response.status).json(data);
-  } catch (error) {
-    console.error("Logout error:", error);
-    res.status(500).json({ success: false, error: "Server error during logout" });
-  }
-});
-
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
