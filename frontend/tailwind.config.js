@@ -9,6 +9,7 @@ module.exports = {
       },
       colors: {
         customGreen: "#9EF300",
+        borderColor: "#BDBDBD",
       },
     },
   },

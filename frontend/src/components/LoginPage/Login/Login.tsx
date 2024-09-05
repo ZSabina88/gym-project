@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
-import { userLogin } from "../../../features/AuthActions";
+import { userLogin } from "../../../features/Auth/AuthActions";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,16 +18,23 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading } = useAppSelector((state) => state.login);
+  const { loading, error, userToken } = useAppSelector((state) => state.login);
+
+  // Redirect if login is successful
+  useEffect(() => {
+    if (userToken) {
+      navigate("/user");
+    }
+  }, [navigate, userToken]);
 
   const handleLogin = async (
     values: any,
-    { resetForm }: { resetForm: any }
+    { resetForm }: { resetForm: FormikHelpers<any>["resetForm"] }
   ) => {
     try {
-      await dispatch(userLogin(values)).unwrap(); 
-      navigate("/user");
+      await dispatch(userLogin(values)).unwrap();
       resetForm();
+      navigate("/user");
     } catch (err) {
       setLoginError("Invalid email or password. Please try again.");
     }
@@ -37,7 +44,6 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
-
   return (
     <>
       <Formik
@@ -115,7 +121,10 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   },
               }}
             />
-
+            {(error as string | null) && (
+              <p className="mb-4 text-red-600">{error as React.ReactNode}</p>
+            )}
+            {loading && <p className="mb-4 text-red-600">Loading...</p>}
             <div className="mt-6">
               <Button
                 type="submit"

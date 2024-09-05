@@ -14,7 +14,7 @@ app.post("/api/v1/user/register", async (req, res) => {
     const { name, email, password, target, activity } = req.body;
 
     const response = await axios.post(
-      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
+      "https://yx9ucr9xeg.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
       { name, email, password, target, activity },
       {
         headers: {
@@ -40,7 +40,7 @@ app.post("/api/v1/user/login", async (req, res) => {
     const { email, password } = req.body;
 
     const response = await axios.post(
-      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/login",
+      "https://yx9ucr9xeg.execute-api.eu-north-1.amazonaws.com/api/v1/user/login",
       { email, password },
       {
         headers: {
@@ -57,34 +57,6 @@ app.post("/api/v1/user/login", async (req, res) => {
     res.status(500).json({
       success: false,
       error: "An error occurred while communicating with the external API",
-    });
-  }
-});
-
-app.post("/api/v1/user/logout", async (req, res) => {
-  try {
-    const { token } = req.body;
-
-    const response = await axios.post(
-      "https://lw2s1l27y3.execute-api.eu-north-1.amazonaws.com/api/v1/user/logout",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    res.status(response.status).json(response.data);
-  } catch (error) {
-    console.error(
-      "Logout error:",
-      error.response?.data || error.message || error
-    );
-    res.status(500).json({
-      success: false,
-      error: "Server error during logout",
     });
   }
 });

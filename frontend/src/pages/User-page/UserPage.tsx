@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "../../shared/Buttons/button";
@@ -10,9 +10,9 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useAppDispatch } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { userLogout } from "../../features/AuthActions";
+// import { logout } from "../../features/Auth/AuthSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const { userInfo } = useAppSelector((state) => state.signup);
+  const { userToken } = useAppSelector((state) => state.login);
 
   const handleSubmit = (values: {
     name: string;
@@ -33,12 +33,16 @@ const UserPage: React.FC = () => {
     console.log("User data updated", values);
   };
 
+  useEffect(() => {
+    if (!userToken) {
+      navigate("/");
+    }
+  }, [userToken, navigate]);
+
   const handleLogout = () => {
     const token = localStorage.getItem("userToken");
-    console.log(token);
-
     if (token) {
-      dispatch(userLogout({ token }));
+      // dispatch(logout());
       navigate("/");
     } else {
       console.error("No token found for logout.");
@@ -69,8 +73,7 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-            {/* {userInfo?.name ? <p>{userInfo.name}</p> : <p>Username</p>}
-            {userInfo?.email ? <p>{userInfo.name}</p> : <p>Useremail</p>} */}
+            {/* Display user info here, e.g., name and email */}
           </div>
         </div>
         <div className="mt-16">
