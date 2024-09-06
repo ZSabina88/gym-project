@@ -17,7 +17,7 @@ app.post("/api/v1/user/register", async (req, res) => {
 
 
     const response = await axios.post(
-      "https://ty5kb94pmj.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
+      "https://yx9ucr9xeg.execute-api.eu-north-1.amazonaws.com/api/v1/user/register",
       { name, email, password, target, activity },
       {
         headers: {
@@ -45,7 +45,7 @@ app.post("/api/v1/user/login", async (req, res) => {
 
 
     const response = await axios.post(
-      "https://ty5kb94pmj.execute-api.eu-north-1.amazonaws.com/api/v1/user/login",
+      "https://yx9ucr9xeg.execute-api.eu-north-1.amazonaws.com/api/v1/user/login",
       { email, password },
       {
         headers: {
