@@ -6,17 +6,14 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
-
 app.use(cors());
 app.use(bodyParser.json());
 
-const baseURL = "https://yx9ucr9xeg.execute-api.eu-north-1.amazonaws.com";
-
+const baseURL = "https://w1u46j41ub.execute-api.eu-north-1.amazonaws.com";
 
 app.post("/api/v1/user/register", async (req, res) => {
   try {
     const { name, email, password, target, activity } = req.body;
-
 
     const response = await axios.post(
       `${baseURL}/api/v1/user/register`,
@@ -29,7 +26,6 @@ app.post("/api/v1/user/register", async (req, res) => {
     );
 
     const data = response.data;
-
 
     res.status(response.status).json(data);
   } catch (error) {
@@ -45,7 +41,6 @@ app.post("/api/v1/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-
     const response = await axios.post(
       `${baseURL}/api/v1/user/login`,
       { email, password },
@@ -55,7 +50,6 @@ app.post("/api/v1/user/login", async (req, res) => {
         },
       }
     );
-
 
     const data = response.data;
 

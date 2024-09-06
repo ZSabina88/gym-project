@@ -11,7 +11,6 @@ type Auth = {
     userToken: string | null,
     error: null | string | unknown,
     loading: boolean,
-    success: boolean
 }
 
 const initialState: Auth = {
@@ -19,7 +18,6 @@ const initialState: Auth = {
     userToken,
     error: null,
     loading: false,
-    success: false
 };
 
 
@@ -33,20 +31,17 @@ const authSignupSlice = createSlice({
             builder.addCase(userSignup.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                state.success = false;
             })
 
             builder.addCase(userSignup.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
                 state.userInfo = action.payload;
-                state.success = true;
             })
 
             builder.addCase(userSignup.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.success = false;
             })
         }
 });

@@ -1,12 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import coaches from "./coaches-mock";
 
 const Coaches: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleCoachClick = (id: number) => {
+    navigate(`/coaches/${id}`); // Navigate to the coach detail page
+  };
+
   return (
     <div className="coaches">
       <div className="grid grid-cols-4 gap-4">
         {coaches.map((coach) => (
-          <div key={coach.id} className="p-4 rounded-lg flex flex-col">
+          <div
+            key={coach.id}
+            className="p-4 rounded-lg flex flex-col cursor-pointer"
+            onClick={() => handleCoachClick(coach.id)}
+          >
             <img
               src={coach.avatar}
               alt={coach.name}

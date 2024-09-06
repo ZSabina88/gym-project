@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
 
-
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   target: Yup.string().required("Required"),
@@ -42,14 +41,12 @@ const UserPage: React.FC = () => {
 }, [userToken, navigate]);
 
   const handleLogout = () => {
-    const token = localStorage.getItem('userToken');
-    
+    const token = localStorage.getItem("userToken");
     if (token) {
         dispatch(logout());
         navigate("/");
     }
-};
-
+  };
 
   return (
     <div className="flex p-4 w-full">
@@ -75,9 +72,7 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-            {/* {userInfo?.name ? <p>{userInfo.name}</p> : <p>Username</p>}
-            {userInfo?.email ? <p>{userInfo.name}</p> : <p>Useremail</p>} */}
-
+            {/* Display user info here, e.g., name and email */}
           </div>
         </div>
         <div className="mt-16">
@@ -102,9 +97,9 @@ const UserPage: React.FC = () => {
                     InputLabelProps={{ style: { color: "black" } }}
                     sx={{
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "#9EF300",
-                      },
+                        {
+                          borderColor: "#9EF300",
+                        },
                     }}
                   />
                 </div>
@@ -117,9 +112,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "#9EF300",
-                      },
+                        {
+                          borderColor: "#9EF300",
+                        },
                     }}
                   >
                     <InputLabel>Your Target</InputLabel>
@@ -152,9 +147,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "#9EF300",
-                      },
+                        {
+                          borderColor: "#9EF300",
+                        },
                     }}
                   >
                     <InputLabel>Preferred Activity</InputLabel>

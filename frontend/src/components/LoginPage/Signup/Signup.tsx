@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TextField,
   MenuItem,
@@ -17,28 +17,20 @@ import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";
-import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error, success } = useAppSelector((state) => state.signup);
-
-  useEffect(() => {
-    if (success) {
-      console.log("signup success");
-      navigate("/login");
-    };
-  }, [navigate, success]);
+  const { loading, error } = useAppSelector((state) => state.signup);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     console.log("new", values);
+    if (toggleForm) {
+      toggleForm();
+    }
   };
-
-
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -59,7 +51,6 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   return (
     <>
-      
       <Formik
         initialValues={{
           name: "",
@@ -73,7 +64,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
       >
         {({ values, isSubmitting, errors, handleChange }) => (
           <Form>
-            <div className="mb-6 w-[550px] flex flex-start">
+            <div className="mb-6 w-[350px] md:w-[440px] flex flex-start">
               <p className="font-light text-customGray">Welcome!</p>
             </div>
             <h2 className="mb-6 font-medium flex flex-start text-2xl">
