@@ -8,6 +8,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { userLogin } from "../../../features/Auth/AuthActions";
@@ -20,11 +21,11 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
   const { loading, error, userToken } = useAppSelector((state) => state.login);
 
-  // Redirect if login is successful
   useEffect(() => {
     if (userToken) {
-      navigate("/user");
-    }
+      console.log("login success");
+      navigate('/user')
+    };
   }, [navigate, userToken]);
 
   const handleLogin = async (
@@ -40,10 +41,13 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     }
   };
 
+  // const decodedData = jwtDecode("");
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
   });
+
   return (
     <>
       <Formik
@@ -121,9 +125,7 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   },
               }}
             />
-            {(error as string | null) && (
-              <p className="mb-4 text-red-600">{error as React.ReactNode}</p>
-            )}
+            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
             {loading && <p className="mb-4 text-red-600">Loading...</p>}
             <div className="mt-6">
               <Button

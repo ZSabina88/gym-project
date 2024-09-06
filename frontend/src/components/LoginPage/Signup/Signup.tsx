@@ -24,11 +24,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
 
-
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     console.log("new", values);
-
     if (toggleForm) {
       toggleForm();
     }
@@ -192,9 +190,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 />
               </FormControl>
             </div>
-            {(error as string | null) && (
-              <p className="mb-4 text-red-600">{error as React.ReactNode}</p>
-            )}
+            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
             {loading && <p className="mb-4 text-blue-600">Loading</p>}
             <div className="mt-6">
               <Button

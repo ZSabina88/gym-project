@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "../../shared/Buttons/button";
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-// import { logout } from "../../features/Auth/AuthSlice";
+import { logout } from "../../features/Auth/AuthSLice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -25,6 +25,7 @@ const UserPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
 
+  
   const handleSubmit = (values: {
     name: string;
     target: string;
@@ -35,17 +36,15 @@ const UserPage: React.FC = () => {
 
   useEffect(() => {
     if (!userToken) {
-      navigate("/");
+        navigate('/');
     }
-  }, [userToken, navigate]);
+}, [userToken, navigate]);
 
   const handleLogout = () => {
     const token = localStorage.getItem("userToken");
     if (token) {
-      // dispatch(logout());
-      navigate("/");
-    } else {
-      console.error("No token found for logout.");
+        dispatch(logout());
+        navigate("/");
     }
   };
 
