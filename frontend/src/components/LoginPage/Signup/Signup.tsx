@@ -24,14 +24,14 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error, userInfo } = useAppSelector((state) => state.signup);
+  const { loading, error, success } = useAppSelector((state) => state.signup);
 
   useEffect(() => {
-    if (userInfo) {
+    if (success) {
       console.log("signup success");
       navigate("/login");
     };
-  }, [navigate, userInfo]);
+  }, [navigate, success]);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));

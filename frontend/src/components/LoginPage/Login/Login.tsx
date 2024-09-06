@@ -9,6 +9,7 @@ import Button from "../../../shared/Buttons/button";
 import { FormikHelpers } from "formik";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 import * as Yup from "yup";
 import { AuthFormProps } from "../types";
@@ -31,9 +32,11 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const handleLogin = (values: any, { resetForm }: { resetForm: FormikHelpers<any>['resetForm'] }) => {
     dispatch(userLogin(values));
     console.log("new", values);
+    navigate('/user')
     resetForm();
   };
 
+  // const decodedData = jwtDecode("");
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
