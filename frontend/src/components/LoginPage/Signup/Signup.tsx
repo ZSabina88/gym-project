@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TextField,
   MenuItem,
@@ -17,20 +17,13 @@ import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";
-import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { loading, error, userInfo } = useAppSelector((state) => state.signup);
+  const { loading, error } = useAppSelector((state) => state.signup);
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     console.log("signup success");
-  //     navigate("/login");
-  //   };
-  // }, [navigate, userInfo]);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
@@ -95,9 +88,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                    {
-                      borderColor: "#9EF300",
-                    },
+                  {
+                    borderColor: "#9EF300",
+                  },
                 }}
               />
             </div>
@@ -116,9 +109,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <Field
@@ -154,9 +147,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <div>
