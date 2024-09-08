@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "../../shared/Buttons/button";
@@ -25,7 +25,6 @@ const UserPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
 
-  
   const handleSubmit = (values: {
     name: string;
     target: string;
@@ -36,21 +35,21 @@ const UserPage: React.FC = () => {
 
   useEffect(() => {
     if (!userToken) {
-        navigate('/');
+      navigate("/");
     }
-}, [userToken, navigate]);
+  }, [userToken, navigate]);
 
   const handleLogout = () => {
     const token = localStorage.getItem("userToken");
     if (token) {
-        dispatch(logout());
-        navigate("/");
+      dispatch(logout());
+      navigate("/");
     }
   };
 
   return (
-    <div className="flex p-4 w-full">
-      <div className="w-1/4 p-4 flex flex-col">
+    <div className="flex flex-col sm:flex-row p-4 w-full">
+      <div className="w-full p-4 flex flex-col items-center sm:w-1/4 sm:items-start">
         <h2 className="text-xl text-start font-semibold mb-4 border-l-4 border-customGreen px-4 py-6">
           General Information
         </h2>
@@ -62,7 +61,7 @@ const UserPage: React.FC = () => {
         </button>
       </div>
 
-      <div className="w-1/2 p-4">
+      <div className="w-full p-4 flex flex-col items-center sm:w-1/2 sm:max-w-[700px] sm:items-start sm:block p-4">
         <div className="flex items-center">
           <div className="w-16 h-16">
             <img
@@ -71,9 +70,7 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="ml-5 pt-1">
-            {/* Display user info here, e.g., name and email */}
-          </div>
+          <div className="ml-5 pt-1"></div>
         </div>
         <div className="mt-16">
           <Formik

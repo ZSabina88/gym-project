@@ -12,42 +12,30 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
-
-import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";
+import { signupValidationSchema } from "../../../shared/ValidationsSchemas/validations";
+import SuccessDialog from "../../../shared/Dialogs/SuccessDialog";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
 
   const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
-    console.log("new", values);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
     if (toggleForm) {
       toggleForm();
     }
   };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string()
-      .required("Required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/\d/, "Password must contain at least one number")
-      .matches(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        "Password must contain at least one special character"
-      ),
-    target: Yup.string().required("Required"),
-    activity: Yup.string().required("Required"),
-  });
 
   return (
     <>
@@ -59,7 +47,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
           target: "",
           activity: "",
         }}
-        validationSchema={validationSchema}
+        validationSchema={signupValidationSchema}
         onSubmit={handleSignUp}
       >
         {({ values, isSubmitting, errors, handleChange }) => (
@@ -86,9 +74,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                    {
+                      borderColor: "#9EF300",
+                    },
                 }}
               />
             </div>
@@ -107,9 +95,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -145,9 +133,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <div>
@@ -190,7 +178,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 />
               </FormControl>
             </div>
-            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
+            {(error as string | null) && (
+              <p className="mb-4 text-red-600">{error as React.ReactNode}</p>
+            )}
             {loading && <p className="mb-4 text-blue-600">Loading</p>}
             <div className="mt-6">
               <Button
@@ -214,6 +204,11 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
           </Form>
         )}
       </Formik>
+
+      <SuccessDialog
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 };

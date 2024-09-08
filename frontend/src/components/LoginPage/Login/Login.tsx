@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField, CircularProgress } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -8,24 +8,23 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "../../../shared/Buttons/button";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import * as Yup from "yup";
 import { AuthFormProps } from "../types";
 import { userLogin } from "../../../features/Auth/AuthActions";
+import { loginValidationSchema } from "../../../shared/ValidationsSchemas/validations";
+import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error, userToken } = useAppSelector((state) => state.login);
+  const { loading, userToken } = useAppSelector((state) => state.login);
 
   useEffect(() => {
     if (userToken) {
-      console.log("login success");
-      navigate('/user')
-    };
+      navigate("/user");
+    }
   }, [navigate, userToken]);
 
   const handleLogin = async (
@@ -37,40 +36,30 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
       resetForm();
       navigate("/user");
     } catch (err) {
-      setLoginError("Invalid email or password. Please try again.");
+      setOpenErrorModal(true);
     }
   };
 
-  // const decodedData = jwtDecode("");
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("Required"),
-  });
+  const handleCloseErrorModal = () => {
+    setOpenErrorModal(false);
+  };
 
   return (
     <>
       <Formik
         initialValues={{ email: "", password: "" }}
-        validationSchema={validationSchema}
+        validationSchema={loginValidationSchema}
         onSubmit={handleLogin}
       >
         {({ isSubmitting, errors }) => (
           <Form>
             <div className="mb-6 w-[350px] md:w-[440px] flex flex-start">
-              <p className="font-light text-customGray ">Welcome Back</p>
+              <p className="font-light text-customGray">Welcome Back</p>
             </div>
             <h2 className="mb-6 font-medium flex flex-start text-2xl">
               Log In to Your Account
             </h2>
-            <div>
-              {loginError && (
-                <div className="mb-4 text-red-600 text-start">{loginError}</div>
-              )}
-              {loading && (
-                <div className="mb-4 text-red-600 text-start">Loading...</div>
-              )}
-            </div>
+            <div></div>
             <Field
               as={TextField}
               name="email"
@@ -125,8 +114,11 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   },
               }}
             />
-            {error as string | null && <p className="mb-4 text-red-600">{error as React.ReactNode}</p>}
-            {loading && <p className="mb-4 text-red-600">Loading...</p>}
+            {loading && (
+              <div className="flex justify-center">
+                <CircularProgress sx={{ color: "#9EF300" }} />
+              </div>
+            )}
             <div className="mt-6">
               <Button
                 type="submit"
@@ -135,7 +127,6 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black hover:bg-green-300"
               ></Button>
             </div>
-
             <h2 className="mb-6">
               Don’t have an Account?{" "}
               <a
@@ -149,6 +140,12 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
           </Form>
         )}
       </Formik>
+
+      {/* Error Modal */}
+      <ErrorDialog
+        openErrorModal={openErrorModal}
+        handleCloseErrorModal={handleCloseErrorModal}
+      />
     </>
   );
 };
