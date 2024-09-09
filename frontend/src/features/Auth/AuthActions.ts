@@ -22,12 +22,7 @@ export const userSignup = createAsyncThunk<
 
             const data = response.data;
 
-
             console.log("Signup Response:", data);
-
-            if (response.status !== 201) {
-                return rejectWithValue(data.error || "An error occurred");
-            }
 
             return data;
         } catch (error: any) {
@@ -64,8 +59,6 @@ export const userLogin = createAsyncThunk<
         if (data.error) {
             return rejectWithValue(data.error);
         }
-
-
 
         localStorage.setItem('userToken', data.token);
         return data;

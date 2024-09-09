@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -9,10 +7,35 @@ import profileIMG from "../../assets/profile.svg";
 import notifIMG from "../../assets/notification.svg";
 import settingIMG from "../../assets/Settings.svg";
 import CloseIcon from "@mui/icons-material/Close";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+interface JwtPayloadType extends JwtPayload {
+  "cognito:groups"?: string[];
+  email?: string;
+}
 
 const Header: React.FC = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  //route start
+  const [roleState, setRoleState] = useState<string | undefined>("");
+  const [userMail, setUserMail] = useState<string | undefined>("");
+  const token = localStorage.getItem("userToken");
+
+  useEffect(() => {
+    if (token) {
+      const decodedData = jwtDecode<JwtPayloadType>(token);
+      const role = decodedData["cognito:groups"]?.[0];
+      const userEmail = decodedData.email;
+      setRoleState(role);
+      setUserMail(userEmail)
+      // console.log(role);
+      // console.log(userEmail);
+    }
+  }, []);
+
+  //route end
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,7 +48,7 @@ const Header: React.FC = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => { };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -96,12 +119,14 @@ const Header: React.FC = () => {
             >
               Coaches
             </Link>
-            <Link
-              to="/admin"
-              className="text-black text-lg no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
-            >
-              Admin
-            </Link>
+            {roleState?.includes("ADMINGroup") &&
+              <Link
+                to="/admin"
+                className="text-black text-lg no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
+              >
+                Admin
+              </Link>}
+
           </nav>
         </div>
         <div className="flex gap-4">
@@ -123,7 +148,7 @@ const Header: React.FC = () => {
                 className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
               >
                 <p>name</p>
-                <p>email</p>
+                {userMail ? <p>{userMail}</p> : <p>email</p>}
                 <div className="mt-12 flex">
                   <img src={settingIMG} className="mt-4" alt="Settings Icon" />
                   <Link to="/user" className="ml-4 flex flex-col text-start">
