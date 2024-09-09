@@ -1,5 +1,7 @@
-import coaches from "../../pages/Coaches/coaches-mock";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../features/store";
+import { fetchCoaches } from "../../features/Auth/CoachSlice";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -12,6 +14,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import { CircularProgress } from "@mui/material";
 
 ChartJS.register(
   Title,
@@ -38,68 +41,26 @@ interface RatingStats {
 }
 
 const AdminPanel = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [selectedCoach, setSelectedCoach] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Access state from Redux store
+  const { coaches, loading, error } = useSelector(
+    (state: RootState) => state.coaches
+  );
+
+  // Fetch coaches data when component mounts
+  useEffect(() => {
+    dispatch(fetchCoaches());
+  }, [dispatch]);
 
   const sessionStats: SessionStats = {
-    1: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [20, 25, 30, 15],
-    },
-    2: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [15, 18, 22, 28],
-    },
-    3: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [10, 20, 15, 25],
-    },
-    4: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [12, 24, 18, 30],
-    },
-    5: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [30, 22, 26, 20],
-    },
-    6: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [17, 19, 21, 23],
-    },
-    7: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [20, 25, 15, 30],
-    },
-    8: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [25, 30, 20, 10],
-    },
+    // Map your sessionStats here based on coaches
   };
 
   const ratingStats: RatingStats = {
-    1: {
-      rating: 4.5,
-    },
-    2: {
-      rating: 4.2,
-    },
-    3: {
-      rating: 4.7,
-    },
-    4: {
-      rating: 4.0,
-    },
-    5: {
-      rating: 4.3,
-    },
-    6: {
-      rating: 4.6,
-    },
-    7: {
-      rating: 4.1,
-    },
-    8: {
-      rating: 4.4,
-    },
+    // Map your ratingStats here based on coaches
   };
 
   const handleCoachClick = (coachId: number) => {
@@ -118,9 +79,32 @@ const AdminPanel = () => {
     return ratingStats[coachId] || { rating: 0 };
   };
 
+  const filteredCoaches = coaches.filter((coach) =>
+    coach.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <CircularProgress sx={{ color: "#9EF300" }} />
+      </div>
+    );
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Coach Statistics</h1>
+      <div className="flex w-full justify-between">
+        <h1 className="text-2xl font-bold mb-4">Coach Statistics</h1>
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search by coach name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border rounded-lg w-full"
+          />
+        </div>
+      </div>
       {selectedCoach ? (
         <div>
           <button
@@ -226,7 +210,7 @@ const AdminPanel = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-          {coaches.map((coach) => (
+          {filteredCoaches.map((coach) => (
             <div
               key={coach.id}
               className={`bg-white p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition ${
@@ -235,7 +219,7 @@ const AdminPanel = () => {
               onClick={() => handleCoachClick(coach.id)}
             >
               <img
-                src={coach.avatar}
+                src={coach.avatar || "default-avatar.png"} // Use default avatar if not available
                 alt={`${coach.name} Avatar`}
                 className="w-24 h-24 rounded-full mx-auto mb-4"
               />

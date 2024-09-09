@@ -19,7 +19,7 @@ import ProtectedRouteAdmin from "./components/ProtectedRouteAdmin/ProtectedRoute
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <RootLayout />, // RootLayout is applied to all routes here
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <HomePage /> },
@@ -29,10 +29,15 @@ const router = createBrowserRouter([
       { path: "/workouts", element: <Workouts /> },
       { path: "/coaches", element: <Coaches /> },
       { path: "/coaches/:id", element: <CoachDetail /> },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRouteAdmin>
+            <AdminPanel />
+          </ProtectedRouteAdmin>
+        ),
+      }, // Admin route is inside RootLayout
     ],
-  },
-  {
-    path: "/admin", element: <ProtectedRouteAdmin><AdminPanel/></ProtectedRouteAdmin>
   },
 ]);
 

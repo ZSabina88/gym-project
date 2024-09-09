@@ -1,14 +1,26 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import Calendar from "react-calendar"; // Import the Calendar component
-import coaches from "./coaches-mock";
+import { useLocation } from "react-router-dom";
+import Calendar from "react-calendar";
 import Button from "../../shared/Buttons/button";
-import "react-calendar/dist/Calendar.css"; // Import default styles for the calendar
-import "./calendar-custom.css"; // Import custom styles
+import "react-calendar/dist/Calendar.css";
+import "./calendar-custom.css";
+
+interface Coach {
+  id: string;
+  name: string;
+  description: string;
+  activity: string;
+  target: string;
+  status: string;
+  rating: number;
+  avatar: string;
+  role: string;
+  bio: string;
+}
 
 const CoachDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const coach = coaches.find((c) => c.id === parseInt(id || "0"));
+  const { state } = useLocation();
+  const coach = state?.coach as Coach; 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   if (!coach) {
@@ -19,7 +31,6 @@ const CoachDetail: React.FC = () => {
     setSelectedDate(date);
   };
 
-  // Format the selected date to "Jul 3" or "Sep 4"
   const formatDate = (date: Date) => {
     const formatter = new Intl.DateTimeFormat("en-US", {
       month: "short",
@@ -29,8 +40,8 @@ const CoachDetail: React.FC = () => {
   };
 
   return (
-    <div className="p-8 flex ">
-      <div className="w-1/3 flex flex-col ">
+    <div className="p-8 flex">
+      <div className="w-1/3 flex flex-col">
         <div className="w-[320px] flex flex-col">
           <img
             src={coach.avatar}
@@ -53,7 +64,7 @@ const CoachDetail: React.FC = () => {
             Book Workout
           </Button>
           <Button
-            className=" text-black border-2 border-black py-2 px-4 rounded-lg mt-4"
+            className="text-black border-2 border-black py-2 px-4 rounded-lg mt-4"
             onClick={() => alert("Message sent")}
           >
             Repeat Previous Workout
@@ -61,11 +72,11 @@ const CoachDetail: React.FC = () => {
         </div>
       </div>
 
-      <div className=" w-1/3 ">
+      <div className="w-1/3">
         <Calendar
           onChange={handleDateChange}
           value={selectedDate}
-          className="border-0 rounded-lg  p-4"
+          className="border-0 rounded-lg p-4"
           tileClassName={({ date, view }) =>
             `p-2 rounded-md ${
               view === "month" && date.getDay() === 0 ? "text-red-500" : ""
@@ -79,7 +90,7 @@ const CoachDetail: React.FC = () => {
           prev2Label={null}
         />
       </div>
-      <div className="w-1/3 ">
+      <div className="w-1/3">
         {selectedDate && (
           <p className="mt-6 text-black border-b-2 border-borderColor pb-3 text-start">
             {formatDate(selectedDate)}
