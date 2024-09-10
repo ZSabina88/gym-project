@@ -40,7 +40,7 @@ interface RatingStats {
   };
 }
 
-const AdminPanel = () => {
+const AdminPanelCoaches = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [selectedCoach, setSelectedCoach] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -219,7 +219,7 @@ const AdminPanel = () => {
               onClick={() => handleCoachClick(coach.id)}
             >
               <img
-                src={coach.avatar || "default-avatar.png"} // Use default avatar if not available
+                src={coach.avatar || "default-avatar.png"} 
                 alt={`${coach.name} Avatar`}
                 className="w-24 h-24 rounded-full mx-auto mb-4"
               />
@@ -238,4 +238,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default AdminPanelCoaches;

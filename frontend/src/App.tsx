@@ -12,14 +12,14 @@ import Workouts from "./pages/Workouts/Workout";
 import Coaches from "./pages/Coaches/Coaches";
 import SignUp from "./components/LoginPage/Signup/Signup";
 import Login from "./components/LoginPage/Login/Login";
-import AdminPanel from "./components/adminPanel/admin";
+import AdminPanel from "./components/adminPanel/mainPanel";
 import CoachDetail from "./pages/Coaches/coach-detail";
 import ProtectedRouteAdmin from "./components/ProtectedRouteAdmin/ProtectedRouteAdmin";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />, // RootLayout is applied to all routes here
+    element: <RootLayout />, 
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <HomePage /> },
