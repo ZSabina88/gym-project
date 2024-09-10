@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../features/store";
-import { fetchCoaches } from "../../features/Auth/CoachSlice";
+import { fetchCoaches } from "../../features/Users/CoachSlice";
+import pic from "../../assets/Avatar.png";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -45,23 +46,18 @@ const AdminPanelCoaches = () => {
   const [selectedCoach, setSelectedCoach] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // Access state from Redux store
   const { coaches, loading, error } = useSelector(
     (state: RootState) => state.coaches
   );
+  console.log(selectedCoach);
 
-  // Fetch coaches data when component mounts
   useEffect(() => {
     dispatch(fetchCoaches());
   }, [dispatch]);
 
-  const sessionStats: SessionStats = {
-    // Map your sessionStats here based on coaches
-  };
+  const sessionStats: SessionStats = {};
 
-  const ratingStats: RatingStats = {
-    // Map your ratingStats here based on coaches
-  };
+  const ratingStats: RatingStats = {};
 
   const handleCoachClick = (coachId: number) => {
     setSelectedCoach(coachId);
@@ -94,7 +90,7 @@ const AdminPanelCoaches = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="flex w-full justify-between">
-        <h1 className="text-2xl font-bold mb-4">Coach Statistics</h1>
+        <h1 className="text-2xl font-bold mb-4">Coach List</h1>
         <div className="mb-6">
           <input
             type="text"
@@ -115,7 +111,8 @@ const AdminPanelCoaches = () => {
           </button>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">
-              Statistics for {coaches.find((c) => c.id === selectedCoach)?.name}
+              Statistics for{" "}
+              {coaches.find((c) => c.id === selectedCoach.id)?.name}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -170,7 +167,7 @@ const AdminPanelCoaches = () => {
                     datasets: [
                       {
                         label: "Rating",
-                        data: [getRatingStats(selectedCoach).rating],
+                        data: [selectedCoach.rating],
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
                         borderColor: "rgba(255, 159, 64, 1)",
                         borderWidth: 1,
@@ -216,10 +213,10 @@ const AdminPanelCoaches = () => {
               className={`bg-white p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition ${
                 selectedCoach === coach.id ? "border-2 border-blue-500" : ""
               }`}
-              onClick={() => handleCoachClick(coach.id)}
+              onClick={() => handleCoachClick(coach)}
             >
               <img
-                src={coach.avatar || "default-avatar.png"} 
+                src={pic}
                 alt={`${coach.name} Avatar`}
                 className="w-24 h-24 rounded-full mx-auto mb-4"
               />

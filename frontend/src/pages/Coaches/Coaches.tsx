@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../features/store";
-import { Coach, fetchCoaches } from "../../features/Auth/CoachSlice";
+import { Coach, fetchCoaches } from "../../features/Users/CoachSlice";
 import pic from "../../assets/Avatar.png";
 import { CircularProgress } from "@mui/material";
 
@@ -10,11 +10,9 @@ const Coaches: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-
   const { coaches, loading, error } = useSelector(
     (state: RootState) => state.coaches
   );
-
 
   useEffect(() => {
     dispatch(fetchCoaches());
@@ -39,7 +37,7 @@ const Coaches: React.FC = () => {
           <div
             key={coach.id}
             className="p-4 rounded-lg flex flex-col cursor-pointer"
-            onClick={() => handleCoachClick(coach)} 
+            onClick={() => handleCoachClick(coach)}
           >
             <img
               src={pic} // Placeholder image

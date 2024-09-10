@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 export interface Coach {
   id: string;
   name: string;
@@ -18,13 +17,11 @@ interface CoachesState {
   loading: boolean;
 }
 
-
 const initialState: CoachesState = {
   coaches: [],
   error: null,
   loading: false,
 };
-
 
 export const fetchCoaches = createAsyncThunk<
   Coach[],
@@ -38,7 +35,7 @@ export const fetchCoaches = createAsyncThunk<
   }
 
   try {
-    const response = await axios.get("http://localhost:3000/coaches", {
+    const response = await axios.get("/coaches", { 
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -49,7 +46,6 @@ export const fetchCoaches = createAsyncThunk<
     return rejectWithValue(error.response?.data.message || "An error occurred");
   }
 });
-
 
 const coachesSlice = createSlice({
   name: "coaches",

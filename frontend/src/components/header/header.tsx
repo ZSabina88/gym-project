@@ -29,7 +29,7 @@ const Header: React.FC = () => {
       const role = decodedData["cognito:groups"]?.[0];
       const userEmail = decodedData.email;
       setRoleState(role);
-      setUserMail(userEmail)
+      setUserMail(userEmail);
       // console.log(role);
       // console.log(userEmail);
     }
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLogout = () => { };
+  const handleLogout = () => {};
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -95,7 +95,6 @@ const Header: React.FC = () => {
   const links = [
     { title: "Workouts", url: "/workouts" },
     { title: "Coaches", url: "/coaches" },
-    { title: "Admin", url: "/admin" },
   ];
 
   return (
@@ -119,14 +118,14 @@ const Header: React.FC = () => {
             >
               Coaches
             </Link>
-            {roleState?.includes("ADMINGroup") &&
+            {roleState?.includes("ADMINGroup") && (
               <Link
                 to="/admin"
                 className="text-black text-lg no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
               >
                 Admin
-              </Link>}
-
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex gap-4">
@@ -148,7 +147,13 @@ const Header: React.FC = () => {
                 className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
               >
                 <p>name</p>
-                {userMail ? <p>{userMail}</p> : <p>email</p>}
+                {userMail ? (
+                  <p className="break-all text-ellipsis max-w-[200px] overflow-hidden">
+                    {userMail}
+                  </p>
+                ) : (
+                  <p>email</p>
+                )}
                 <div className="mt-12 flex">
                   <img src={settingIMG} className="mt-4" alt="Settings Icon" />
                   <Link to="/user" className="ml-4 flex flex-col text-start">
@@ -207,12 +212,31 @@ const Header: React.FC = () => {
                 <Link
                   to={link.url}
                   onClick={toggleMenu}
-                  className="text-black text-4xl  no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
+                  className="text-black text-4xl no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
                 >
                   {link.title}
                 </Link>
               </motion.div>
             ))}
+
+            {roleState?.includes("ADMINGroup") && (
+              <motion.div
+                variants={linkVariants}
+                custom={links.length}
+                initial="hidden"
+                animate="visible"
+                className="mt-16"
+              >
+                <Link
+                  to="/admin"
+                  onClick={toggleMenu}
+                  className="text-black text-4xl no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
+                >
+                  Admin
+                </Link>
+              </motion.div>
+            )}
+
             <motion.div
               className="text-center"
               initial={{ opacity: 0, scale: 0.8 }}

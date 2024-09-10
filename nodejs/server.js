@@ -6,7 +6,7 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
-const baseURL = "https://00kr9p5mf2.execute-api.eu-north-1.amazonaws.com";
+const baseURL = "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com";
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -138,14 +138,11 @@ app.get("/users", async (req, res) => {
 
     const token = authHeader.split(" ")[1];
 
-    const response = await axios.get(
-      "https://00kr9p5mf2.execute-api.eu-north-1.amazonaws.com/api/v1/users",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${baseURL}/api/v1/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     res.json(response.data);
   } catch (error) {
@@ -161,6 +158,52 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.put("/api/v1/admin/role-change", async (req, res) => {
+  try {
+    const { userId, newRole, email } = req.body;
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.put(
+      `${baseURL}/api/v1/admin/role-change`,
+      { userId, newRole, email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = response.data;
+
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error("Error making API call:", error);
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res.status(500).json({
+        message: "No response from API",
+        error: error.request,
+      });
+    } else {
+      res.status(500).json({
+        message: "An error occurred",
+        error: error.message,
+      });
+    }
+  }
+});
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +214,7 @@ app.get("/users", async (req, res) => {
 // const testEndpoint = async () => {
 //   try {
 //     const response = await axios.get(
-//       "https://00kr9p5mf2.execute-api.eu-north-1.amazonaws.com/api/v1/users",
+//       "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com/api/v1/users",
 //       {
 //         headers: {
 //           Authorization:
@@ -198,7 +241,7 @@ app.get("/users", async (req, res) => {
 // const testCoachesEndpoint = async () => {
 //   try {
 //     const response = await axios.get(
-//       "https://00kr9p5mf2.execute-api.eu-north-1.amazonaws.com/api/v1/client/coaches",
+//       "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com/api/v1/client/coaches",
 //       {
 //         headers: {
 //           Authorization:
