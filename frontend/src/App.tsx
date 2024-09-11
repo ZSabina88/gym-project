@@ -36,7 +36,7 @@ const router = createBrowserRouter([
             <AdminPanel />
           </ProtectedRouteAdmin>
         ),
-      }, // Admin route is inside RootLayout
+      },
     ],
   },
 ]);

@@ -13,7 +13,7 @@ export interface Coach {
 
 interface CoachesState {
   coaches: Coach[];
-  error: string | null;
+  error: string | null | undefined;
   loading: boolean;
 }
 
