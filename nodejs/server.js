@@ -127,6 +127,39 @@ app.get("/users", async (req, res) => {
   }
 });
 
+
+app.get("/user", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.get(`${baseURL}/api/v1/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res
+        .status(500)
+        .json({ message: "No response from API", error: error.request });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
 app.put("/api/v1/admin/role-change", async (req, res) => {
   try {
     const { userId, newRole, email } = req.body;
