@@ -63,37 +63,6 @@ app.post("/api/v1/user/login", async (req, res) => {
   }
 });
 
-app.get("/api/v1/user/get-role", async (req, res) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        success: false,
-        error: "Authorization token is missing or invalid",
-      });
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    const response = await axios.get(`${baseURL}/api/v1/user/get-role`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = response.data;
-
-    res.status(response.status).json(data);
-  } catch (error) {
-    console.error("Error making API call:", error);
-    res.status(500).json({
-      success: false,
-      error: "An error occurred while communicating with the external API",
-    });
-  }
-});
-
 app.get("/coaches", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
