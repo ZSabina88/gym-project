@@ -8,6 +8,9 @@ import notifIMG from "../../assets/notification.svg";
 import settingIMG from "../../assets/Settings.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { logout } from "../../features/Auth/AuthSLice";
+import { useAppDispatch } from "../../hooks/authHooks";
+import { useNavigate } from "react-router-dom";
 
 interface JwtPayloadType extends JwtPayload {
   "cognito:groups"?: string[];
@@ -17,6 +20,9 @@ interface JwtPayloadType extends JwtPayload {
 const Header: React.FC = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   //route start
   const [roleState, setRoleState] = useState<string | undefined>("");
@@ -30,8 +36,6 @@ const Header: React.FC = () => {
       const userEmail = decodedData.email;
       setRoleState(role);
       setUserMail(userEmail);
-      // console.log(role);
-      // console.log(userEmail);
     }
   }, []);
 
@@ -48,7 +52,13 @@ const Header: React.FC = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      dispatch(logout());
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
