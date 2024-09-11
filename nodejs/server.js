@@ -6,7 +6,7 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
-const baseURL = "https://h1mst50nnd.execute-api.eu-north-1.amazonaws.com";
+const baseURL = "https://2zdyofp2nl.execute-api.eu-north-1.amazonaws.com";
 
 app.use(cors());
 app.use(bodyParser.json());
