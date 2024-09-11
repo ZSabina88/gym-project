@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../features/store";
-import { fetchUsers, updateUserRole } from "../../features/Users/userSlice";
+import { fetchUsers, updateUserRole } from "../../features/Users/UserActions";
 import { CircularProgress } from "@mui/material";
 
 const AdminPanelUsers: React.FC = () => {

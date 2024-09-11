@@ -46,7 +46,7 @@ const generateMockData = (
   return { sessionStats, ratingStats };
 };
 
-const AdminPanelCoaches = () => {
+const AdminPanelCoaches: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [selectedCoach, setSelectedCoach] = useState<Coach | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -92,9 +92,9 @@ const AdminPanelCoaches = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="flex w-full justify-between">
-        <h1 className="text-2xl font-bold mb-4">Coach List</h1>
-        <div className="mb-6">
+      <div className="flex w-full justify-between mb-6">
+        <h1 className="text-2xl font-bold">Coach List</h1>
+        <div className="w-full max-w-sm">
           <input
             type="text"
             placeholder="Search by coach name"
@@ -114,7 +114,7 @@ const AdminPanelCoaches = () => {
           onBackClick={handleBackClick}
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredCoaches.map((coach) => (
             <div
               key={coach.id}
