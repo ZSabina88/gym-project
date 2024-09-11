@@ -24,6 +24,9 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
+  const {users }= useAppSelector((state) => state.users);
+  console.log(users);
+  
 
   const handleSubmit = (values: {
     name: string;
