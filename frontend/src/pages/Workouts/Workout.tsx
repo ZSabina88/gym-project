@@ -2,12 +2,10 @@ import React from "react";
 
 import CalendarIMG from "../../assets/Calendar.svg";
 import { workouts } from "./workouts-mock";
-import UserList from "../../components/adminPanel/adminUsers";
 
 const Workouts: React.FC = () => {
   return (
     <div className="workouts px-8 pt-8">
-      <UserList />
       <ul className="grid grid-cols-2 gap-4">
         {workouts.map((workout) => (
           <div
