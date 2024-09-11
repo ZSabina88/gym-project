@@ -26,6 +26,7 @@ export const fetchUsers = createAsyncThunk<
   }
 });
 
+
 export const updateUserRole = createAsyncThunk<
   User,
   { userId: string; role: string; email: string },
@@ -55,7 +56,7 @@ export const updateUserRole = createAsyncThunk<
       console.error("Update User Role Error:", error);
       return rejectWithValue(
         error.response?.data.message ||
-          "An error occurred while updating the role"
+        "An error occurred while updating the role"
       );
     }
   }

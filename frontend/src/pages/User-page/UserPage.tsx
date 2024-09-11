@@ -13,6 +13,8 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
+import { getUserIdFromToken } from "../../utils/getUserIdFromToken";
+import { useUserById } from "../../hooks/useUserById";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -24,9 +26,15 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
-  const {users }= useAppSelector((state) => state.users);
-  console.log(users);
-  
+ 
+  const userIdFromToken = getUserIdFromToken();
+  const user = useUserById(userIdFromToken || "");
+
+  if (!userIdFromToken) {
+    return <div>Invalid or missing token</div>;
+  }
+
+
 
   const handleSubmit = (values: {
     name: string;
@@ -73,7 +81,10 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="ml-5 pt-1"></div>
+          <div className="ml-5 pt-1">
+              <p>{user && user.name}</p>
+              <p>{user && user.email}</p>
+          </div>
         </div>
         <div className="mt-16">
           <Formik
@@ -97,9 +108,9 @@ const UserPage: React.FC = () => {
                     InputLabelProps={{ style: { color: "black" } }}
                     sx={{
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   />
                 </div>
@@ -112,9 +123,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   >
                     <InputLabel>Your Target</InputLabel>
@@ -147,9 +158,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   >
                     <InputLabel>Preferred Activity</InputLabel>

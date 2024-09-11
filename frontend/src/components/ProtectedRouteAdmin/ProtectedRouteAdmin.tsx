@@ -12,8 +12,8 @@ interface ProtectedRouteAdminProps {
 
 const ProtectedRouteAdmin: React.FC<ProtectedRouteAdminProps> = ({ children }) => {
     const [roleState, setRoleState] = useState<string | undefined>("");
-    const token = localStorage.getItem("userToken");
     const location = useLocation();
+    const token = localStorage.getItem("userToken");
 
     useEffect(() => {
         if (token) {
