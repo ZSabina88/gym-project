@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../features/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { fetchUsers, updateUserRole } from "../../features/Users/UserActions";
 import { CircularProgress } from "@mui/material";
 
 const AdminPanelUsers: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { users, loading, error } = useSelector(
-    (state: RootState) => state.users
-  );
+  const dispatch = useAppDispatch();
+  const { users, loading, error } = useAppSelector((state) => state.users);
   const [editingRoles, setEditingRoles] = useState<{ [key: string]: string }>(
     {}
   );
@@ -44,7 +41,7 @@ const AdminPanelUsers: React.FC = () => {
     }
   };
 
-  const filteredUsers = users.filter((user) =>
+  const filteredUsers = users?.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
