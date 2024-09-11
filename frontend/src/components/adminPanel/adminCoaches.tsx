@@ -1,5 +1,8 @@
-import coaches from "../../pages/Coaches/coaches-mock";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../features/store";
+import { fetchCoaches } from "../../features/Users/CoachSlice";
+import pic from "../../assets/Avatar.png";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -12,6 +15,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import { CircularProgress } from "@mui/material";
 
 ChartJS.register(
   Title,
@@ -37,70 +41,23 @@ interface RatingStats {
   };
 }
 
-const AdminPanel = () => {
+const AdminPanelCoaches = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [selectedCoach, setSelectedCoach] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const sessionStats: SessionStats = {
-    1: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [20, 25, 30, 15],
-    },
-    2: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [15, 18, 22, 28],
-    },
-    3: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [10, 20, 15, 25],
-    },
-    4: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [12, 24, 18, 30],
-    },
-    5: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [30, 22, 26, 20],
-    },
-    6: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [17, 19, 21, 23],
-    },
-    7: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [20, 25, 15, 30],
-    },
-    8: {
-      dates: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      sessions: [25, 30, 20, 10],
-    },
-  };
+  const { coaches, loading, error } = useSelector(
+    (state: RootState) => state.coaches
+  );
+  console.log(selectedCoach);
 
-  const ratingStats: RatingStats = {
-    1: {
-      rating: 4.5,
-    },
-    2: {
-      rating: 4.2,
-    },
-    3: {
-      rating: 4.7,
-    },
-    4: {
-      rating: 4.0,
-    },
-    5: {
-      rating: 4.3,
-    },
-    6: {
-      rating: 4.6,
-    },
-    7: {
-      rating: 4.1,
-    },
-    8: {
-      rating: 4.4,
-    },
-  };
+  useEffect(() => {
+    dispatch(fetchCoaches());
+  }, [dispatch]);
+
+  const sessionStats: SessionStats = {};
+
+  const ratingStats: RatingStats = {};
 
   const handleCoachClick = (coachId: number) => {
     setSelectedCoach(coachId);
@@ -118,9 +75,32 @@ const AdminPanel = () => {
     return ratingStats[coachId] || { rating: 0 };
   };
 
+  const filteredCoaches = coaches.filter((coach) =>
+    coach.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <CircularProgress sx={{ color: "#9EF300" }} />
+      </div>
+    );
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Coach Statistics</h1>
+      <div className="flex w-full justify-between">
+        <h1 className="text-2xl font-bold mb-4">Coach List</h1>
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search by coach name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border rounded-lg w-full"
+          />
+        </div>
+      </div>
       {selectedCoach ? (
         <div>
           <button
@@ -131,7 +111,8 @@ const AdminPanel = () => {
           </button>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">
-              Statistics for {coaches.find((c) => c.id === selectedCoach)?.name}
+              Statistics for{" "}
+              {coaches.find((c) => c.id === selectedCoach.id)?.name}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -186,7 +167,7 @@ const AdminPanel = () => {
                     datasets: [
                       {
                         label: "Rating",
-                        data: [getRatingStats(selectedCoach).rating],
+                        data: [selectedCoach.rating],
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
                         borderColor: "rgba(255, 159, 64, 1)",
                         borderWidth: 1,
@@ -226,16 +207,16 @@ const AdminPanel = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-          {coaches.map((coach) => (
+          {filteredCoaches.map((coach) => (
             <div
               key={coach.id}
               className={`bg-white p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition ${
                 selectedCoach === coach.id ? "border-2 border-blue-500" : ""
               }`}
-              onClick={() => handleCoachClick(coach.id)}
+              onClick={() => handleCoachClick(coach)}
             >
               <img
-                src={coach.avatar}
+                src={pic}
                 alt={`${coach.name} Avatar`}
                 className="w-24 h-24 rounded-full mx-auto mb-4"
               />
@@ -254,4 +235,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default AdminPanelCoaches;

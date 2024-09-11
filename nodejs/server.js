@@ -6,10 +6,10 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
+const baseURL = "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com";
+
 app.use(cors());
 app.use(bodyParser.json());
-
-const baseURL = "https://w1u46j41ub.execute-api.eu-north-1.amazonaws.com";
 
 app.post("/api/v1/user/register", async (req, res) => {
   try {
@@ -65,7 +65,6 @@ app.post("/api/v1/user/login", async (req, res) => {
 
 app.get("/api/v1/user/get-role", async (req, res) => {
   try {
-    // Extract the Bearer token from the Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
@@ -74,19 +73,17 @@ app.get("/api/v1/user/get-role", async (req, res) => {
       });
     }
 
-    const token = authHeader.split(" ")[1]; // Get the token part
+    const token = authHeader.split(" ")[1];
 
-    // Make the external API call with the Bearer token
     const response = await axios.get(`${baseURL}/api/v1/user/get-role`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, // Include the Bearer token in the headers
+        Authorization: `Bearer ${token}`,
       },
     });
 
     const data = response.data;
 
-    // Respond with the data from the external API
     res.status(response.status).json(data);
   } catch (error) {
     console.error("Error making API call:", error);
@@ -96,6 +93,177 @@ app.get("/api/v1/user/get-role", async (req, res) => {
     });
   }
 });
+
+app.get("/coaches", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.get(`${baseURL}/api/v1/client/coaches`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res
+        .status(500)
+        .json({ message: "No response from API", error: error.request });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.get(`${baseURL}/api/v1/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res
+        .status(500)
+        .json({ message: "No response from API", error: error.request });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
+app.put("/api/v1/admin/role-change", async (req, res) => {
+  try {
+    const { userId, newRole, email } = req.body;
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.put(
+      `${baseURL}/api/v1/admin/role-change`,
+      { userId, newRole, email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = response.data;
+
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error("Error making API call:", error);
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res.status(500).json({
+        message: "No response from API",
+        error: error.request,
+      });
+    } else {
+      res.status(500).json({
+        message: "An error occurred",
+        error: error.message,
+      });
+    }
+  }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const testEndpoint = async () => {
+//   try {
+//     const response = await axios.get(
+//       "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com/api/v1/users",
+//       {
+//         headers: {
+//           Authorization:
+//             "Bearer ",
+//         },
+//       }
+//     );
+//     console.log("Status:", response.status);
+//     console.log("Data:", response.data);
+//   } catch (error) {
+//     if (error.response) {
+//       console.error("Error Status:", error.response.status);
+//       console.error("Error Data:", error.response.data);
+//     } else if (error.request) {
+//       console.error("No response from API", error.request);
+//     } else {
+//       console.error("Error Message:", error.message);
+//     }
+//   }
+// };
+
+// testEndpoint();
+
+// const testCoachesEndpoint = async () => {
+//   try {
+//     const response = await axios.get(
+//       "https://snyivrnrf9.execute-api.eu-north-1.amazonaws.com/api/v1/client/coaches",
+//       {
+//         headers: {
+//           Authorization:
+//             "Bearer ",
+//         },
+//       }
+//     );
+//     console.log("Status:", response.status);
+//     console.log("Data:", response.data);
+//   } catch (error) {
+//     if (error.response) {
+//       console.error("Error Status:", error.response.status);
+//       console.error("Error Data:", error.response.data);
+//     } else if (error.request) {
+//       console.error("No response from API", error.request);
+//     } else {
+//       console.error("Error Message:", error.message);
+//     }
+//   }
+// };
+
+// testCoachesEndpoint();
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
