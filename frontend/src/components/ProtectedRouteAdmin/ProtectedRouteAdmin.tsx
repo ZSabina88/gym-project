@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-// import { useAppSelector } from "../../hooks/authHooks";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
 interface JwtPayloadType extends JwtPayload {
@@ -15,7 +14,6 @@ const ProtectedRouteAdmin: React.FC<ProtectedRouteAdminProps> = ({ children }) =
     const [roleState, setRoleState] = useState<string | undefined>("");
     const token = localStorage.getItem("userToken");
     const location = useLocation();
-    // const {role} = useAppSelector((state)=> state.users.users);
 
     useEffect(() => {
         if (token) {
