@@ -1,7 +1,7 @@
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 interface PayloadType extends JwtPayload {
-    sub: string;
+    email: string;
 }
 
 export const getUserIdFromToken = (): string | null => {
@@ -10,7 +10,7 @@ export const getUserIdFromToken = (): string | null => {
 
     try {
         const decoded = jwtDecode<PayloadType>(token);
-        return decoded.sub;
+        return decoded.email;
     } catch (error) {
         console.error("Failed to decode token:", error);
         return null;

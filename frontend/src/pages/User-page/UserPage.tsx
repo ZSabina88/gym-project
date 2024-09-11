@@ -26,15 +26,15 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
+  const  {users} = useAppSelector((state) => state.users);
+
  
   const userIdFromToken = getUserIdFromToken();
-  const user = useUserById(userIdFromToken || "");
-
-  if (!userIdFromToken) {
-    return <div>Invalid or missing token</div>;
-  }
-
-
+  // const user = useUserById(userIdFromToken || "");
+  // const user = users.find((user) => user.id === userIdFromToken);
+  const user = users.find((user) => user.email.trim() === userIdFromToken?.trim());
+  console.log(user);
+  
 
   const handleSubmit = (values: {
     name: string;
@@ -82,8 +82,8 @@ const UserPage: React.FC = () => {
             />
           </div>
           <div className="ml-5 pt-1">
-              <p>{user && user.name}</p>
-              <p>{user && user.email}</p>
+              {/* <p>{user && user.name}</p>
+              <p>{user && user.email}</p> */}
           </div>
         </div>
         <div className="mt-16">
