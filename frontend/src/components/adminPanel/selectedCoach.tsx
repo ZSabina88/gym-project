@@ -11,7 +11,8 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import jsPDF from "jspDF";
+import jsPDF from "jspdf";
+
 import * as XLSX from "xlsx";
 import autoTable from "jspdf-autotable";
 
