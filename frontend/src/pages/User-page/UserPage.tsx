@@ -1,3 +1,5 @@
+
+
 import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -27,7 +29,7 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
-  const { user } = useAppSelector((state) => state.user);
+  const { user, loading, error } = useAppSelector((state) => state.user);
   console.log(user);
 
 
@@ -87,6 +89,9 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
+          
+          {/* {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">{error}</p>}
           {user.length > 0 ?
             user.map((item) => (
               <div className="ml-5 pt-1" key={item.id}>
@@ -98,7 +103,7 @@ const UserPage: React.FC = () => {
               <p>User name</p>
               <p>User email</p>
             </div>
-          }
+          } */}
           {/* <div className="ml-5 pt-1"> */}
           {/* {user ? <p>{user.name}</p> : <p>User name</p>}
             {user ? <p>{user.email}</p> : <p>User email</p>} */}
