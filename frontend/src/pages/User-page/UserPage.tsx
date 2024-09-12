@@ -13,7 +13,8 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
-import { getUserIdFromToken } from "../../utils/getUserIdFromToken";
+import { fetchUser } from "../../features/Users/SingleUserSLice";
+// import { getUserIdFromToken } from "../../utils/getUserIdFromToken";
 // import { useUserById } from "../../hooks/useUserById";
 
 const validationSchema = Yup.object().shape({
@@ -26,15 +27,20 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
-  const  {users} = useAppSelector((state) => state.users);
+  const { user } = useAppSelector((state) => state.user);
+  console.log(user);
 
- 
-  const userIdFromToken = getUserIdFromToken();
+
+
+  // const userIdFromToken = getUserIdFromToken();
   // const user = useUserById(userIdFromToken || "");
   // const user = users.find((user) => user.id === userIdFromToken);
-  const user = users.find((user) => user.email.trim() === userIdFromToken?.trim());
-  console.log(user);
-  
+  // console.log(user);
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
 
   const handleSubmit = (values: {
     name: string;
@@ -81,10 +87,22 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="ml-5 pt-1">
-              {/* <p>{user && user.name}</p>
-              <p>{user && user.email}</p> */}
-          </div>
+          {user.length > 0 ?
+            user.map((item) => (
+              <div className="ml-5 pt-1" key={item.id}>
+                <p>{item.name}</p>
+                <p>{item.email}</p>
+              </div>
+            )) :
+            <div className="ml-5 pt-1">
+              <p>User name</p>
+              <p>User email</p>
+            </div>
+          }
+          {/* <div className="ml-5 pt-1"> */}
+          {/* {user ? <p>{user.name}</p> : <p>User name</p>}
+            {user ? <p>{user.email}</p> : <p>User email</p>} */}
+          {/* </div> */}
         </div>
         <div className="mt-16">
           <Formik

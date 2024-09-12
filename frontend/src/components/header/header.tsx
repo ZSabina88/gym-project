@@ -9,8 +9,9 @@ import settingIMG from "../../assets/Settings.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { logout } from "../../features/Auth/AuthSLice";
-import { useAppDispatch } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
+import { fetchUser } from "../../features/Users/SingleUserSLice";
 
 interface JwtPayloadType extends JwtPayload {
   "cognito:groups"?: string[];
@@ -23,11 +24,15 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
 
   //route start
   const [roleState, setRoleState] = useState<string | undefined>("");
   const [userMail, setUserMail] = useState<string | undefined>("");
   const token = localStorage.getItem("userToken");
+  const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (token) {
@@ -156,14 +161,16 @@ const Header: React.FC = () => {
                 ref={dropdownRef}
                 className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
               >
-                <p>name</p>
+                {user ? <p>{user[0].name}</p> : <p>User name</p>}
+                {user ? <p>{user[0].email}</p> : <p>User email</p>}
+                {/* <p>name</p>
                 {userMail ? (
                   <p className="break-all text-ellipsis max-w-[200px] overflow-hidden">
                     {userMail}
                   </p>
                 ) : (
                   <p>email</p>
-                )}
+                )} */}
                 <div className="mt-12 flex">
                   <img src={settingIMG} className="mt-4" alt="Settings Icon" />
                   <Link to="/user" className="ml-4 flex flex-col text-start">
@@ -229,6 +236,7 @@ const Header: React.FC = () => {
               </motion.div>
             ))}
 
+            {/* {user[0].role === "ADMIN" && ( */}
             {roleState?.includes("ADMINGroup") && (
               <motion.div
                 variants={linkVariants}
