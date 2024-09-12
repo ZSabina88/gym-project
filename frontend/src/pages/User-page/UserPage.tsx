@@ -1,5 +1,3 @@
-
-
 import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,9 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
-import { fetchUser } from "../../features/Users/SingleUserSLice";
-// import { getUserIdFromToken } from "../../utils/getUserIdFromToken";
-// import { useUserById } from "../../hooks/useUserById";
+import { fetchUser, changeUserInfo } from "../../features/Users/SingleUserSLice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -29,26 +25,28 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
-  const { user, loading, error } = useAppSelector((state) => state.user);
-  console.log(user);
+  const { user, error } = useAppSelector((state) => state.user);
+  // const { changeInfo } = useAppSelector((state) => state.changeInfo);
 
-
-
-  // const userIdFromToken = getUserIdFromToken();
-  // const user = useUserById(userIdFromToken || "");
-  // const user = users.find((user) => user.id === userIdFromToken);
-  // console.log(user);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
+  const userInfo = [
+    { label: "Name", value: user?.name },
+    { label: "Email", value: user?.email },
+    { label: "Role", value: user?.role },
+    { label: "Target", value: user?.target },
+    { label: "Activity", value: user?.activity },
+  ];
 
   const handleSubmit = (values: {
     name: string;
     target: string;
     activity: string;
   }) => {
+    dispatch(changeUserInfo(values));
     console.log("User data updated", values);
   };
 
@@ -67,7 +65,7 @@ const UserPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row p-4 w-full">
+    <section className="flex flex-col sm:flex-row p-4 w-full">
       <div className="w-full p-4 flex flex-col items-center sm:w-1/4 sm:items-start">
         <h2 className="text-xl text-start font-semibold mb-4 border-l-4 border-customGreen px-4 py-6">
           General Information
@@ -89,25 +87,14 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          
-          {/* {loading && <p>Loading...</p>}
           {error && <p className="text-red-500">{error}</p>}
-          {user.length > 0 ?
-            user.map((item) => (
-              <div className="ml-5 pt-1" key={item.id}>
-                <p>{item.name}</p>
-                <p>{item.email}</p>
-              </div>
-            )) :
-            <div className="ml-5 pt-1">
-              <p>User name</p>
-              <p>User email</p>
-            </div>
-          } */}
-          {/* <div className="ml-5 pt-1"> */}
-          {/* {user ? <p>{user.name}</p> : <p>User name</p>}
-            {user ? <p>{user.email}</p> : <p>User email</p>} */}
-          {/* </div> */}
+          <div className="flex flex-col justify-center ml-8">
+            {userInfo.map((info, index) => (
+              <p key={index} className="px-2 py-1">
+                {info.label}:&emsp;{info.value && info.value}
+              </p>
+            ))}
+          </div>
         </div>
         <div className="mt-16">
           <Formik
@@ -223,7 +210,7 @@ const UserPage: React.FC = () => {
           </Formik>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -7,44 +7,23 @@ import profileIMG from "../../assets/profile.svg";
 import notifIMG from "../../assets/notification.svg";
 import settingIMG from "../../assets/Settings.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import { jwtDecode, JwtPayload } from "jwt-decode";
 import { logout } from "../../features/Auth/AuthSLice";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { fetchUser } from "../../features/Users/SingleUserSLice";
 
-interface JwtPayloadType extends JwtPayload {
-  "cognito:groups"?: string[];
-  email?: string;
-}
 
 const Header: React.FC = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const { user } = useAppSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
-
-  //route start
-  const [roleState, setRoleState] = useState<string | undefined>("");
-  const [userMail, setUserMail] = useState<string | undefined>("");
-  const token = localStorage.getItem("userToken");
-  const { user } = useAppSelector((state) => state.user);
-
-  useEffect(() => {
-    if (token) {
-      const decodedData = jwtDecode<JwtPayloadType>(token);
-      const role = decodedData["cognito:groups"]?.[0];
-      const userEmail = decodedData.email;
-      setRoleState(role);
-      setUserMail(userEmail);
-    }
-  }, []);
-
-  //route end
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -133,7 +112,7 @@ const Header: React.FC = () => {
             >
               Coaches
             </Link>
-            {roleState?.includes("ADMINGroup") && (
+            {user && user.role === "ADMIN" && (
               <Link
                 to="/admin"
                 className="text-black text-lg no-underline hover:underline hover:decoration-customGreen hover:underline-offset-8"
@@ -161,16 +140,8 @@ const Header: React.FC = () => {
                 ref={dropdownRef}
                 className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
               >
-                {user ? <p>{user[0].name}</p> : <p>User name</p>}
-                {user ? <p>{user[0].email}</p> : <p>User email</p>}
-                {/* <p>name</p>
-                {userMail ? (
-                  <p className="break-all text-ellipsis max-w-[200px] overflow-hidden">
-                    {userMail}
-                  </p>
-                ) : (
-                  <p>email</p>
-                )} */}
+                {user ? <p>{user.name}</p> : <p>User name</p>}
+                {user ? <p>{user.email}</p> : <p>User email</p>}
                 <div className="mt-12 flex">
                   <img src={settingIMG} className="mt-4" alt="Settings Icon" />
                   <Link to="/user" className="ml-4 flex flex-col text-start">
@@ -235,9 +206,7 @@ const Header: React.FC = () => {
                 </Link>
               </motion.div>
             ))}
-
-            {/* {user[0].role === "ADMIN" && ( */}
-            {roleState?.includes("ADMINGroup") && (
+            {user && user.role === "ADMIN" && (
               <motion.div
                 variants={linkVariants}
                 custom={links.length}

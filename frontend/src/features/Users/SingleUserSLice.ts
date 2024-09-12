@@ -11,19 +11,41 @@ export interface User {
 }
 
 interface UserState {
-  user: User[];
-  error: string | null | undefined;
+  user: User | null;
   loading: boolean;
+  error: string | null | undefined;
 }
 
 const initialState: UserState = {
-  user: [],
-  error: null,
+  user: null,
   loading: false,
+  error: null,
+};
+interface UserInfo {
+  name: string;
+  target: string;
+  activity: string;
+}
+interface ChangeInfoState {
+  changeInfo: UserInfo | null;
+  loading: boolean;
+  error: string | null | undefined;
+}
+
+
+interface UserPayload {
+  name: string;
+  target: string;
+  activity: string;
+}
+const initialStateChangeInfo: ChangeInfoState = {
+  changeInfo: null,
+  loading: false,
+  error: null,
 };
 
 export const fetchUser = createAsyncThunk<
-  User[],
+  User,
   void,
   { rejectValue: string }
 >("user/fetchUser", async (_, { rejectWithValue }) => {
@@ -34,7 +56,7 @@ export const fetchUser = createAsyncThunk<
   }
 
   try {
-    const response = await axios.get("/user", { 
+    const response = await axios.get("/user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -45,6 +67,40 @@ export const fetchUser = createAsyncThunk<
     return rejectWithValue(error.response?.data.message || "An error occurred");
   }
 });
+
+export const changeUserInfo = createAsyncThunk<
+  UserInfo,
+  UserPayload,
+  { rejectValue: string }
+>(
+  "user/changeUserInfo",
+  async ({ name, target, activity }, { rejectWithValue }) => {
+    const token = localStorage.getItem("userToken");
+
+    if (!token) {
+      return rejectWithValue("Token not available");
+    }
+
+    try {
+      const response = await axios.put(
+        "/user",
+        { name, target, activity },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data.message || "An error occurred while updating user info");
+      }
+      console.error("Update User Info Error:", error);
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -68,4 +124,27 @@ const userSlice = createSlice({
   },
 });
 
+const changeInfoSlice = createSlice({
+  name: "changeInfo",
+  initialState: initialStateChangeInfo,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(changeUserInfo.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeUserInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.changeInfo = action.payload;
+      })
+      .addCase(changeUserInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
 export default userSlice;
+export { changeInfoSlice };
