@@ -6,7 +6,7 @@ const axios = require("axios");
 const app = express();
 const port = 3000;
 
-const baseURL = "https://2zdyofp2nl.execute-api.eu-north-1.amazonaws.com";
+const baseURL = "https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com";
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -126,6 +126,110 @@ app.get("/users", async (req, res) => {
     }
   }
 });
+app.get("/user", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const response = await axios.get(`${baseURL}/api/v1/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      res
+        .status(500)
+        .json({ message: "No response from API", error: error.request });
+    } else {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
+app.put("/user", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const userData = req.body;
+
+    const response = await axios.put(`${baseURL}/api/v1/user`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: response.data,
+    });
+  } catch (error) {
+    console.error("Error updating user info:", error);
+
+    if (error.response) {
+      return res
+        .status(error.response.status)
+        .json({ success: false, error: error.response.data.message });
+    } else if (error.request) {
+      return res
+        .status(500)
+        .json({ success: false, error: "No response from API" });
+    } else {
+      return res.status(500).json({ success: false, error: error.message });
+    }
+  }
+});
+
+// app.put("/user", async (req, res) => {
+//   try {
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       return res.status(401).json({
+//         success: false,
+//         error: "Authorization token is missing or invalid",
+//       });
+//     }
+
+//     const token = authHeader.split(" ")[1];
+//     const userData = req.body;
+
+//     const response = await axios.put(`${baseURL}/api/v1/user`, userData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+
+//     res.json(response.data);
+//   } catch (error) {
+//     if (error.response) {
+//       res.status(error.response.status).json(error.response.data);
+//     } else if (error.request) {
+//       res
+//         .status(500)
+//         .json({ message: "No response from API", error: error.request });
+//     } else {
+//       res.status(500).json({ message: error.message });
+//     }
+//   }
+// });
 
 app.put("/api/v1/admin/role-change", async (req, res) => {
   try {
