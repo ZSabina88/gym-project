@@ -26,7 +26,6 @@ const UserPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
   const { user, error } = useAppSelector((state) => state.user);
-  // const { changeInfo } = useAppSelector((state) => state.changeInfo);
 
 
   useEffect(() => {
