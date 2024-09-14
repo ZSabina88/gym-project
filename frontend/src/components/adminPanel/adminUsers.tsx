@@ -40,13 +40,11 @@ const AdminPanelUsers: React.FC = () => {
         });
     }
   };
-
   const filteredUsers = users
-  .filter((user) => user.role !== "ADMIN")
-  .filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+    ?.filter((user) => user.role !== "ADMIN")
+    .filter((user) =>
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   if (loading)
     return (
@@ -58,7 +56,7 @@ const AdminPanelUsers: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex w-full justify-between">
+      <div className="flex flex-col md:flex-row w-full justify-between">
         <h1 className="text-2xl font-bold mb-4">Users List</h1>
         <div className="mb-6">
           <input

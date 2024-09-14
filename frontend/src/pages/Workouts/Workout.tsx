@@ -2,8 +2,6 @@ import React from "react";
 
 import CalendarIMG from "../../assets/Calendar.svg";
 import { workouts } from "./workouts-mock";
-// import UserList from "../../components/adminPanel/adminUsers";
-{/* <UserList /> */}
 
 const Workouts: React.FC = () => {
   return (

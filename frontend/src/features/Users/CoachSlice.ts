@@ -35,7 +35,7 @@ export const fetchCoaches = createAsyncThunk<
   }
 
   try {
-    const response = await axios.get("/coaches", { 
+    const response = await axios.get("/coaches", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -64,7 +64,8 @@ const coachesSlice = createSlice({
       })
       .addCase(fetchCoaches.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+
+        state.error = action.payload || "An error occurred";
       });
   },
 });
