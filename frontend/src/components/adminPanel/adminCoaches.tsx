@@ -92,7 +92,7 @@ const AdminPanelCoaches: React.FC = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="flex w-full justify-between mb-6">
+      <div className="flex flex-col md:flex-row w-full justify-between">
         <h1 className="text-2xl font-bold">Coach List</h1>
         <div className="w-full max-w-sm">
           <input
@@ -100,7 +100,7 @@ const AdminPanelCoaches: React.FC = () => {
             placeholder="Search by coach name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border rounded-lg w-full"
+            className="p-2 border rounded-lg w-full my-4"
           />
         </div>
       </div>

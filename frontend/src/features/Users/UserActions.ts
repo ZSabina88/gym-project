@@ -1,4 +1,4 @@
-import { User } from "./UserSlice";
+import { User } from "./userSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 

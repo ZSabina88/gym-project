@@ -12,6 +12,8 @@ const RootLayout: React.FC = () => {
       return "My Account";
     } else if (location.pathname.includes("/coaches")) {
       return "Coaches";
+    } else if (location.pathname.includes("/admin")) {
+      return "Admin";
     } else if (location.pathname.includes("/workouts")) {
       return `Hello,`;
     }

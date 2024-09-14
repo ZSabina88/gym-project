@@ -40,10 +40,11 @@ const AdminPanelUsers: React.FC = () => {
         });
     }
   };
-
-  const filteredUsers = users?.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users
+    ?.filter((user) => user.role !== "ADMIN")
+    .filter((user) =>
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   if (loading)
     return (
