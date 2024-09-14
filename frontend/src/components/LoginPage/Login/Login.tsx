@@ -12,6 +12,7 @@ import { AuthFormProps } from "../types";
 import { userLogin } from "../../../features/Auth/AuthActions";
 import { loginValidationSchema } from "../../../shared/ValidationsSchemas/validations";
 import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
+import { LoginPayload } from "../../../features/Auth/AuthTypes";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +29,7 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   }, [navigate, userToken]);
 
   const handleLogin = async (
-    values: any,
+    values: LoginPayload,
     { resetForm }: { resetForm: FormikHelpers<any>["resetForm"] }
   ) => {
     try {

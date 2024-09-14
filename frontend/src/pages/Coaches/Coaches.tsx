@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../../features/store";
 import { Coach, fetchCoaches } from "../../features/Users/CoachSlice";
 import pic from "../../assets/Avatar.png";
 import { CircularProgress } from "@mui/material";
 
 const Coaches: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { coaches, loading, error } = useSelector(
-    (state: RootState) => state.coaches
-  );
+  const { coaches, loading, error } = useAppSelector((state) => state.coaches);
 
   useEffect(() => {
     dispatch(fetchCoaches());

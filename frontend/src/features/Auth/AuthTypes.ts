@@ -2,8 +2,8 @@ export interface SignupPayload {
     name: string;
     email: string;
     password: string;
-    target: "Lose Weight" | "Gain Weight"; 
-    activity: "GYM" | "Yoga" | "Cycling";
+    target: string; 
+    activity: string;
 }
 
 export interface LoginPayload {
