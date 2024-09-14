@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks/authHooks";
-import { fetchUser } from "../../features/Users/SingleUserSLice";
+import { fetchUser } from "../../features/Users/SingleUser/SingleUserSLice";
 
 
 interface ProtectedRouteAdminProps {

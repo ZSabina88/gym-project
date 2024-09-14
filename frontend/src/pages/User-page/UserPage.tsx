@@ -13,7 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
-import { fetchUser, changeUserInfo } from "../../features/Users/SingleUserSLice";
+import { fetchUser, changeUserInfo } from "../../features/Users/SingleUser/SingleUserAction";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
