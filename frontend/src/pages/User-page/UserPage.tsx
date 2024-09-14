@@ -13,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
+import { fetchUser, changeUserInfo } from "../../features/Users/SingleUser/SingleUserAction";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -24,12 +25,27 @@ const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { userToken } = useAppSelector((state) => state.login);
+  const { user, error } = useAppSelector((state) => state.user);
+  // const { changeInfo } = useAppSelector((state) => state.changeInfo);
+
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  const userInfo = [
+    { label: "Name", value: user?.name },
+    { label: "Email", value: user?.email },
+    { label: "Target", value: user?.target },
+    { label: "Activity", value: user?.activity },
+  ];
 
   const handleSubmit = (values: {
     name: string;
     target: string;
     activity: string;
   }) => {
+    dispatch(changeUserInfo(values));
     console.log("User data updated", values);
   };
 
@@ -48,7 +64,7 @@ const UserPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row p-4 w-full">
+    <section className="flex flex-col sm:flex-row p-4 w-full">
       <div className="w-full p-4 flex flex-col items-center sm:w-1/4 sm:items-start">
         <h2 className="text-xl text-start font-semibold mb-4 border-l-4 border-customGreen px-4 py-6">
           General Information
@@ -70,7 +86,14 @@ const UserPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="ml-5 pt-1"></div>
+          {error && <p className="text-red-500">{error}</p>}
+          <div className="flex flex-col justify-center ml-8">
+            {userInfo.map((info, index) => (
+              <p key={index} className="px-2 py-1">
+                {info.label}:&emsp;{info.value && info.value}
+              </p>
+            ))}
+          </div>
         </div>
         <div className="mt-16">
           <Formik
@@ -94,9 +117,9 @@ const UserPage: React.FC = () => {
                     InputLabelProps={{ style: { color: "black" } }}
                     sx={{
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   />
                 </div>
@@ -109,9 +132,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   >
                     <InputLabel>Your Target</InputLabel>
@@ -144,9 +167,9 @@ const UserPage: React.FC = () => {
                         color: "black",
                       },
                       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
+                      {
+                        borderColor: "#9EF300",
+                      },
                     }}
                   >
                     <InputLabel>Preferred Activity</InputLabel>
@@ -186,7 +209,7 @@ const UserPage: React.FC = () => {
           </Formik>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

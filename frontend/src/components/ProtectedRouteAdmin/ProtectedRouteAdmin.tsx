@@ -1,32 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { useAppSelector, useAppDispatch } from "../../hooks/authHooks";
+import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction"; 
 
-interface JwtPayloadType extends JwtPayload {
-    "cognito:groups"?: string[];
-}
 
 interface ProtectedRouteAdminProps {
     children?: React.ReactNode;
 }
 
 const ProtectedRouteAdmin: React.FC<ProtectedRouteAdminProps> = ({ children }) => {
-    const [roleState, setRoleState] = useState<string | undefined>("");
-    const token = localStorage.getItem("userToken");
     const location = useLocation();
-
+    const dispatch = useAppDispatch();
+    const { user } = useAppSelector((state) => state.user);
     useEffect(() => {
-        if (token) {
-            const decodedData = jwtDecode<JwtPayloadType>(token);
-            const role = decodedData["cognito:groups"]?.[0];
-            setRoleState(role);
-            console.log(role);
-        }
-    }, []);
+        dispatch(fetchUser());
+    }, [dispatch]);
 
-    if (!token) return <Navigate to="/" />;
-
-    if (roleState?.includes("ADMINGroup")) {
+    if (user && user.role === "ADMIN") {
         return children;
     }
     else {

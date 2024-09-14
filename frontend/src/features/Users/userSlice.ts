@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUsers, updateUserRole } from "./UserActions";
+import { fetchUsers } from "./UserActions";
 
 export interface User {
   id: string;
@@ -44,21 +44,6 @@ const usersSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(updateUserRole.pending, (state) => {
-        state.error = null;
-      })
-      .addCase(updateUserRole.fulfilled, (state, action) => {
-        const updatedUser = action.payload;
-        const index = state.users.findIndex(
-          (user) => user.id === updatedUser.id
-        );
-        if (index !== -1) {
-          state.users[index].role = updatedUser.role;
-        }
-      })
-      .addCase(updateUserRole.rejected, (state, action) => {
-        state.error = action.payload;
-      });
   },
 });
 
