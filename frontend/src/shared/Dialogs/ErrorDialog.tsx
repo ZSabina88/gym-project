@@ -8,11 +8,13 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 interface ErrorDialogProps {
+  message: string;
   openErrorModal: boolean;
   handleCloseErrorModal: () => void;
 }
 
 const ErrorDialog: React.FC<ErrorDialogProps> = ({
+  message,
   openErrorModal,
   handleCloseErrorModal,
 }) => {
@@ -69,7 +71,7 @@ const ErrorDialog: React.FC<ErrorDialogProps> = ({
 
 
         <Typography variant="body1" sx={{ marginBottom: "1.5rem" }}>
-          Invalid email or password. Please try again.
+          {message}
         </Typography>
 
         <MuiButton

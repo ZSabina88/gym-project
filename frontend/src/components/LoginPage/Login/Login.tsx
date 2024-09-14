@@ -13,6 +13,7 @@ import { userLogin } from "../../../features/Auth/AuthActions";
 import { loginValidationSchema } from "../../../shared/ValidationsSchemas/validations";
 import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
 import { LoginPayload } from "../../../features/Auth/AuthTypes";
+import LoginToggleLink from "../../../shared/LoginToggleLink/LoginToggleLink";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,12 +31,11 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const handleLogin = async (
     values: LoginPayload,
-    { resetForm }: { resetForm: FormikHelpers<any>["resetForm"] }
+    { resetForm }: { resetForm: FormikHelpers<LoginPayload>["resetForm"] }
   ) => {
     try {
       await dispatch(userLogin(values)).unwrap();
       resetForm();
-      navigate("/user");
     } catch (err) {
       setOpenErrorModal(true);
     }
@@ -74,9 +74,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <Field
@@ -110,9 +110,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             {loading && (
@@ -128,22 +128,18 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black hover:bg-green-300"
               ></Button>
             </div>
-            <h2 className="mb-6">
-              Don’t have an Account?{" "}
-              <a
-                href="#"
-                onClick={toggleForm}
-                className="text-black font-bold underline cursor-pointer"
-              >
-                CREATE NEW ACCOUNT
-              </a>
-            </h2>
+            <LoginToggleLink
+              text="Don’t have an Account?"
+              linkText="CREATE NEW ACCOUNT"
+              onClick={toggleForm ?? (() => { })}
+            />
           </Form>
         )}
       </Formik>
 
       {/* Error Modal */}
       <ErrorDialog
+        message="Invalid email or password. Please try again."
         openErrorModal={openErrorModal}
         handleCloseErrorModal={handleCloseErrorModal}
       />
