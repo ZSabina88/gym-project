@@ -36,7 +36,6 @@ const UserPage: React.FC = () => {
   const userInfo = [
     { label: "Name", value: user?.name },
     { label: "Email", value: user?.email },
-    { label: "Role", value: user?.role },
     { label: "Target", value: user?.target },
     { label: "Activity", value: user?.activity },
   ];

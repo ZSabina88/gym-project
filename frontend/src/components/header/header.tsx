@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { logout } from "../../features/Auth/AuthSLice";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { fetchUser } from "../../features/Users/SingleUser/SingleUserSLice";
+import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction"; 
 
 
 const Header: React.FC = () => {
