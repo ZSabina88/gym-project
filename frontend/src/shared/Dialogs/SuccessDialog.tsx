@@ -10,11 +10,17 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 interface SuccessDialogProps {
   openModal: boolean;
   handleCloseModal: () => void;
+  title: string;
+  message: string;
+  message2?: string; // Mark message2 as optional
 }
 
 const SuccessDialog: React.FC<SuccessDialogProps> = ({
   openModal,
   handleCloseModal,
+  title,
+  message,
+  message2,
 }) => {
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
@@ -64,7 +70,7 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({
             marginTop: "1rem",
           }}
         >
-          Congratulations!
+          {title}
         </Typography>
 
         <Typography
@@ -75,8 +81,8 @@ const SuccessDialog: React.FC<SuccessDialogProps> = ({
             flexDirection: "column",
           }}
         >
-          You have successfully signed up.{" "}
-          <span>Now you can log in to your account.</span>
+          {message}
+          {message2 && <span>{message2}</span>}
         </Typography>
 
         <MuiButton

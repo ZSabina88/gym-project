@@ -17,8 +17,6 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";
 import { signupValidationSchema } from "../../../shared/ValidationsSchemas/validations";
 import SuccessDialog from "../../../shared/Dialogs/SuccessDialog";
-import { SignupPayload } from "../../../features/Auth/AuthTypes";
-import LoginToggleLink from "../../../shared/LoginToggleLink/LoginToggleLink";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +25,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
 
-  const handleSignUp = (values: SignupPayload) => {
+  const handleSignUp = (values: any) => {
     dispatch(userSignup(values));
     setOpenModal(true);
   };
@@ -76,9 +74,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                    {
+                      borderColor: "#9EF300",
+                    },
                 }}
               />
             </div>
@@ -97,9 +95,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -135,9 +133,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <div>
@@ -192,11 +190,17 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 className="rounded-lg w-full bg-customGreen py-3 mb-6 text-black hover:bg-green-300"
               />
             </div>
-            <LoginToggleLink
-              text="Already have an Account?"
-              linkText="LOG IN"
-              onClick={toggleForm ?? (() => { })}
-            />
+
+            <h2 className="mb-6">
+              Already have an Account?{" "}
+              <a
+                href="#"
+                onClick={toggleForm}
+                className="text-black font-bold underline cursor-pointer"
+              >
+                LOG IN
+              </a>
+            </h2>
           </Form>
         )}
       </Formik>
@@ -204,6 +208,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
       <SuccessDialog
         openModal={openModal}
         handleCloseModal={handleCloseModal}
+        title="Congratulations!"
+        message="You have successfully signed up. "
+        message2="Now you can log in to your account."
       />
     </>
   );

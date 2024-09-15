@@ -4,6 +4,7 @@ import Calendar from "react-calendar";
 import Button from "../../shared/Buttons/button";
 import "react-calendar/dist/Calendar.css";
 import "./calendar-custom.css";
+import avatar from "../../assets/Avatar.png";
 
 interface Coach {
   id: string;
@@ -20,15 +21,51 @@ interface Coach {
 
 const CoachDetail: React.FC = () => {
   const { state } = useLocation();
-  const coach = state?.coach as Coach; 
+  const coach = state?.coach as Coach;
+  console.log(coach);
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
+  const availableTimes = [
+    "10:00 - 11:00",
+    "11:00 - 12:00",
+    "12:00 - 13:00",
+    "13:00 - 14:00",
+    "14:00 - 15:00",
+    "15:00 - 16:00",
+  ];
 
   if (!coach) {
     return <p>Coach not found</p>;
   }
 
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
+  const handleDateChange = (date: Date | null) => {
+    if (date instanceof Date) {
+      setSelectedDate(date);
+      setSelectedTime(null);
+    } else {
+      setSelectedDate(null);
+    }
+  };
+
+  <Calendar
+    onChange={(value) => handleDateChange(value instanceof Date ? value : null)}
+    value={selectedDate}
+    className="border-0 rounded-lg p-4"
+    tileClassName={({ date, view }) =>
+      `p-2 rounded-md ${
+        view === "month" && date.getDay() === 0 ? "text-red-500" : ""
+      } ${
+        date.toDateString() === new Date().toDateString() ? "bg-yellow-100" : ""
+      }`
+    }
+    next2Label={null}
+    prev2Label={null}
+  />;
+
+  const handleTimeChange = (time: string) => {
+    setSelectedTime(time);
   };
 
   const formatDate = (date: Date) => {
@@ -39,12 +76,21 @@ const CoachDetail: React.FC = () => {
     return formatter.format(date);
   };
 
+  const handleSubmit = () => {
+    if (selectedDate && selectedTime) {
+      const formattedDate = formatDate(selectedDate);
+      alert(`Workout booked for ${formattedDate}, ${selectedTime}`);
+    } else {
+      alert("Please select both a date and time.");
+    }
+  };
+
   return (
     <div className="p-8 flex">
       <div className="w-1/3 flex flex-col">
         <div className="w-[320px] flex flex-col">
           <img
-            src={coach.avatar}
+            src={coach.avatar || avatar}
             alt={coach.name}
             className="w-[320px] h-[200px] rounded-lg"
           />
@@ -59,7 +105,7 @@ const CoachDetail: React.FC = () => {
           <p className="text-gray-600 mt-4 text-start">{coach.bio}</p>
           <Button
             className="bg-customGreen text-black py-2 px-4 rounded-lg mt-4"
-            onClick={() => alert("Message sent")}
+            onClick={handleSubmit}
           >
             Book Workout
           </Button>
@@ -74,7 +120,9 @@ const CoachDetail: React.FC = () => {
 
       <div className="w-1/3">
         <Calendar
-          onChange={handleDateChange}
+          onChange={(value) =>
+            handleDateChange(value instanceof Date ? value : null)
+          }
           value={selectedDate}
           className="border-0 rounded-lg p-4"
           tileClassName={({ date, view }) =>
@@ -90,11 +138,34 @@ const CoachDetail: React.FC = () => {
           prev2Label={null}
         />
       </div>
+
       <div className="w-1/3">
         {selectedDate && (
-          <p className="mt-6 text-black border-b-2 border-borderColor pb-3 text-start">
-            {formatDate(selectedDate)}
-          </p>
+          <div>
+            <div className="mt-6 text-black border-b-2 border-borderColor pb-3 text-start">
+              <p>{formatDate(selectedDate)}</p>
+            </div>
+
+            <div className="mt-6  text-black pb-3 text-start">
+              <div className="mt-4">
+                <div className="flex flex-col mt-2  space-y-2">
+                  {availableTimes.map((time) => (
+                    <button
+                      key={time}
+                      className={`py-2 px-4 bg-creamColor border rounded-md ${
+                        selectedTime === time
+                          ? "bg-customGreen text-black border-2 border-customGreen "
+                          : "bg-white border-gray-300 text-black"
+                      }`}
+                      onClick={() => handleTimeChange(time)}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
