@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { Coach, fetchCoaches } from "../../features/Users/CoachSlice";
@@ -11,12 +11,23 @@ const Coaches: React.FC = () => {
 
   const { coaches, loading, error } = useAppSelector((state) => state.coaches);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const coachesPerPage = 8;
+  const indexOfLastCoach = currentPage * coachesPerPage;
+  const indexOfFirstCoach = indexOfLastCoach - coachesPerPage;
+  const currentCoaches = coaches.slice(indexOfFirstCoach, indexOfLastCoach);
+  const totalPages = Math.ceil(coaches.length / coachesPerPage);
+
   useEffect(() => {
     dispatch(fetchCoaches());
   }, [dispatch]);
 
   const handleCoachClick = (coach: Coach) => {
     navigate(`/coaches/${coach.id}`, { state: { coach } });
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   if (loading)
@@ -30,14 +41,14 @@ const Coaches: React.FC = () => {
   return (
     <div className="coaches">
       <div className="grid grid-cols-4 gap-4">
-        {coaches.map((coach) => (
+        {currentCoaches.map((coach) => (
           <div
             key={coach.id}
             className="p-4 rounded-lg flex flex-col cursor-pointer"
             onClick={() => handleCoachClick(coach)}
           >
             <img
-              src={pic} // Placeholder image
+              src={pic} 
               alt={coach.name}
               className="w-[300px] h-[200px] rounded-lg"
             />
@@ -61,6 +72,34 @@ const Coaches: React.FC = () => {
             </button>
           </div>
         ))}
+      </div>
+
+      <div className="pagination mt-8 flex justify-center">
+        <button
+          className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`py-2 px-4 rounded-lg mx-1 ${
+              index + 1 === currentPage ? "bg-blue-500 text-white" : "bg-gray-300 hover:bg-gray-400"
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

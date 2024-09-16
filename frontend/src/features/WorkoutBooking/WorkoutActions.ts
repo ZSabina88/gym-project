@@ -3,20 +3,26 @@ import { Workout } from "./WorkoutTypes";
 import axios from "axios";
 
 export const createWorkout = createAsyncThunk(
-    "workout/createWorkout",
-    async (workoutData: Omit<Workout, "id">, { rejectWithValue }) => {
-        const token = localStorage.getItem("userToken");
+  "workout/createWorkout",
+  async (workoutData: Omit<Workout, "id">, { rejectWithValue }) => {
+    const token = localStorage.getItem("userToken");
 
-        try {
-            const response = await axios.post("add url later", workoutData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-            return response.data;
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data || "Failed to create workout");
-        }
+    if (!token) {
+      return rejectWithValue("User is not authenticated");
     }
+
+    try {
+      const response = await axios.post("/api/v1/workout", workoutData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to create workout"
+      );
+    }
+  }
 );
