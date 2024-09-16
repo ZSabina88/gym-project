@@ -4,6 +4,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  CircularProgress
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import IconButton from "@mui/material/IconButton";
@@ -187,7 +188,11 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 />
               </FormControl>
             </div>
-            {loading && <p className="text-center mb-4 text-blue-600">Loading ...</p>}
+            {loading && (
+              <div className="flex justify-center">
+                <CircularProgress sx={{ color: "#9EF300" }} />
+              </div>
+            )}
             <div className="mt-6">
               <Button
                 type="submit"

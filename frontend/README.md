@@ -16,13 +16,12 @@ Formik
 React  
 TypeScript  
 Tailwind CSS  
-Redux Toolkit  
-Axios  
+Redux Toolkit   
 and more...
 
 # Setup
-Download or clone the repository
-Run npm install
+Download or clone the repository  
+Run npm install  
 Start the app using npm run dev
 # Approach
 The app leverages Material UI in combination with Tailwind CSS and adheres to the Feature-Sliced Design architectural methodology, ensuring a modular, scalable structure for both UI components and state management using Redux Toolkit.

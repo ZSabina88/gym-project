@@ -1,30 +1,28 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Logo from "../../assets/Icon.png";
 import profileIMG from "../../assets/profile.svg";
 import notifIMG from "../../assets/notification.svg";
-import settingIMG from "../../assets/Settings.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import { logout } from "../../features/Auth/AuthSLice";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
-import { useNavigate } from "react-router-dom";
 import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
+
 
 const Header: React.FC = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { user } = useAppSelector((state) => state.user);
 
-  const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
 
   const toggleDropdownVisibility = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -35,13 +33,7 @@ const Header: React.FC = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      dispatch(logout());
-      navigate("/");
-    }
-  };
+  const dropdownRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -135,28 +127,7 @@ const Header: React.FC = () => {
           >
             <img src={profileIMG} alt="Profile" className="w-[45px] h-[25px]" />
             {isDropdownVisible && (
-              <div
-                ref={dropdownRef}
-                className="absolute w-[250px] flex flex-col  items-center right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
-              >
-                <div className="flex  flex-col items-center">
-                  {user ? <p>{user.name}</p> : <p>User name</p>}
-                  {user ? <p>{user.email}</p> : <p>User email</p>}
-                </div>
-                <div className="mt-12 flex">
-                  <img src={settingIMG} className="mt-4" alt="Settings Icon" />
-                  <Link to="/user" className="ml-4 flex flex-col text-start">
-                    <span>My Account</span>
-                    <span>Edit account profile</span>
-                  </Link>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="w-[150px] py-2 bg-white mt-6 text-l text-black border border-black rounded-lg cursor-pointer transition-colors duration-300 hover:bg-red-600"
-                >
-                  Logout
-                </button>
-              </div>
+              <DropdownMenu dropdownRef={dropdownRef}/>
             )}
           </div>
           {/* Mobile Menu Button */}
