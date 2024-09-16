@@ -2,9 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Workout } from "./WorkoutTypes";
 import axios from "axios";
 
-export const createWorkout = createAsyncThunk(
+export const createWorkout = createAsyncThunk<
+Workout,
+Omit<Workout, "id">,
+{ rejectValue: string }
+>(
   "workout/createWorkout",
-  async (workoutData: Omit<Workout, "id">, { rejectWithValue }) => {
+  async (workoutData, { rejectWithValue }) => {
     const token = localStorage.getItem("userToken");
 
     if (!token) {

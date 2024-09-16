@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WorkoutState } from "./WorkoutTypes";
+import { WorkoutState, Workout } from "./WorkoutTypes";
 import { createWorkout } from "./WorkoutActions";
 
 const initialState: WorkoutState = {
@@ -18,10 +18,10 @@ const workoutSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      //   .addCase(createWorkout.fulfilled, (state, action: PayloadAction<Workout>) => {
-      //     state.loading = false;
-      //     state.workouts.push(action.payload);
-      //   })
+        .addCase(createWorkout.fulfilled, (state, action: PayloadAction<Workout>) => {
+          state.loading = false;
+          state.workouts?.push(action.payload);
+        })
       .addCase(createWorkout.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;

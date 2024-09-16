@@ -7,7 +7,7 @@ import Button from "../../shared/Buttons/Button";
 import "react-calendar/dist/Calendar.css";
 import "./calendar-custom.css";
 import avatar from "../../assets/Avatar.png";
-import { Workout } from "../../features/WorkoutBooking/WorkoutTypes";
+import { Workout, WorkoutStatus } from "../../features/WorkoutBooking/WorkoutTypes";
 import { createWorkout } from "../../features/WorkoutBooking/WorkoutActions";
 
 interface Coach {
@@ -91,7 +91,7 @@ const CoachDetail: React.FC = () => {
           date: formattedDate,
           startTime: selectedTime,
         },
-        status: "booked",
+        status: WorkoutStatus.Scheduled,
         feedback: "",
       };
 
