@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Calendar from "react-calendar";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../features/store";
 import Button from "../../shared/Buttons/button";
 import "react-calendar/dist/Calendar.css";
 import "./calendar-custom.css";
 import avatar from "../../assets/Avatar.png";
+import { Workout } from "../../features/WorkoutBooking/WorkoutTypes";
+import { createWorkout } from "../../features/WorkoutBooking/WorkoutActions";
 
 interface Coach {
   id: string;
@@ -22,7 +26,8 @@ interface Coach {
 const CoachDetail: React.FC = () => {
   const { state } = useLocation();
   const coach = state?.coach as Coach;
-  console.log(coach);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -41,31 +46,14 @@ const CoachDetail: React.FC = () => {
   }
 
   const handleDateChange = (date: Date | null) => {
-    if (date instanceof Date) {
-      setSelectedDate(date);
-      setSelectedTime(null);
-    } else {
-      setSelectedDate(null);
-    }
+    setSelectedDate(date);
+    setSelectedTime(null);
   };
 
-  <Calendar
-    onChange={(value) => handleDateChange(value instanceof Date ? value : null)}
-    value={selectedDate}
-    className="border-0 rounded-lg p-4"
-    tileClassName={({ date, view }) =>
-      `p-2 rounded-md ${
-        view === "month" && date.getDay() === 0 ? "text-red-500" : ""
-      } ${
-        date.toDateString() === new Date().toDateString() ? "bg-yellow-100" : ""
-      }`
-    }
-    next2Label={null}
-    prev2Label={null}
-  />;
-
   const handleTimeChange = (time: string) => {
-    setSelectedTime(time);
+    const startTime = time.split(" - ")[0].split(":")[0];
+    setSelectedTime(startTime);
+    console.log(selectedTime);
   };
 
   const formatDate = (date: Date) => {
@@ -76,10 +64,27 @@ const CoachDetail: React.FC = () => {
     return formatter.format(date);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedDate && selectedTime) {
-      const formattedDate = formatDate(selectedDate);
-      alert(`Workout booked for ${formattedDate}, ${selectedTime}`);
+      const formattedDate = selectedDate.toISOString().split("T")[0];
+
+      const workoutData: Omit<Workout, "id"> = {
+        coachId: coach.id,
+        clientId: "123",
+        timeSlot: {
+          date: formattedDate,
+          startTime: selectedTime,
+        },
+        status: "booked",
+        feedback: "",
+      };
+
+      try {
+        await dispatch(createWorkout(workoutData));
+        alert(`Workout booked for ${formattedDate}, ${selectedTime}`);
+      } catch (error) {
+        alert("Failed to book workout");
+      }
     } else {
       alert("Please select both a date and time.");
     }
@@ -125,17 +130,6 @@ const CoachDetail: React.FC = () => {
           }
           value={selectedDate}
           className="border-0 rounded-lg p-4"
-          tileClassName={({ date, view }) =>
-            `p-2 rounded-md ${
-              view === "month" && date.getDay() === 0 ? "text-red-500" : ""
-            } ${
-              date.toDateString() === new Date().toDateString()
-                ? "bg-yellow-100"
-                : ""
-            }`
-          }
-          next2Label={null}
-          prev2Label={null}
         />
       </div>
 
@@ -145,16 +139,15 @@ const CoachDetail: React.FC = () => {
             <div className="mt-6 text-black border-b-2 border-borderColor pb-3 text-start">
               <p>{formatDate(selectedDate)}</p>
             </div>
-
-            <div className="mt-6  text-black pb-3 text-start">
+            <div className="mt-6 text-black pb-3 text-start">
               <div className="mt-4">
-                <div className="flex flex-col mt-2  space-y-2">
+                <div className="flex flex-col mt-2 space-y-2">
                   {availableTimes.map((time) => (
                     <button
                       key={time}
                       className={`py-2 px-4 bg-creamColor border rounded-md ${
-                        selectedTime === time
-                          ? "bg-customGreen text-black border-2 border-customGreen "
+                        selectedTime === time.split(" - ")[0].split(":")[0]
+                          ? "bg-customGreen text-black border-2 border-customGreen"
                           : "bg-white border-gray-300 text-black"
                       }`}
                       onClick={() => handleTimeChange(time)}

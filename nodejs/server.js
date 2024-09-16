@@ -277,6 +277,48 @@ app.put("/api/v1/admin/role-change", async (req, res) => {
   }
 });
 
+app.post("/api/v1/workout", async (req, res) => {
+  try {
+    console.log("Received POST request to /api/v1/workout");
+
+    const workoutData = req.body;
+    console.log("Workout data received:", workoutData);
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      console.log("Authorization header missing or invalid");
+      return res.status(401).json({
+        success: false,
+        error: "Authorization token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+    console.log("Token extracted:", token);
+
+    const response = await axios.post(
+      "https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com/api/v1/workout",
+      workoutData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Workout created successfully:", response.data);
+
+    res.status(201).json(response.data);
+  } catch (error) {
+    console.error("Error creating workout:", error.message);
+
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data || "Failed to create workout",
+    });
+  }
+});
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -368,11 +410,11 @@ app.put("/api/v1/admin/role-change", async (req, res) => {
 // const testWorkoutEndpoint = async () => {
 //   try {
 //     const response = await axios.get(
-//       "https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com/api/v1/workout",
+//       "https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com/api/v1/user/workouts",
 //       {
 //         headers: {
 //           Authorization:
-//             "Bearer eyJraWQiOiIxbitleHB0bGM0ckxXejVpQ09qKzlRNHN5WGtzUVRnaHZxeWZRVUlqNkxVPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0MDZjMDk4Yy1kMDQxLTcwODktMWQ4NS0zZDAzYTNlNzJiZDUiLCJjb2duaXRvOmdyb3VwcyI6WyJDTElFTlRHcm91cCJdLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1ub3J0aC0xLmFtYXpvbmF3cy5jb21cL2V1LW5vcnRoLTFfTXRIN0tVMnVSIiwiY29nbml0bzp1c2VybmFtZSI6ImFybUBtYWlsLnJ1Iiwib3JpZ2luX2p0aSI6IjUyNWQ3ZTc0LTI1NDctNGQ0Zi1iMTNlLWUxZDRjZTdmY2M3MiIsImF1ZCI6IjZkbjB0czBoZDZ1aWRmdDVqZHNic2VjZ2FqIiwiZXZlbnRfaWQiOiI1YzhjNDlmNy00NTczLTRkM2UtOTE0Ny1kYjI3ZTZlZmE0YmIiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcyNjM5MjI1MSwiZXhwIjoxNzI2Mzk1ODUxLCJpYXQiOjE3MjYzOTIyNTEsImp0aSI6IjlhYTc0MTM0LTk1MDAtNDg0ZS04N2I3LTIxMWU4ZmZiMjVkOSIsImVtYWlsIjoiYXJtQG1haWwucnUifQ.nwnISLYhJtEaUMwMMNK1d5ZlZuZbV-AZV4mFGRwcZe349MyKgGTzlTQLUJhT7yTLkHjOjMa_PB_deeD-M8RDItcnnN2u5aPJysQqv6FOGV5QMet3a9XacTcJENf2NpF0lV6tkQumTKvjXT8qHl8mmEpIQBatOOhH6f8rpJVEAnNPTTAqvENX1JII6qmIx6h3dPHY8SUMm3Rq8ypI7cW6u5T_Gkd4xH5LtYLjY9KdSzwVxhjeyYdUeCBP7PQMM1IQTYXsrXihW4C2dInpMhoACjXEt-EmnNqNdDMQU5h46QAhXpgVL5eRhApZeSsQjlWOCm9ut4TCvfdGDhFlW5hs9g",
+//             "Bearer ",
 //         },
 //       }
 //     );
