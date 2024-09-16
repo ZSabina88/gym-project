@@ -15,6 +15,7 @@ import SuccessDialog from "../../shared/Dialogs/SuccessDialog";
 import ErrorDialog from "../../shared/Dialogs/ErrorDialog";
 import { UserInfo } from "../../features/Users/SingleUser/SingleUserType";
 import { useToggle } from "../../hooks/useToggle";
+import { clientTargets, clientActivities } from "../../utils/targetactivity";
 
 const UpdateUserinfoForm: React.FC = () => {
     // const [saving, setSaving] = useState(false);
@@ -105,8 +106,9 @@ const UpdateUserinfoForm: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        <MenuItem value="lose_weight">Lose Weight</MenuItem>
-                                        <MenuItem value="gain_weight">Gain Weight</MenuItem>
+                                        {clientTargets.map((target) => (
+                                            <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                                        ))}
                                     </Field>
                                     <ErrorMessage
                                         name="target"
@@ -140,9 +142,9 @@ const UpdateUserinfoForm: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        <MenuItem value="gym">Gym</MenuItem>
-                                        <MenuItem value="yoga">Yoga</MenuItem>
-                                        <MenuItem value="cycling">Cycling</MenuItem>
+                                        {clientActivities.map((target) => (
+                                            <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                                        ))}
                                     </Field>
                                     <ErrorMessage
                                         name="activity"

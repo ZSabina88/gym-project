@@ -19,6 +19,8 @@ import SuccessDialog from "../../../shared/Dialogs/SuccessDialog";
 import { SignupPayload } from "../../../features/Auth/AuthTypes";
 import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
 import { useToggle } from "../../../hooks/useToggle";
+import { clientTargets, clientActivities } from "../../../utils/targetactivity";
+
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useToggle(false);
@@ -26,6 +28,8 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
 
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
+
+
 
   const handleSignUp = (values: SignupPayload) => {
     dispatch(userSignup(values))
@@ -152,8 +156,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   label="Target"
                   value={values.target}
                 >
-                  <MenuItem value="lose_weight">Lose Weight</MenuItem>
-                  <MenuItem value="gain_weight">Gain Weight</MenuItem>
+                  {clientTargets.map((target) => (
+                    <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                  ))}
                 </Field>
                 <ErrorMessage
                   name="target"
@@ -171,9 +176,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   onChange={handleChange}
                   label="Preferred Activity"
                 >
-                  <MenuItem value="gym">Gym</MenuItem>
-                  <MenuItem value="yoga">Yoga</MenuItem>
-                  <MenuItem value="cycling">Cycling</MenuItem>
+                  {clientActivities.map((target) => (
+                    <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                  ))}
                 </Field>
                 <ErrorMessage
                   name="activity"

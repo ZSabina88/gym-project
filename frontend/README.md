@@ -1,30 +1,23 @@
 # ⚡ EnergyX Project
 # Demo link:
-Access my site at google.com
+Access my site at http://ec2-16-170-67-107.eu-north-1.compute.amazonaws.com:3000
 
-# Table of Content
-About The App
-Technologies
-Setup
-Approach
-Status
-Credits
-License
 #  About The App
 EnergyX is an app that enables clients to browse and select coaches, access personalized workouts, provide feedback, and much more.
 
 # Technologies
 The app is built using modern web technologies including:
 
-HTML
-CSS
-Material UI
-Chart.js
-React
-TypeScript
-Tailwind CSS
-Redux Toolkit
-Axios
+HTML  
+CSS  
+Material UI  
+Chart.js  
+Formik  
+React  
+TypeScript  
+Tailwind CSS  
+Redux Toolkit  
+Axios  
 and more...
 
 # Setup
@@ -40,7 +33,7 @@ EnergyX is still in progress. Will be launched soon.
 # Credits
 List of contributors:
 
-Sabina Zeynalova  @sabina_zeynalova
+Sabina Zeynalova  @sabina_zeynalova  
 Suren Tadevosyan  @suren_tadevosyan
 # License
 This project is licensed under MIT License.
