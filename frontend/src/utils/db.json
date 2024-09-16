@@ -1,0 +1,173 @@
+{
+    "workouts": [
+        {
+            "id": 1,
+            "name": "Morning Yoga",
+            "duration": "30 mins",
+            "date": "July 9, 07:00 AM",
+            "desc": "Enhance your flexibility and balance with this calming yoga session. Flow through a series of poses designed to stretch and strengthen your entire body while promoting relaxation."
+        },
+        {
+            "id": 2,
+            "name": "HIIT Cardio",
+            "duration": "45 mins",
+            "date": "August 12, 06:30 PM",
+            "desc": "Boost your heart rate with this high-intensity interval training session. Perfect for burning calories and improving cardiovascular health."
+        },
+        {
+            "id": 3,
+            "name": "Strength Training",
+            "duration": "1 hour",
+            "date": "July 15, 05:00 PM",
+            "desc": "Build muscle and increase your strength with this weight training session. Focus on compound movements for a full-body workout."
+        },
+        {
+            "id": 4,
+            "name": "Pilates",
+            "duration": "40 mins",
+            "date": "August 3, 09:00 AM",
+            "desc": "Improve your core strength and flexibility with Pilates exercises. This session emphasizes controlled movements and breathing."
+        },
+        {
+            "id": 5,
+            "name": "Cycling",
+            "duration": "50 mins",
+            "date": "July 22, 08:00 AM",
+            "desc": "Cycle your way to fitness with this intense indoor cycling session. Great for burning calories and building lower body strength."
+        },
+        {
+            "id": 6,
+            "name": "Swimming",
+            "duration": "30 mins",
+            "date": "August 5, 07:30 AM",
+            "desc": "Dive into this low-impact workout to enhance your cardiovascular fitness and muscle endurance."
+        },
+        {
+            "id": 7,
+            "name": "Zumba",
+            "duration": "35 mins",
+            "date": "July 28, 06:00 PM",
+            "desc": "Dance your way to fitness with this energetic Zumba session. Perfect for those who enjoy combining fitness with fun."
+        },
+        {
+            "id": 8,
+            "name": "Running",
+            "duration": "45 mins",
+            "date": "August 1, 07:00 AM",
+            "desc": "Hit the track for this running session designed to boost your endurance and speed. Suitable for all levels."
+        }
+    ],
+    "availableTimeSLots": [
+        {
+            "id": 1,
+            "slots": [
+                "10:00 - 11:00",
+                "11:00 - 12:00",
+                "12:00 - 13:00",
+                "13:00 - 14:00",
+                "14:00 - 15:00",
+                "15:00 - 16:00"
+            ]
+        },
+        {
+            "id": 2,
+            "slots": [
+                "13:00 - 14:00",
+                "14:00 - 15:00",
+                "15:00 - 16:00",
+                "16:00 - 17:00",
+                "17:00 - 18:00",
+                "18:00 - 19:00"
+            ]
+        },
+        {
+            "id": 3,
+            "slots": [
+                "10:00 - 11:00",
+                "11:00 - 12:00",
+                "12:00 - 13:00",
+                "13:00 - 14:00",
+                "17:00 - 18:00",
+                "18:00 - 19:00"
+            ]
+        },
+        {
+            "id": 4,
+            "slots": [
+                "11:00 - 12:00",
+                "12:00 - 13:00",
+                "13:00 - 14:00",
+                "14:00 - 15:00",
+                "15:00 - 16:00",
+                "20:00 - 21:00",
+                "21:00 - 22:00"
+            ]
+        }
+    ],
+    "coaches": [
+        {
+            "id": 1,
+            "name": "Alex Johnson",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.5,
+            "avatar": "https://as1.ftcdn.net/v2/jpg/05/40/94/56/1000_F_540945602_Z4vikFTHWKuX7B0ncuAZf22Fh4yrdYNF.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Jamie Smith",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.2,
+            "avatar": "https://www.uaepersonaltrainers.com/wp-content/uploads/2022/10/Dubai-Female-Personal-Trainer-and-Group-Fitness-Coach-Mary-e1667037675488.jpeg"
+        },
+        {
+            "id": 3,
+            "name": "Jordan Lee",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 3.8,
+            "avatar": "https://hips.hearstapps.com/hmg-prod/images/mh-trainer-2-1533576998.png"
+        },
+        {
+            "id": 4,
+            "name": "Taylor Brown",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.7,
+            "avatar": "https://as1.ftcdn.net/v2/jpg/05/40/94/56/1000_F_540945602_Z4vikFTHWKuX7B0ncuAZf22Fh4yrdYNF.jpg"
+        },
+        {
+            "id": 5,
+            "name": "Morgan Davis",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.1,
+            "avatar": "https://hips.hearstapps.com/hmg-prod/images/mh-trainer-2-1533576998.png"
+        },
+        {
+            "id": 6,
+            "name": "Casey Wilson",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 3.9,
+            "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv0eEg7MSyxcoruZzPpTV8WuQMAOueHoWJm3RBfFyMNojTKky_2fzJSzCp5oA99Z1tfGY&usqp=CAU"
+        },
+        {
+            "id": 7,
+            "name": "Riley Taylor",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.3,
+            "avatar": "https://www.uaepersonaltrainers.com/wp-content/uploads/2022/10/Dubai-Female-Personal-Trainer-and-Group-Fitness-Coach-Mary-e1667037675488.jpeg"
+        },
+        {
+            "id": 8,
+            "name": "Drew Anderson",
+            "role": "Climbing Coach",
+            "bio": "Scale new challenges with our Climbing Coach. Get instruction to improve climbing skills, and build confidence on the wall.",
+            "rating": 4.6,
+            "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv0eEg7MSyxcoruZzPpTV8WuQMAOueHoWJm3RBfFyMNojTKky_2fzJSzCp5oA99Z1tfGY&usqp=CAU"
+        }
+    ]
+}

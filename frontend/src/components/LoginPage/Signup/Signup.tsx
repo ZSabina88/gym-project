@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   TextField,
   MenuItem,
@@ -17,21 +16,26 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";
 import { signupValidationSchema } from "../../../shared/ValidationsSchemas/validations";
 import SuccessDialog from "../../../shared/Dialogs/SuccessDialog";
+import { SignupPayload } from "../../../features/Auth/AuthTypes";
+import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
+import { useToggle } from "../../../hooks/useToggle";
 
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [showPassword, setShowPassword] = useToggle(false);
+  const [openModal, setOpenModal] = useToggle(false);
 
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
 
-  const handleSignUp = (values: any) => {
-    dispatch(userSignup(values));
-    setOpenModal(true);
+  const handleSignUp = (values: SignupPayload) => {
+    dispatch(userSignup(values))
+      .then(() => {
+        setOpenModal();
+      });
   };
 
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setOpenModal();
     if (toggleForm) {
       toggleForm();
     }
@@ -74,9 +78,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                    {
-                      borderColor: "#9EF300",
-                    },
+                  {
+                    borderColor: "#9EF300",
+                  },
                 }}
               />
             </div>
@@ -95,9 +99,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <Field
@@ -117,7 +121,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={setShowPassword}
                       edge="end"
                       aria-label="toggle password visibility"
                     >
@@ -133,9 +137,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                {
+                  borderColor: "#9EF300",
+                },
               }}
             />
             <div>
@@ -178,10 +182,7 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 />
               </FormControl>
             </div>
-            {(error as string | null) && (
-              <p className="mb-4 text-red-600">{error as React.ReactNode}</p>
-            )}
-            {loading && <p className="mb-4 text-blue-600">Loading</p>}
+            {loading && <p className="text-center mb-4 text-blue-600">Loading ...</p>}
             <div className="mt-6">
               <Button
                 type="submit"
@@ -204,14 +205,21 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
           </Form>
         )}
       </Formik>
-
-      <SuccessDialog
-        openModal={openModal}
-        handleCloseModal={handleCloseModal}
-        title="Congratulations!"
-        message="You have successfully signed up. "
-        message2="Now you can log in to your account."
-      />
+      {!error && !loading &&
+        <SuccessDialog
+          openModal={openModal}
+          handleCloseModal={handleCloseModal}
+          title="Congratulations!"
+          message="You have successfully signed up. "
+          message2="Now you can log in to your account."
+        />}
+      {error &&
+        <ErrorDialog
+          message={typeof error === 'string' ? error : 'An error occurred'}
+          openErrorModal={openModal}
+          handleCloseErrorModal={setOpenModal}
+        />
+      }
     </>
   );
 };

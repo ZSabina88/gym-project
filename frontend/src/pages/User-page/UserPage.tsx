@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import Button from "../../shared/Buttons/button";
+import { useEffect } from "react";
 import profilePic from "../../assets/profile.svg";
-import { UserPageValidationSchema } from "../../shared/ValidationsSchemas/validations";
-import {
-  TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
-import {
-  fetchUser,
-  changeUserInfo,
-} from "../../features/Users/SingleUser/SingleUserAction";
-import SuccessDialog from "../../shared/Dialogs/SuccessDialog";
+import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
+import UpdateUserinfoForm from "../../components/UpdateUserinfoForm/UpdateUserinfoForm";
+
 
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,9 +13,6 @@ const UserPage: React.FC = () => {
   const { userToken } = useAppSelector((state) => state.login);
   const { user, error } = useAppSelector((state) => state.user);
 
-  const [saving, setSaving] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -39,23 +24,6 @@ const UserPage: React.FC = () => {
     { label: "Target", value: user?.target },
     { label: "Activity", value: user?.activity },
   ];
-
-  const handleSubmit = (values: {
-    name: string;
-    target: string;
-    activity: string;
-  }) => {
-    setSaving(true);
-    dispatch(changeUserInfo(values))
-      .then(() => {
-        setSuccess(true);
-        setIsModalOpen(true); // Show modal after success
-      })
-      .finally(() => {
-        setSaving(false);
-        setTimeout(() => setSuccess(false), 2000);
-      });
-  };
 
   useEffect(() => {
     if (!userToken) {
@@ -69,12 +37,6 @@ const UserPage: React.FC = () => {
       dispatch(logout());
       navigate("/");
     }
-  };
-
-  // Handle modal close and refresh page
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    window.location.reload(); // Refresh the page after modal close
   };
 
   return (
@@ -109,133 +71,8 @@ const UserPage: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="mt-16">
-          <Formik
-            initialValues={{ name: "", target: "", activity: "" }}
-            validationSchema={UserPageValidationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ isSubmitting, errors }) => (
-              <Form>
-                <div className="mb-4">
-                  <Field
-                    as={TextField}
-                    name="name"
-                    label="Your Name"
-                    variant="outlined"
-                    fullWidth
-                    autoComplete="off"
-                    helperText={<ErrorMessage name="name" />}
-                    error={Boolean(errors.name)}
-                    style={{ marginBottom: "24px" }}
-                    InputLabelProps={{ style: { color: "black" } }}
-                    sx={{
-                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
-                    }}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <FormControl
-                    fullWidth
-                    sx={{
-                      "& .MuiInputLabel-root.Mui-focused": {
-                        color: "black",
-                      },
-                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
-                    }}
-                  >
-                    <InputLabel>Your Target</InputLabel>
-                    <Field
-                      as={Select}
-                      name="target"
-                      label="Target"
-                      sx={{
-                        "& .MuiSelect-select": {
-                          textAlign: "left",
-                        },
-                      }}
-                    >
-                      <MenuItem value="lose_weight">Lose Weight</MenuItem>
-                      <MenuItem value="gain_weight">Gain Weight</MenuItem>
-                    </Field>
-                    <ErrorMessage
-                      name="target"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </FormControl>
-                </div>
-
-                <div className="mb-4 mt-8">
-                  <FormControl
-                    fullWidth
-                    sx={{
-                      "& .MuiInputLabel-root.Mui-focused": {
-                        color: "black",
-                      },
-                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                        {
-                          borderColor: "#9EF300",
-                        },
-                    }}
-                  >
-                    <InputLabel>Preferred Activity</InputLabel>
-                    <Field
-                      as={Select}
-                      name="activity"
-                      label="Preferred Activity"
-                      sx={{
-                        "& .MuiSelect-select": {
-                          textAlign: "left",
-                        },
-                      }}
-                    >
-                      <MenuItem value="gym">Gym</MenuItem>
-                      <MenuItem value="yoga">Yoga</MenuItem>
-                      <MenuItem value="cycling">Cycling</MenuItem>
-                    </Field>
-                    <ErrorMessage
-                      name="activity"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </FormControl>
-                </div>
-
-                <div className="flex justify-end w-full">
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-[160px] mt-8 px-6 py-3 rounded-lg text-black cursor-pointer transition-all duration-300 ${
-                      saving
-                        ? "bg-blue-500 animate-scale-up"
-                        : success
-                        ? "bg-green-500 animate-bg-success"
-                        : "bg-customGreen hover:bg-green-700"
-                    }`}
-                  >
-                    {saving ? "Saving..." : success ? "Saved!" : "Save Changes"}
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </div>
-
-      <SuccessDialog
-        openModal={isModalOpen}
-        handleCloseModal={handleModalClose}
-        title="Success!"
-        message="Your information has been updated successfully."
-      />
+      <UpdateUserinfoForm />
+      </div >
     </section>
   );
 };

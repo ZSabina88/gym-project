@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { TextField, CircularProgress } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import IconButton from "@mui/material/IconButton";
@@ -14,14 +14,15 @@ import { loginValidationSchema } from "../../../shared/ValidationsSchemas/valida
 import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
 import { LoginPayload } from "../../../features/Auth/AuthTypes";
 import LoginToggleLink from "../../../shared/LoginToggleLink/LoginToggleLink";
+import { useToggle } from "../../../hooks/useToggle";
 
 const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [showPassword, setShowPassword] = useToggle(false);
+  const [openModal, setOpenModal] = useToggle(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, userToken } = useAppSelector((state) => state.login);
+  const { loading, error, userToken } = useAppSelector((state) => state.login);
 
   useEffect(() => {
     if (userToken) {
@@ -29,20 +30,15 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     }
   }, [navigate, userToken]);
 
-  const handleLogin = async (
+  const handleLogin = (
     values: LoginPayload,
     { resetForm }: { resetForm: FormikHelpers<LoginPayload>["resetForm"] }
   ) => {
-    try {
-      await dispatch(userLogin(values)).unwrap();
-      resetForm();
-    } catch (err) {
-      setOpenErrorModal(true);
-    }
-  };
-
-  const handleCloseErrorModal = () => {
-    setOpenErrorModal(false);
+    dispatch(userLogin(values))
+      .then(() => {
+        setOpenModal();
+        resetForm();
+      });
   };
 
   return (
@@ -94,7 +90,7 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={setShowPassword}
                       edge="end"
                       aria-label="toggle password visibility"
                     >
@@ -137,12 +133,13 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
         )}
       </Formik>
 
-      {/* Error Modal */}
-      <ErrorDialog
-        message="Invalid email or password. Please try again."
-        openErrorModal={openErrorModal}
-        handleCloseErrorModal={handleCloseErrorModal}
-      />
+      {error &&
+        <ErrorDialog
+          message={typeof error === 'string' ? error : 'An error occurred'}
+          openErrorModal={openModal}
+          handleCloseErrorModal={setOpenModal}
+        />
+      }
     </>
   );
 };

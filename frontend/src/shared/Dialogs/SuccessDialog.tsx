@@ -12,7 +12,7 @@ interface SuccessDialogProps {
   handleCloseModal: () => void;
   title: string;
   message: string;
-  message2?: string; // Mark message2 as optional
+  message2?: string;
 }
 
 const SuccessDialog: React.FC<SuccessDialogProps> = ({

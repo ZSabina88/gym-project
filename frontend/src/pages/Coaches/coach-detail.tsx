@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Calendar from "react-calendar";
 import Button from "../../shared/Buttons/button";
@@ -26,6 +26,7 @@ const CoachDetail: React.FC = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  // const [availableTimes, setAvailableTimes] = useState(null);
 
   const availableTimes = [
     "10:00 - 11:00",
@@ -35,6 +36,21 @@ const CoachDetail: React.FC = () => {
     "14:00 - 15:00",
     "15:00 - 16:00",
   ];
+
+  //   useEffect(() => {
+  //   const handleTimeSlots = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:8000/availableTimeSLots");
+  //       const data = await response.json();
+  //       console.log('Available Time Slots:', data);
+  //       setAvailableTimes(data);
+  //       return data;
+  //     } catch (error) {
+  //       console.error('Error fetching available time slots:', error);
+  //     }
+  //   };
+  //   handleTimeSlots();
+  // }, []);
 
   if (!coach) {
     return <p>Coach not found</p>;
@@ -54,10 +70,8 @@ const CoachDetail: React.FC = () => {
     value={selectedDate}
     className="border-0 rounded-lg p-4"
     tileClassName={({ date, view }) =>
-      `p-2 rounded-md ${
-        view === "month" && date.getDay() === 0 ? "text-red-500" : ""
-      } ${
-        date.toDateString() === new Date().toDateString() ? "bg-yellow-100" : ""
+      `p-2 rounded-md ${view === "month" && date.getDay() === 0 ? "text-red-500" : ""
+      } ${date.toDateString() === new Date().toDateString() ? "bg-yellow-100" : ""
       }`
     }
     next2Label={null}
@@ -126,12 +140,10 @@ const CoachDetail: React.FC = () => {
           value={selectedDate}
           className="border-0 rounded-lg p-4"
           tileClassName={({ date, view }) =>
-            `p-2 rounded-md ${
-              view === "month" && date.getDay() === 0 ? "text-red-500" : ""
-            } ${
-              date.toDateString() === new Date().toDateString()
-                ? "bg-yellow-100"
-                : ""
+            `p-2 rounded-md ${view === "month" && date.getDay() === 0 ? "text-red-500" : ""
+            } ${date.toDateString() === new Date().toDateString()
+              ? "bg-yellow-100"
+              : ""
             }`
           }
           next2Label={null}
@@ -139,7 +151,7 @@ const CoachDetail: React.FC = () => {
         />
       </div>
 
-      <div className="w-1/3">
+      <section className="w-1/3">
         {selectedDate && (
           <div>
             <div className="mt-6 text-black border-b-2 border-borderColor pb-3 text-start">
@@ -152,11 +164,10 @@ const CoachDetail: React.FC = () => {
                   {availableTimes.map((time) => (
                     <button
                       key={time}
-                      className={`py-2 px-4 bg-creamColor border rounded-md ${
-                        selectedTime === time
-                          ? "bg-customGreen text-black border-2 border-customGreen "
-                          : "bg-white border-gray-300 text-black"
-                      }`}
+                      className={`py-2 px-4 bg-creamColor border rounded-md ${selectedTime === time
+                        ? "bg-customGreen text-black border-2 border-customGreen "
+                        : "bg-white border-gray-300 text-black"
+                        }`}
                       onClick={() => handleTimeChange(time)}
                     >
                       {time}
@@ -167,7 +178,7 @@ const CoachDetail: React.FC = () => {
             </div>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 };
