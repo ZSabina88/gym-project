@@ -413,8 +413,7 @@ app.post("/api/v1/workout", async (req, res) => {
 //       "https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com/api/v1/user/workouts",
 //       {
 //         headers: {
-//           Authorization:
-//             "Bearer ",
+//           Authorization: "Bearer ",
 //         },
 //       }
 //     );
@@ -433,6 +432,32 @@ app.post("/api/v1/workout", async (req, res) => {
 // };
 
 // testWorkoutEndpoint();
+
+// const testUnavailableTimeslotsEndpoint = async () => {
+//   try {
+//     const response = await axios.get(
+//       `https://wk9vk6rq8g.execute-api.eu-north-1.amazonaws.com/api/v1/coach/e0aca92c-a0c1-702e-08f5-cd95845db34e/unavailable-timeslots`,
+//       {
+//         headers: {
+//           Authorization: "Bearer ",
+//         },
+//       }
+//     );
+//     console.log("Status:", response.status);
+//     console.log("Data:", response.data);
+//   } catch (error) {
+//     if (error.response) {
+//       console.error("Error Status:", error.response.status);
+//       console.error("Error Data:", error.response.data);
+//     } else if (error.request) {
+//       console.error("No response from API", error.request);
+//     } else {
+//       console.error("Error Message:", error.message);
+//     }
+//   }
+// };
+
+// testUnavailableTimeslotsEndpoint();
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

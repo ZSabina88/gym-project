@@ -10,8 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { logout } from "../../features/Auth/AuthSLice";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
-import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction"; 
-
+import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
 
 const Header: React.FC = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
@@ -138,10 +137,12 @@ const Header: React.FC = () => {
             {isDropdownVisible && (
               <div
                 ref={dropdownRef}
-                className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
+                className="absolute w-[250px] flex flex-col  items-center right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
               >
-                {user ? <p>{user.name}</p> : <p>User name</p>}
-                {user ? <p>{user.email}</p> : <p>User email</p>}
+                <div className="flex  flex-col items-center">
+                  {user ? <p>{user.name}</p> : <p>User name</p>}
+                  {user ? <p>{user.email}</p> : <p>User email</p>}
+                </div>
                 <div className="mt-12 flex">
                   <img src={settingIMG} className="mt-4" alt="Settings Icon" />
                   <Link to="/user" className="ml-4 flex flex-col text-start">
