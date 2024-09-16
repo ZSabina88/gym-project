@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Calendar from "react-calendar";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../features/store";
-import Button from "../../shared/Buttons/button";
+import Button from "../../shared/Buttons/Button";
 import "react-calendar/dist/Calendar.css";
 import "./calendar-custom.css";
 import avatar from "../../assets/Avatar.png";

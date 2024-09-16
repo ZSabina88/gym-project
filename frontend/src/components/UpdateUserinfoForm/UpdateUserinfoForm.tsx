@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Button from "../../shared/Buttons/button";
+import Button from "../../shared/Buttons/Button";
 import { UserPageValidationSchema } from "../../shared/ValidationsSchemas/validations";
 import {
     TextField,
@@ -176,12 +176,14 @@ const UpdateUserinfoForm: React.FC = () => {
                     )}
                 </Formik>
             </div>
-            <SuccessDialog
-                openModal={isModalOpen}
-                handleCloseModal={handleModalClose}
-                title="Success!"
-                message="Your information has been updated successfully."
-            />
+            {!error && !loading &&
+                <SuccessDialog
+                    openModal={isModalOpen}
+                    handleCloseModal={handleModalClose}
+                    title="Success!"
+                    message="Your information has been updated successfully."
+                />
+            }
             {error &&
                 <ErrorDialog
                     message={error}

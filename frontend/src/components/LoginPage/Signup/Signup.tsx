@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "../../../shared/Buttons/button";
+import Button from "../../../shared/Buttons/Button";
 import { AuthFormProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { userSignup } from "../../../features/Auth/AuthActions";

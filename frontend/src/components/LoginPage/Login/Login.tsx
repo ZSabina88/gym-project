@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "../../../shared/Buttons/button";
+import Button from "../../../shared/Buttons/Button";
 import { useAppDispatch, useAppSelector } from "../../../hooks/authHooks";
 import { useNavigate } from "react-router-dom";
 import { AuthFormProps } from "../types";
