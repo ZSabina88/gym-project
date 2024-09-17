@@ -1,46 +1,73 @@
-// import { useEffect, useState } from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CalendarIMG from "../../assets/Calendar.svg";
-import { useAppSelector } from "../../hooks/authHooks";
-// import { workouts } from "./workouts-mock";
-
-// interface Workout {
-//   id: number;
-//   name: string;
-//   desc: string;
-//   date: string;
-// }
+import { AppDispatch, RootState } from "../../features/store";
+import { getWorkouts } from "../../features/WorkoutBooking/WorkoutActions";
+import { CircularProgress } from "@mui/material";
 
 const Workouts: React.FC = () => {
-  // const [workouts, setWorkouts] = useState<Workout[] | undefined>(undefined);
-  const { workouts } = useAppSelector((state) => state.workout);
+  const dispatch = useDispatch<AppDispatch>();
 
-  // useEffect(() => {
-  //   const fetchWorkouts = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8000/workouts");
-  //       const data = await response.json();
-  //       setWorkouts(data);
-  //     } catch (error) {
-  //       console.error('Error fetching available workouts:', error);
-  //     }
-  //   };
-  //   fetchWorkouts();
-  // }, [])
+  const { workouts, loading, error } = useSelector(
+    (state: RootState) => state.workout
+  );
+
+  useEffect(() => {
+    dispatch(getWorkouts());
+  }, [dispatch]);
+
+  console.log(workouts);
+
+  const handleCancelWorkout = (workoutId: number) => {
+    console.log(`Canceling workout with ID: ${workoutId}`);
+  };
+
+  const handleFinishWorkout = (workoutId: number) => {
+    console.log(`Finishing workout with ID: ${workoutId}`);
+  };
+
+  if (loading)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <CircularProgress sx={{ color: "#9EF300" }} />
+      </div>
+    );
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="workouts px-8 pt-8">
       <ul className="grid grid-cols-2 gap-4">
-        {workouts?.map((workout) => (
+        {workouts?.map((workout, index) => (
           <div
-            key={workout.id}
+            key={workout.id || index}
             className="p-4 bg-gray-100 flex flex-col items-start rounded-lg"
           >
-            {/* <h2 className="text-xl font-semibold">{workout.}</h2> */}
-            {/* <p className="text-gray-600 mt-2 text-start">{workout.}</p> */}
+            <div className="w-full flex justify-between">
+              <p>Yoga</p>
+              <div className="bg-blue-400 px-3 py-1 rounded-2xl text-white">
+                {workout.status}
+              </div>
+            </div>
             <div className="flex items-center mt-2">
               <img src={CalendarIMG} alt="Calendar" className="w-5 h-5 mr-2" />
-              <p className="text-black">{workout.timeSlot.date}&emsp;{workout.timeSlot.startTime}</p>
+              <p className="text-black">
+                {workout.date} &emsp; {workout.startTime}
+              </p>
+            </div>
+
+            <div className="mt-8 w-full flex justify-end gap-4">
+              <button
+                className="border-2  border-black text-black px-4 py-2 rounded-lg "
+                onClick={() => handleCancelWorkout(workout.id)}
+              >
+                Cancel Workout
+              </button>
+              <button
+                className="bg-customGreen text-black px-4 py-2 rounded-lg hover:bg-green-600"
+                onClick={() => handleFinishWorkout(workout.id)}
+              >
+                Finish Workout
+              </button>
             </div>
           </div>
         ))}

@@ -74,33 +74,35 @@ const Coaches: React.FC = () => {
         ))}
       </div>
 
-      <div className="pagination mt-8 flex justify-center">
-        <button
-          className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
+      {coaches.length > coachesPerPage && (
+        <div className="pagination mt-8 flex justify-center">
           <button
-            key={index}
-            className={`py-2 px-4 rounded-lg mx-1 ${
-              index + 1 === currentPage ? "bg-blue-500 text-white" : "bg-gray-300 hover:bg-gray-400"
-            }`}
-            onClick={() => handlePageChange(index + 1)}
+            className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
           >
-            {index + 1}
+            Previous
           </button>
-        ))}
-        <button
-          className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`py-2 px-4 rounded-lg mx-1 ${
+                index + 1 === currentPage ? "bg-blue-500 text-white" : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className="bg-gray-300 py-2 px-4 rounded-lg mx-1 hover:bg-gray-400"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
