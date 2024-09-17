@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import profilePic from "../../assets/profile.svg";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/Auth/AuthSLice";
 import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
@@ -13,17 +13,9 @@ const UserPage: React.FC = () => {
   const { userToken } = useAppSelector((state) => state.login);
   const { user, error } = useAppSelector((state) => state.user);
 
-
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
-
-  const userInfo = [
-    { label: "Name", value: user?.name },
-    { label: "Email", value: user?.email },
-    { label: "Target", value: user?.target },
-    { label: "Activity", value: user?.activity },
-  ];
 
   useEffect(() => {
     if (!userToken) {
@@ -64,14 +56,11 @@ const UserPage: React.FC = () => {
           </div>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex flex-col justify-center ml-8">
-            {userInfo.map((info, index) => (
-              <p key={index} className="px-2 py-1">
-                {info.label}:&emsp;{info.value && info.value}
-              </p>
-            ))}
+            <p className="px-2 py-1 font-semibold">{user && user.name}</p>
+            <p className="px-2 py-1">{user && user.email}</p>
           </div>
         </div>
-      <UpdateUserinfoForm />
+        <UpdateUserinfoForm />
       </div >
     </section>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { fetchUsers, updateUserRole } from "../../features/Users/UserActions";
 import { CircularProgress } from "@mui/material";
 

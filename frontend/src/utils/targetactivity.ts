@@ -4,6 +4,12 @@ interface ClientTargets {
     target: string
 }
 
+interface ClientActivity {
+    id: number,
+    value: string,
+    activity: string
+}
+
 export const clientTargets: ClientTargets[] = [
     {
         id: 1,
@@ -38,35 +44,35 @@ export const clientTargets: ClientTargets[] = [
 ];
 
 
-export const clientActivities: ClientTargets[] = [
+export const clientActivities: ClientActivity[] = [
     {
         id: 1,
         value: "yoga",
-        target: "Yoga"
+        activity: "Yoga"
     },
     {
         id: 2,
         value: "climbing",
-        target: "Climbing"
+        activity: "Climbing"
     },
     {
         id: 3,
         value: "strength_training",
-        target: "Strength training"
+        activity: "Strength training"
     },
     {
         id: 4,
         value: "cross-fit",
-        target: "Cross-fit"
+        activity: "Cross-fit"
     },
     {
         id: 5,
         value: "cardio_training",
-        target: "Cardio Training"
+        activity: "Cardio Training"
     },
     {
         id: 6,
         value: "rehabilitation",
-        target: "Rehabilitation"
+        activity: "Rehabilitation"
     },
 ]

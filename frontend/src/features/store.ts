@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authLoginSlice, authSignupSlice } from "./Auth/AuthSLice";
 import coachesSlice from "./Users/CoachSlice";
-import usersSlice from "./Users/userSlice";
+import usersSlice from "./Users/UserSlice";
 import userSlice, { changeInfoSlice } from "./Users/SingleUser/SingleUserSLice";
 import workoutSlice from "./WorkoutBooking/WorkoutSlice";
 

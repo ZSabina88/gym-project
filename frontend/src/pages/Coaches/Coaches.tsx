@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { useNavigate } from "react-router-dom";
 import { Coach, fetchCoaches } from "../../features/Users/CoachSlice";
 import pic from "../../assets/Avatar.png";

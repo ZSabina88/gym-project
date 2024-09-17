@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../hooks/authHooks";
+import { useAppSelector, useAppDispatch } from "../../hooks/DispatchHook";
 import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction"; 
 
 

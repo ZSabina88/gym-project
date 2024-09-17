@@ -1,8 +1,8 @@
 // import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Button from "../../shared/Buttons/Button";
-import { UserPageValidationSchema } from "../../shared/ValidationsSchemas/validations";
+import { UserPageValidationSchema } from "../../utils/ValidationsSchemas/validations";
 import {
     TextField,
     MenuItem,
@@ -16,6 +16,7 @@ import ErrorDialog from "../../shared/Dialogs/ErrorDialog";
 import { UserInfo } from "../../features/Users/SingleUser/SingleUserType";
 import { useToggle } from "../../hooks/useToggle";
 import { clientTargets, clientActivities } from "../../utils/targetactivity";
+
 
 const UpdateUserinfoForm: React.FC = () => {
     // const [saving, setSaving] = useState(false);
@@ -143,7 +144,7 @@ const UpdateUserinfoForm: React.FC = () => {
                                         }}
                                     >
                                         {clientActivities.map((target) => (
-                                            <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                                            <MenuItem key={target.id} value={target.value}>{target.activity}</MenuItem>
                                         ))}
                                     </Field>
                                     <ErrorMessage

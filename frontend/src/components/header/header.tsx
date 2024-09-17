@@ -6,7 +6,7 @@ import Logo from "../../assets/Icon.png";
 import profileIMG from "../../assets/profile.svg";
 import notifIMG from "../../assets/notification.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
 

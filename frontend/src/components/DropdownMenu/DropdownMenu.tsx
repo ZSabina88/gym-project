@@ -1,14 +1,14 @@
-import { useAppDispatch, useAppSelector } from "../../hooks/authHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 import { useNavigate, Link } from "react-router-dom";
 import settingIMG from "../../assets/Settings.svg";
 import { logout } from "../../features/Auth/AuthSLice";
 
-interface MenuProp{
+interface MenuProp {
   dropdownRef: React.RefObject<HTMLElement>
 }
 
-const DropdownMenu: React.FC<MenuProp> = ({dropdownRef}) => {
-  
+const DropdownMenu: React.FC<MenuProp> = ({ dropdownRef }) => {
+
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -25,12 +25,14 @@ const DropdownMenu: React.FC<MenuProp> = ({dropdownRef}) => {
       ref={dropdownRef}
       className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
     >
-      {user ? <p>{user.name}</p> : <p>User name</p>}
-      {user ? <p>{user.email}</p> : <p>User email</p>}
+      <div className="flex flex-col justify-center ml-8 text-center">
+        {user ? <p className="font-semibold">{user.name}</p> : <p>User name</p>}
+        {user ? <p>{user.email}</p> : <p>User email</p>}
+      </div>
       <div className="mt-12 flex">
         <img src={settingIMG} className="mt-4" alt="Settings Icon" />
         <Link to="/user" className="ml-4 flex flex-col text-start">
-          <span>My Account</span>
+          <span className="py-1">My Account</span>
           <span>Edit account profile</span>
         </Link>
       </div>
