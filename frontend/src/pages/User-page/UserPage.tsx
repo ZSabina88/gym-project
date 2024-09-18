@@ -6,7 +6,6 @@ import { logout } from "../../features/Auth/AuthSLice";
 import { fetchUser } from "../../features/Users/SingleUser/SingleUserAction";
 import UpdateUserinfoForm from "../../components/UpdateUserinfoForm/UpdateUserinfoForm";
 
-
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -60,8 +59,8 @@ const UserPage: React.FC = () => {
             <p className="px-2 py-1">{user && user.email}</p>
           </div>
         </div>
-        <UpdateUserinfoForm />
-      </div >
+        <UpdateUserinfoForm userInfo={user} />
+      </div>
     </section>
   );
 };

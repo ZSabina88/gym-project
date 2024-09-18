@@ -7,8 +7,12 @@ import Button from "../../shared/Buttons/Button";
 import "react-calendar/dist/Calendar.css";
 import "./calendar-custom.css";
 import avatar from "../../assets/Avatar.png";
-import { Workout, WorkoutStatus } from "../../features/WorkoutBooking/WorkoutTypes";
+import {
+  Workout,
+  WorkoutStatus,
+} from "../../features/WorkoutBooking/WorkoutTypes";
 import { createWorkout } from "../../features/WorkoutBooking/WorkoutActions";
+import SuccessDialog from "../../shared/Dialogs/SuccessDialog"; // Import your modal
 
 interface Coach {
   id: string;
@@ -31,7 +35,8 @@ const CoachDetail: React.FC = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  // const [availableTimes, setAvailableTimes] = useState(null);
+  const [openModal, setOpenModal] = useState<boolean>(false); // Add modal open state
+  const [modalMessage, setModalMessage] = useState<string>(""); // State for modal message
 
   const availableTimes = [
     "10:00 - 11:00",
@@ -41,21 +46,6 @@ const CoachDetail: React.FC = () => {
     "14:00 - 15:00",
     "15:00 - 16:00",
   ];
-
-  //   useEffect(() => {
-  //   const handleTimeSlots = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8000/availableTimeSLots");
-  //       const data = await response.json();
-  //       console.log('Available Time Slots:', data);
-  //       setAvailableTimes(data);
-  //       return data;
-  //     } catch (error) {
-  //       console.error('Error fetching available time slots:', error);
-  //     }
-  //   };
-  //   handleTimeSlots();
-  // }, []);
 
   if (!coach) {
     return <p>Coach not found</p>;
@@ -69,7 +59,6 @@ const CoachDetail: React.FC = () => {
   const handleTimeChange = (time: string) => {
     const startTime = time.split(" - ")[0].split(":")[0];
     setSelectedTime(startTime);
-    console.log(selectedTime);
   };
 
   const formatDate = (date: Date) => {
@@ -87,22 +76,22 @@ const CoachDetail: React.FC = () => {
       const workoutData: Omit<Workout, "id"> = {
         coachId: coach.id,
         clientId: "123",
-        timeSlot: {
-          date: formattedDate,
-          startTime: selectedTime,
-        },
+        timeSlot: { date: formattedDate, startTime: selectedTime },
         status: WorkoutStatus.Scheduled,
         feedback: "",
       };
 
       try {
         await dispatch(createWorkout(workoutData));
-        alert(`Workout booked for ${formattedDate}, ${selectedTime}`);
+        setModalMessage(`Workout booked for ${formattedDate}, ${selectedTime}`);
+        setOpenModal(true);
       } catch (error) {
-        alert("Failed to book workout");
+        setModalMessage("Failed to book workout");
+        setOpenModal(true);
       }
     } else {
-      alert("Please select both a date and time.");
+      setModalMessage("Please select both a date and time.");
+      setOpenModal(true);
     }
   };
 
@@ -177,6 +166,14 @@ const CoachDetail: React.FC = () => {
           </div>
         )}
       </section>
+
+      {/* Modal */}
+      <SuccessDialog
+        openModal={openModal}
+        handleCloseModal={() => setOpenModal(false)} // Function to close modal
+        title="Booking Confirmation"
+        message={modalMessage}
+      />
     </div>
   );
 };
