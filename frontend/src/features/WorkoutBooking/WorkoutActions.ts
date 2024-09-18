@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Workout, GetWorkouts } from "./WorkoutTypes";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 
 export const createWorkout = createAsyncThunk<
   Workout,

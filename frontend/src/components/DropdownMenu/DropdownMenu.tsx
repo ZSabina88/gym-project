@@ -25,7 +25,7 @@ const DropdownMenu: React.FC<MenuProp> = ({ dropdownRef }) => {
       ref={dropdownRef}
       className="absolute w-[220px] right-0 mt-2 rounded border border-gray-300 p-5 bg-white z-50"
     >
-      <div className="flex flex-col justify-center ml-8 text-center">
+      <div className="flex flex-col justify-center ml-8 ">
         {user ? <p className="font-semibold">{user.name}</p> : <p>User name</p>}
         {user ? <p>{user.email}</p> : <p>User email</p>}
       </div>
