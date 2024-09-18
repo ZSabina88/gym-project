@@ -9,10 +9,9 @@ module.exports = {
         "!**/node_modules/**",
     ],
     coverageDirectory: "coverage",
-    setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
     moduleNameMapper: {
-        "\\.svg$": 'jest-svg-transformer',
         "\\.css$": "identity-obj-proxy",
+        "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.ts",
     },
     transform: {
         "^.+\\.tsx?$": "ts-jest",
@@ -25,5 +24,5 @@ module.exports = {
         "json",
         "node"
     ],
-    setupFilesAfterEnv: ["<rootDir>/../setupTests.ts"],
+    setupFilesAfterEnv: ["<rootDir>../setupTests.ts"],
 };

@@ -5,10 +5,12 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "../dist/frontend"
+    "outDir": "../dist/frontend",
+    "jsx": "react-jsx",
   }
 }
