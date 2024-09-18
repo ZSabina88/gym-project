@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Workout } from "./WorkoutTypes";
+import { Workout, GetWorkouts } from "./WorkoutTypes";
 import axios from "axios";
 
 export const createWorkout = createAsyncThunk<
@@ -26,8 +26,8 @@ export const createWorkout = createAsyncThunk<
   }
 });
 
-export const getWorkouts = createAsyncThunk<
-  Workout[],
+export const getWorkoutAction = createAsyncThunk<
+  GetWorkouts[],
   void,
   { rejectValue: string }
 >("workout/getWorkouts", async (_, { rejectWithValue }) => {

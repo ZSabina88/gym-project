@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import CalendarIMG from "../../assets/Calendar.svg";
-import { AppDispatch, RootState } from "../../features/store";
-import { getWorkouts } from "../../features/WorkoutBooking/WorkoutActions";
+import { getWorkoutAction } from "../../features/WorkoutBooking/WorkoutActions"; 
 import { CircularProgress } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../hooks/DispatchHook";
 
 const Workouts: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { workouts, loading, error } = useSelector(
-    (state: RootState) => state.workout
-  );
+  const { getWorkouts, loading, error } = useAppSelector((state) => state.getWorkouts);
 
   useEffect(() => {
-    dispatch(getWorkouts());
+    dispatch(getWorkoutAction());
   }, [dispatch]);
 
-  console.log(workouts);
+  console.log(getWorkouts);
 
   const handleCancelWorkout = (workoutId: number) => {
     console.log(`Canceling workout with ID: ${workoutId}`);
@@ -37,9 +34,9 @@ const Workouts: React.FC = () => {
   return (
     <div className="workouts px-8 pt-8">
       <ul className="grid grid-cols-2 gap-4">
-        {workouts?.map((workout, index) => (
+        {getWorkouts?.map((workout, index) => (
           <div
-            key={workout.id || index}
+            key={workout.workoutId || index}
             className="p-4 bg-gray-100 flex flex-col items-start rounded-lg"
           >
             <div className="w-full flex justify-between">
@@ -58,13 +55,13 @@ const Workouts: React.FC = () => {
             <div className="mt-8 w-full flex justify-end gap-4">
               <button
                 className="border-2  border-black text-black px-4 py-2 rounded-lg "
-                onClick={() => handleCancelWorkout(workout.id)}
+                onClick={() => handleCancelWorkout(workout.workoutId)}
               >
                 Cancel Workout
               </button>
               <button
                 className="bg-customGreen text-black px-4 py-2 rounded-lg hover:bg-green-600"
-                onClick={() => handleFinishWorkout(workout.id)}
+                onClick={() => handleFinishWorkout(workout.workoutId)}
               >
                 Finish Workout
               </button>

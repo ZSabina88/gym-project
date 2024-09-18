@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WorkoutState, Workout } from "./WorkoutTypes";
-import { createWorkout, getWorkouts } from "./WorkoutActions";
+import { WorkoutState, Workout, GetWorkoutState, GetWorkouts } from "./WorkoutTypes";
+import { createWorkout, getWorkoutAction } from "./WorkoutActions";
 
 const initialState: WorkoutState = {
   workouts: [],
+  loading: false,
+  error: null,
+};
+
+const initialStateGetWorkouts: GetWorkoutState = {
+  getWorkouts: [],
   loading: false,
   error: null,
 };
@@ -26,28 +32,34 @@ const workoutSlice = createSlice({
           state.workouts?.push(action.payload);
         }
       )
-      .addCase(createWorkout.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(createWorkout.rejected, (state, action: PayloadAction<string | null | undefined>) => {
         state.loading = false;
         state.error = action.payload;
       })
+  },
+});
 
-    
-      .addCase(getWorkouts.pending, (state) => {
+export const getWorkoutSlice = createSlice({
+  name: "getWorkout",
+  initialState: initialStateGetWorkouts,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getWorkoutAction.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        getWorkouts.fulfilled,
-        (state, action: PayloadAction<Workout[]>) => {
-          state.loading = false;
-          state.workouts = action.payload;
-        }
+      .addCase(getWorkoutAction.fulfilled, (state, action: PayloadAction<GetWorkouts[]>) => {
+        state.loading = false;
+        state.getWorkouts = action.payload;
+      }
       )
-      .addCase(getWorkouts.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(getWorkoutAction.rejected, (state, action: PayloadAction<string | null | undefined>) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
+
 
 export default workoutSlice;
