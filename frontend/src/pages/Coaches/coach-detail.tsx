@@ -13,6 +13,7 @@ import {
 } from "../../features/WorkoutBooking/WorkoutTypes";
 import { createWorkout } from "../../features/WorkoutBooking/WorkoutActions";
 import SuccessDialog from "../../shared/Dialogs/SuccessDialog"; // Import your modal
+import FeedbacksMock from "../../components/FeedbacksMock";
 
 interface Coach {
   id: string;
@@ -174,6 +175,7 @@ const CoachDetail: React.FC = () => {
         title="Booking Confirmation"
         message={modalMessage}
       />
+      <FeedbacksMock />
     </div>
   );
 };

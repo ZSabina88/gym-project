@@ -22,7 +22,11 @@ and more...
 # Setup
 Download or clone the repository  
 Run npm install  
-Start the app using npm run dev
+Start the app using npm run dev  
+
+temporary:
+run mock server:
+npx json-server --watch src/mockserver/db.json --port 8000
 # Approach
 The app leverages Material UI in combination with Tailwind CSS and adheres to the Feature-Sliced Design architectural methodology, ensuring a modular, scalable structure for both UI components and state management using Redux Toolkit.
 

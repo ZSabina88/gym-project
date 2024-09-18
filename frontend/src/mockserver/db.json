@@ -169,5 +169,55 @@
             "rating": 4.6,
             "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv0eEg7MSyxcoruZzPpTV8WuQMAOueHoWJm3RBfFyMNojTKky_2fzJSzCp5oA99Z1tfGY&usqp=CAU"
         }
+    ],
+    "feedbacks": [
+        {
+            "id": 1,
+            "name": "John",
+            "date": "July 10, 2022",
+            "feedback": "Great workout session! Alex is an amazing coach who motivates you to push your limits and achieve your fitness goals."
+        },
+        {
+            "id": 2,
+            "name": "Sarah",
+            "date": "July 15, 2022",
+            "feedback": "Jamie is an excellent coach who provides clear instructions and guidance throughout the session. Highly recommend!"
+        },
+        {
+            "id": 3,
+            "name": "Michael",
+            "date": "July 20, 2022",
+            "feedback": "Jordan is a knowledgeable coach who focuses on proper form and technique. I've seen great progress in my climbing skills thanks to his guidance."
+        },
+        {
+            "id": 4,
+            "name": "Emily",
+            "date": "July 25, 2022",
+            "feedback": "Taylor is an inspiring coach who pushes you to challenge yourself and reach new heights. I always look forward to his sessions!"
+        },
+        {
+            "id": 5,
+            "name": "David",
+            "date": "July 30, 2022",
+            "feedback": "Morgan is a friendly and supportive coach who creates a positive and encouraging environment. I've enjoyed every session with her!"
+        },
+        {
+            "id": 6,
+            "name": "Jessica",
+            "date": "August 5, 2022",
+            "feedback": "Casey is a dedicated coach who tailors the workout to suit individual needs and goals. I've seen significant improvements in my climbing abilities."
+        },
+        {
+            "id": 7,
+            "name": "Ryan",
+            "date": "August 10, 2022",
+            "feedback": "Riley is an energetic coach who brings enthusiasm and passion to every session. Her positive attitude is contagious and motivates me to give my best."
+        },
+        {
+            "id": 8,
+            "name": "Sophia",
+            "date": "August 15, 2022",
+            "feedback": "Drew is a professional coach who provides valuable feedback and guidance to help you improve your climbing skills. I've learned a lot from his sessions."
+        }
     ]
 }
