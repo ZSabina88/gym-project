@@ -4,7 +4,7 @@ import {
   Select,
   FormControl,
   InputLabel,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import IconButton from "@mui/material/IconButton";
@@ -22,21 +22,16 @@ import ErrorDialog from "../../../shared/Dialogs/ErrorDialog";
 import { useToggle } from "../../../hooks/useToggle";
 import { clientTargets, clientActivities } from "../../../utils/targetactivity";
 
-
 const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
   const [showPassword, setShowPassword] = useToggle(false);
   const [openModal, setOpenModal] = useToggle(false);
-
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.signup);
 
-
-
   const handleSignUp = (values: SignupPayload) => {
-    dispatch(userSignup(values))
-      .then(() => {
-        setOpenModal();
-      });
+    dispatch(userSignup(values)).then(() => {
+      setOpenModal();
+    });
   };
 
   const handleCloseModal = () => {
@@ -83,9 +78,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                 InputLabelProps={{ style: { color: "black" } }}
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#9EF300",
-                  },
+                    {
+                      borderColor: "#9EF300",
+                    },
                 }}
               />
             </div>
@@ -104,9 +99,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -142,9 +137,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <div>
@@ -158,7 +153,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   value={values.target}
                 >
                   {clientTargets.map((target) => (
-                    <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                    <MenuItem key={target.id} value={target.value}>
+                      {target.target}
+                    </MenuItem>
                   ))}
                 </Field>
                 <ErrorMessage
@@ -178,7 +175,9 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
                   label="Preferred Activity"
                 >
                   {clientActivities.map((target) => (
-                    <MenuItem key={target.id} value={target.value}>{target.target}</MenuItem>
+                    <MenuItem key={target.id} value={target.value}>
+                      {target.target}
+                    </MenuItem>
                   ))}
                 </Field>
                 <ErrorMessage
@@ -215,21 +214,22 @@ const SignUp: React.FC<AuthFormProps> = ({ toggleForm }) => {
           </Form>
         )}
       </Formik>
-      {!error && !loading &&
+      {!error && !loading && (
         <SuccessDialog
           openModal={openModal}
           handleCloseModal={handleCloseModal}
           title="Congratulations!"
           message="You have successfully signed up. "
           message2="Now you can log in to your account."
-        />}
-      {error &&
+        />
+      )}
+      {error && (
         <ErrorDialog
-          message={typeof error === 'string' ? error : 'An error occurred'}
+          message={typeof error === "string" ? error : "An error occurred"}
           openErrorModal={openModal}
           handleCloseErrorModal={setOpenModal}
         />
-      }
+      )}
     </>
   );
 };

@@ -4,13 +4,19 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/declarations.d.ts"],
   "compilerOptions": {
+    "types": ["jest", "@testing-library/jest-dom", "node"],
     "esModuleInterop": true,
+    "module": "commonjs",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "../dist/frontend",
     "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "lib": ["dom", "es2018"]
   }
 }

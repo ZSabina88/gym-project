@@ -13,8 +13,8 @@ module.exports = {
           "100%": { transform: "scale(1.1)" },
         },
         bgSuccess: {
-          "0%": { backgroundColor: "#1D4ED8" }, // Original color
-          "100%": { backgroundColor: "#9EF300" }, // Success color
+          "0%": { backgroundColor: "#1D4ED8" },
+          "100%": { backgroundColor: "#9EF300" },
         },
       },
       colors: {

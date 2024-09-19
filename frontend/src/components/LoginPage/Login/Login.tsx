@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "../../../shared/Buttons/Button";
+import Button from "../../../shared/Buttons/Button.tsx";
 import { useAppDispatch, useAppSelector } from "../../../hooks/DispatchHook";
 import { useNavigate } from "react-router-dom";
 import { AuthFormProps } from "../types";
@@ -34,11 +34,10 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
     values: LoginPayload,
     { resetForm }: { resetForm: FormikHelpers<LoginPayload>["resetForm"] }
   ) => {
-    dispatch(userLogin(values))
-      .then(() => {
-        setOpenModal();
-        resetForm();
-      });
+    dispatch(userLogin(values)).then(() => {
+      setOpenModal();
+      resetForm();
+    });
   };
 
   return (
@@ -70,9 +69,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             <Field
@@ -106,9 +105,9 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
               InputLabelProps={{ style: { color: "black" } }}
               sx={{
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#9EF300",
-                },
+                  {
+                    borderColor: "#9EF300",
+                  },
               }}
             />
             {loading && (
@@ -127,19 +126,19 @@ const Login: React.FC<AuthFormProps> = ({ toggleForm }) => {
             <LoginToggleLink
               text="Don’t have an Account?"
               linkText="CREATE NEW ACCOUNT"
-              onClick={toggleForm ?? (() => { })}
+              onClick={toggleForm ?? (() => {})}
             />
           </Form>
         )}
       </Formik>
 
-      {error &&
+      {error && (
         <ErrorDialog
-          message={typeof error === 'string' ? error : 'An error occurred'}
+          message={typeof error === "string" ? error : "An error occurred"}
           openErrorModal={openModal}
           handleCloseErrorModal={setOpenModal}
         />
-      }
+      )}
     </>
   );
 };

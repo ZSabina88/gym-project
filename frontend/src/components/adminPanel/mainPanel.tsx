@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AdminPanelCoaches from "./adminCoaches";
-import AdminPanelUsers from "./adminUsers";
+import AdminPanelCoaches from "./AdminCoaches";
+import AdminPanelUsers from "./AdminUsers";
 
 const AdminPanel: React.FC = () => {
   const [showUsers, setShowUsers] = useState<boolean>(true);

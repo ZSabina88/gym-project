@@ -3,7 +3,7 @@ import { authLoginSlice, authSignupSlice } from "./Auth/AuthSLice";
 import coachesSlice from "./Users/CoachSlice";
 import usersSlice from "./Users/UserSlice";
 import userSlice, { changeInfoSlice } from "./Users/SingleUser/SingleUserSLice";
-import workoutSlice, { getWorkoutSlice} from "./WorkoutBooking/WorkoutSlice";
+import workoutSlice, { getWorkoutSlice } from "./WorkoutBooking/WorkoutSlice";
 
 const store = configureStore({
   reducer: {

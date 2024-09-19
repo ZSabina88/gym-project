@@ -1,8 +1,14 @@
-import {render} from '@testing-library/react';
-import App from './App';
+import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import App from "./App";
+import store from "./features/store";
 
-describe('App', () => {
-    it('renders', () => {
-        render(<App />);
-    })
+describe("App", () => {
+  it("renders", () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
 });

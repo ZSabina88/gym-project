@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "../../features/store";
 import { Coach, fetchCoaches } from "../../features/Users/CoachSlice";
 import pic from "../../assets/Avatar.png";
 import { CircularProgress } from "@mui/material";
-import SelectedCoach from "./selectedCoach";
+import SelectedCoach from "./SelectedCoach";
 
 interface SessionStats {
   [key: string]: {

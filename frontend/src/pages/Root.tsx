@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/Header/Header";
-import SubHeader from "../components/SubHeader/SubHeader";
+import Header from "../components/header/header";
+import SubHeader from "../components/subHeader/subHeader";
 import { useAppSelector } from "../hooks/DispatchHook";
 
 const RootLayout: React.FC = () => {
